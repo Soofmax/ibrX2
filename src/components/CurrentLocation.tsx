@@ -276,6 +276,7 @@ export default function CurrentLocation() {
                   <div className="mt-2 text-stone-700 text-sm">
                     <p>Distance restante: <span className="font-semibold">{Math.round(etaInfo.kmRemaining).toLocaleString('fr-FR')} km</span></p>
                     <p>ETA prochaine étape: <span className="font-semibold">{etaInfo.etaDate.toLocaleString('fr-FR', { weekday: 'short', hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' })}</span></p>
+                    <p className="text-amber-700 text-xs italic mt-1">ETA simulée — à valider avec le client</p>
                   </div>
                 )}
               </div>
@@ -423,7 +424,7 @@ export default function CurrentLocation() {
             </svg>
             <div aria-live="polite" className="sr-only">
               {`Dernière étape: ${lastStop}. Prochaine destination: ${nextStop}. `}
-              {etaInfo ? `Distance restante environ ${Math.round(etaInfo.kmRemaining)} kilomètres. ETA ${etaInfo.etaDate.toLocaleString('fr-FR')}. ${etaInfo.isFerry ? 'Segment ferry.' : ''}` : ''}
+              {etaInfo ? `Distance restante environ ${Math.round(etaInfo.kmRemaining)} kilomètres. ETA ${etaInfo.etaDate.toLocaleString('fr-FR')}. ${etaInfo.isFerry ? 'Segment ferry. ' : ''}Estimation simulée.` : ''}
             </div>
           </div>
 
