@@ -1,12 +1,14 @@
 import { Menu, X, Compass } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useI18n } from '../i18n/I18nContext';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [lang, setLang] = useState<'fr' | 'en'>('fr');
+  const { lang, setLang, t } = useI18n();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,18 +23,12 @@ export default function Header() {
     setMobileMenuOpen(false);
   };
 
-  const labels = {
-    home: lang === 'fr' ? 'Accueil' : 'Home',
-    itinerary: lang === 'fr' ? 'Itinéraire' : 'Itinerary',
-    fleet: lang === 'fr' ? 'Flotte' : 'Fleet',
-    team: lang === 'fr' ? 'Équipe' : 'Team',
-    logistics: lang === 'fr' ? 'Logistique' : 'Logistics',
-    practical: lang === 'fr' ? 'Infos pratiques' : 'Practical',
-    blog: lang === 'fr' ? 'Blog' : 'Blog',
-    sponsors: lang === 'fr' ? 'Sponsors' : 'Sponsors',
-    support: lang === 'fr' ? 'Soutien' : 'Support',
-    contact: lang === 'fr' ? 'Contact' : 'Contact',
-  };
+  const navClass = (path: string) =>
+    `px-5 py-2 rounded-full transition-all font-serif focus-ring ${
+      location.pathname === path
+        ? 'bg-amber-600 text-amber-50'
+        : 'text-amber-50 hover:bg-amber-600 hover:scale-105'
+    }`;
 
   return (
     <header className={`fixed top-0 w-full z-50 transition-all duration-500 ${
@@ -45,40 +41,40 @@ export default function Header() {
           <div className="flex items-center gap-3 group cursor-pointer" onClick={() => go('/')}>
             <Compass className="text-amber-500 group-hover:rotate-180 transition-transform duration-700" size={32} />
             <h1 className="text-2xl sm:text-3xl font-handwritten text-amber-50 drop-shadow-lg">
-              World Tour
+              {t('header.siteName')}
             </h1>
           </div>
 
           <nav className="hidden md:flex space-x-1 bg-stone-800/50 rounded-full px-2 py-2 backdrop-blur-sm" aria-label="Primary">
-            <button type="button" onClick={() => go('/')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
-              {labels.home}
+            <button type="button" onClick={() => go('/')} className={navClass('/')}>
+              {t('nav.home')}
             </button>
-            <button type="button" onClick={() => go('/itinerary')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
-              {labels.itinerary}
+            <button type="button" onClick={() => go('/itinerary')} className={navClass('/itinerary')}>
+              {t('nav.itinerary')}
             </button>
-            <button type="button" onClick={() => go('/fleet')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
-              {labels.fleet}
+            <button type="button" onClick={() => go('/fleet')} className={navClass('/fleet')}>
+              {t('nav.fleet')}
             </button>
-            <button type="button" onClick={() => go('/team')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
-              {labels.team}
+            <button type="button" onClick={() => go('/team')} className={navClass('/team')}>
+              {t('nav.team')}
             </button>
-            <button type="button" onClick={() => go('/logistics')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
-              {labels.logistics}
+            <button type="button" onClick={() => go('/logistics')} className={navClass('/logistics')}>
+              {t('nav.logistics')}
             </button>
-            <button type="button" onClick={() => go('/practical')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
-              {labels.practical}
+            <button type="button" onClick={() => go('/practical')} className={navClass('/practical')}>
+              {t('nav.practical')}
             </button>
-            <button type="button" onClick={() => go('/blog')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
-              {labels.blog}
+            <button type="button" onClick={() => go('/blog')} className={navClass('/blog')}>
+              {t('nav.blog')}
             </button>
-            <button type="button" onClick={() => go('/sponsors')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
-              {labels.sponsors}
+            <button type="button" onClick={() => go('/sponsors')} className={navClass('/sponsors')}>
+              {t('nav.sponsors')}
             </button>
-            <button type="button" onClick={() => go('/support')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
-              {labels.support}
+            <button type="button" onClick={() => go('/support')} className={navClass('/support')}>
+              {t('nav.support')}
             </button>
-            <button type="button" onClick={() => go('/contact')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
-              {labels.contact}
+            <button type="button" onClick={() => go('/contact')} className={navClass('/contact')}>
+              {t('nav.contact')}
             </button>
           </nav>
 
@@ -124,35 +120,35 @@ export default function Header() {
                 {lang === 'fr' ? 'FR' : 'EN'}
               </button>
             </div>
-            <button type="button" onClick={() => go('/')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
-              {labels.home}
+            <button type="button" onClick={() => go('/')} className={navClass('/')}>
+              {t('nav.home')}
             </button>
-            <button type="button" onClick={() => go('/itinerary')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
-              {labels.itinerary}
+            <button type="button" onClick={() => go('/itinerary')} className={navClass('/itinerary')}>
+              {t('nav.itinerary')}
             </button>
-            <button type="button" onClick={() => go('/fleet')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
-              {labels.fleet}
+            <button type="button" onClick={() => go('/fleet')} className={navClass('/fleet')}>
+              {t('nav.fleet')}
             </button>
-            <button type="button" onClick={() => go('/team')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
-              {labels.team}
+            <button type="button" onClick={() => go('/team')} className={navClass('/team')}>
+              {t('nav.team')}
             </button>
-            <button type="button" onClick={() => go('/logistics')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
-              {labels.logistics}
+            <button type="button" onClick={() => go('/logistics')} className={navClass('/logistics')}>
+              {t('nav.logistics')}
             </button>
-            <button type="button" onClick={() => go('/practical')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
-              {labels.practical}
+            <button type="button" onClick={() => go('/practical')} className={navClass('/practical')}>
+              {t('nav.practical')}
             </button>
-            <button type="button" onClick={() => go('/blog')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
-              {labels.blog}
+            <button type="button" onClick={() => go('/blog')} className={navClass('/blog')}>
+              {t('nav.blog')}
             </button>
-            <button type="button" onClick={() => go('/sponsors')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
-              {labels.sponsors}
+            <button type="button" onClick={() => go('/sponsors')} className={navClass('/sponsors')}>
+              {t('nav.sponsors')}
             </button>
-            <button type="button" onClick={() => go('/support')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
-              {labels.support}
+            <button type="button" onClick={() => go('/support')} className={navClass('/support')}>
+              {t('nav.support')}
             </button>
-            <button type="button" onClick={() => go('/contact')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
-              {labels.contact}
+            <button type="button" onClick={() => go('/contact')} className={navClass('/contact')}>
+              {t('nav.contact')}
             </button>
           </nav>
         )}

@@ -1,6 +1,16 @@
 import { Users, Compass, Wrench, MapPinned } from 'lucide-react';
+import { useI18n } from '../i18n/I18nContext';
 
 export default function Team() {
+  const { t } = useI18n();
+
+  const roles = [
+    { name: 'Capitaine de route', role: t('team.role.lead'), icon: Compass },
+    { name: 'Navigateur', role: t('team.role.nav'), icon: MapPinned },
+    { name: 'Mécanicien', role: t('team.role.mech'), icon: Wrench },
+    { name: 'Logistique', role: t('team.role.log'), icon: Users },
+  ];
+
   return (
     <section id="team" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-100 to-amber-50 relative overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 opacity-5">
@@ -14,18 +24,13 @@ export default function Team() {
             <Users className="text-amber-600 mx-auto" size={48} />
           </div>
           <h2 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-stone-900 mb-4">
-            L’Équipe
+            {t('team.heading')}
           </h2>
-          <p className="text-xl text-stone-600 font-serif">Conducteurs, navigateurs, mécaniciens — 4 à 8 personnes</p>
+          <p className="text-xl text-stone-600 font-serif">{t('team.tagline')}</p>
         </div>
 
         <div className="grid lg:grid-cols-4 gap-8">
-          {[
-            { name: 'Capitaine de route', role: 'Chef d’expédition', icon: Compass },
-            { name: 'Navigateur', role: 'Cartographie & visas', icon: MapPinned },
-            { name: 'Mécanicien', role: 'Maintenance & réparations', icon: Wrench },
-            { name: 'Logistique', role: 'Budget, ferrys, assurances', icon: Users }
-          ].map((m, i) => (
+          {roles.map((m, i) => (
             <div key={i} className="bg-white rounded-2xl p-6 shadow-lg border border-stone-200 hover:shadow-2xl transition-all">
               <div className="flex items-center gap-3 mb-3">
                 <m.icon className="text-amber-600" size={24} />
@@ -38,7 +43,7 @@ export default function Team() {
 
         <div className="text-center mt-12">
           <button type="button" className="bg-stone-900 hover:bg-stone-800 text-amber-50 font-serif px-10 py-4 rounded-full text-lg transition-all hover:scale-105 shadow-xl focus-ring">
-            Rejoindre le convoi
+            {t('team.join')}
           </button>
         </div>
       </div>

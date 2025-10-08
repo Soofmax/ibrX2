@@ -1,0 +1,270 @@
+import { createContext, useContext, useMemo, useState, ReactNode } from 'react';
+
+type Lang = 'fr' | 'en';
+
+type Dict = Record<string, string>;
+
+const fr: Dict = {
+  'header.siteName': 'World Tour',
+  'nav.home': 'Accueil',
+  'nav.itinerary': 'Itinéraire',
+  'nav.fleet': 'Flotte',
+  'nav.team': 'Équipe',
+  'nav.logistics': 'Logistique',
+  'nav.practical': 'Infos pratiques',
+  'nav.blog': 'Blog',
+  'nav.sponsors': 'Sponsors',
+  'nav.support': 'Soutien',
+  'nav.contact': 'Contact',
+
+  'notfound.title': 'Page introuvable',
+  'notfound.text': "Désolé, la page que vous cherchez n'existe pas ou a été déplacée.",
+  'notfound.back': 'Retour à l’accueil',
+
+  'hero.pretitle': 'VOYAGE AUTOUR DU MONDE',
+  'hero.title1': "L'aventure d'une vie,",
+  'hero.title2': 'Pas à pas',
+  'hero.paragraph': "Suivez mon périple autour du globe, découvrez mes histoires et rejoignez l'aventure.",
+  'hero.ctaSupport': "Soutenir l'aventure",
+  'hero.ctaExplore': 'Explorer mon itinéraire',
+
+  'current.heading': 'Où suis-je maintenant ?',
+  'current.subtitle': 'Suivre le vent, une destination à la fois',
+  'current.svgTitle': "Carte de l’itinéraire (animation de van)",
+  'current.svgSubtitle': 'Suivi en direct à venir',
+  'current.lastStop': 'Dernière étape',
+  'current.nextDestination': 'Prochaine destination',
+
+  'itinerary.heading': 'Itinéraire Détaillé',
+  'itinerary.tagline': 'Un parcours transcontinental, étape par étape',
+  'itinerary.routeTitle': 'Trajet Global',
+  'itinerary.calendarTitle': 'Calendrier indicatif',
+  'itinerary.points': 'Points forts: Alpes, Salar de Uyuni, Outback, Route de la Soie, Serengeti. Les dates restent flexibles selon conditions locales, visas et logistique.',
+
+  'fleet.heading': 'La Flotte',
+  'fleet.tagline': '2–3 véhicules restaurés, optimisés pour l’overlanding',
+  'fleet.viewMore': 'Voir plus',
+
+  'team.heading': "L’Équipe",
+  'team.tagline': 'Conducteurs, navigateurs, mécaniciens — 4 à 8 personnes',
+  'team.join': 'Rejoindre le convoi',
+  'team.role.lead': "Chef d’expédition",
+  'team.role.nav': 'Cartographie & visas',
+  'team.role.mech': 'Maintenance & réparations',
+  'team.role.log': 'Budget, ferrys, assurances',
+
+  'logistics.heading': 'Logistique & Préparation',
+  'logistics.tagline': 'Budget, défis, équipements — concis et pratique',
+  'logistics.budget': 'Budget estimatif',
+  'logistics.challenges': 'Défis & solutions',
+  'logistics.equipment': 'Équipement',
+
+  'practical.heading': 'Infos Pratiques',
+  'practical.tagline': 'Ressources overlanding, visas, sécurité',
+  'practical.resources': 'Ressources Overlanding',
+  'practical.visas': 'Visas & Permis',
+  'practical.health': 'Santé & Sécurité',
+
+  'blog.heading': 'Carnet de route',
+  'blog.tagline': 'Récits de route, capturés en mots et en images',
+  'blog.readMore': 'Lire la suite',
+  'blog.viewAll': 'Voir tous les articles',
+
+  'sponsors.heading': 'Sponsoring & Partenariats',
+  'sponsors.tagline': 'Visibilité, contenus, engagements — gagnant-gagnant',
+  'sponsors.value': 'Proposition de valeur',
+  'sponsors.mediaKit': 'Demander le media kit',
+  'sponsors.shopTitle': 'Boutique (optionnel)',
+  'sponsors.shopText': 'T-shirts, stickers et cartes postales pour soutenir l’expédition.',
+
+  'support.heading': 'Soutenir l’expédition',
+  'support.tagline': 'Votre soutien rend ce projet possible. Don ponctuel ou contribution régulière, chaque geste compte — merci d’être de l’aventure !',
+  'support.spontaneous': 'Don spontané',
+  'support.from': 'À partir de',
+  'support.oneTime': 'Don unique',
+  'support.thanks': 'Message de remerciement',
+  'support.paypal': 'Envoyer via PayPal',
+  'support.contrib': 'Devenir contributeur',
+  'support.perMonth': '/mois',
+  'support.rewards': 'Voir les récompenses',
+  'support.partner': 'Plateformes partenaires',
+  'support.flex': 'Flexible',
+  'support.free': 'Libre',
+  'support.choose': 'Montant au choix',
+  'support.cancel': 'Annulation à tout moment',
+  'support.community': 'Communauté engagée',
+  'support.visit': 'Visiter la page',
+  'support.availableSoon': 'Plateformes de dons disponibles (bientôt):',
+
+  'contact.heading': 'Contact & FAQ',
+  'contact.tagline': 'Sponsors, presse, co-aventuriers — parlons-en',
+  'contact.form': 'Formulaire de contact',
+  'contact.name': 'Nom',
+  'contact.email': 'Email',
+  'contact.message': 'Message',
+  'contact.send': 'Envoyer',
+  'contact.faq': 'FAQ',
+  'contact.q1': 'Pourquoi des véhicules restaurés ?',
+  'contact.a1': 'Pour la fiabilité, la durabilité et l’adaptabilité aux terrains variés.',
+  'contact.q2': 'Comment gérez-vous les imprévus ?',
+  'contact.a2': 'Itinéraires alternatifs, suivi météo, documents prêts, partenaires locaux.',
+  'contact.q3': 'Puis-je rejoindre une étape ?',
+  'contact.a3': 'Oui, selon disponibilité et compatibilité logistique; contactez-nous.',
+
+  'footer.quick': 'Liens rapides',
+  'footer.dontMiss': 'Ne manquez aucun pas !',
+  'footer.subscribe': "S'abonner",
+  'footer.privacy': 'Politique de confidentialité',
+  'footer.terms': "Conditions d'utilisation",
+  'footer.about': 'À propos',
+  'footer.tips': 'Conseils',
+  'footer.gallery': 'Galerie',
+};
+
+const en: Dict = {
+  'header.siteName': 'World Tour',
+  'nav.home': 'Home',
+  'nav.itinerary': 'Itinerary',
+  'nav.fleet': 'Fleet',
+  'nav.team': 'Team',
+  'nav.logistics': 'Logistics',
+  'nav.practical': 'Practical',
+  'nav.blog': 'Blog',
+  'nav.sponsors': 'Sponsors',
+  'nav.support': 'Support',
+  'nav.contact': 'Contact',
+
+  'notfound.title': 'Page not found',
+  'notfound.text': 'Sorry, the page you are looking for does not exist or has been moved.',
+  'notfound.back': 'Back to home',
+
+  'hero.pretitle': 'AROUND THE WORLD JOURNEY',
+  'hero.title1': 'The Adventure of a Lifetime,',
+  'hero.title2': 'Step by Step',
+  'hero.paragraph': 'Follow my journey around the globe, discover my stories and join this incredible adventure.',
+  'hero.ctaSupport': 'Support the Adventure',
+  'hero.ctaExplore': 'Explore My Journey',
+
+  'current.heading': 'Where am I now?',
+  'current.subtitle': 'Following the wind, one destination at a time',
+  'current.svgTitle': 'Route map (van animation)',
+  'current.svgSubtitle': 'Live tracking coming soon',
+  'current.lastStop': 'Last Stop',
+  'current.nextDestination': 'Next Destination',
+
+  'itinerary.heading': 'Detailed Itinerary',
+  'itinerary.tagline': 'A transcontinental route, step by step',
+  'itinerary.routeTitle': 'Global Route',
+  'itinerary.calendarTitle': 'Indicative timeline',
+  'itinerary.points': 'Highlights: Alps, Salar de Uyuni, Outback, Silk Road, Serengeti. Dates remain flexible depending on local conditions, visas, and logistics.',
+
+  'fleet.heading': 'The Fleet',
+  'fleet.tagline': '2–3 restored vehicles, optimized for overlanding',
+  'fleet.viewMore': 'View more',
+
+  'team.heading': 'The Team',
+  'team.tagline': 'Drivers, navigators, mechanics — 4 to 8 people',
+  'team.join': 'Join the convoy',
+  'team.role.lead': 'Expedition lead',
+  'team.role.nav': 'Mapping & visas',
+  'team.role.mech': 'Maintenance & repairs',
+  'team.role.log': 'Budget, ferries, insurance',
+
+  'logistics.heading': 'Logistics & Preparation',
+  'logistics.tagline': 'Budget, challenges, equipment — concise and practical',
+  'logistics.budget': 'Estimated budget',
+  'logistics.challenges': 'Challenges & solutions',
+  'logistics.equipment': 'Equipment',
+
+  'practical.heading': 'Practical Information',
+  'practical.tagline': 'Overlanding resources, visas, safety',
+  'practical.resources': 'Overlanding Resources',
+  'practical.visas': 'Visas & Permits',
+  'practical.health': 'Health & Safety',
+
+  'blog.heading': 'My Travel Log',
+  'blog.tagline': 'Stories from the road, captured in words and images',
+  'blog.readMore': 'Read More',
+  'blog.viewAll': 'View All Stories',
+
+  'sponsors.heading': 'Sponsoring & Partnerships',
+  'sponsors.tagline': 'Visibility, content, commitments — win-win',
+  'sponsors.value': 'Value proposition',
+  'sponsors.mediaKit': 'Request media kit',
+  'sponsors.shopTitle': 'Shop (optional)',
+  'sponsors.shopText': 'T-shirts, stickers and postcards to support the expedition.',
+
+  'support.heading': 'Support the expedition',
+  'support.tagline': 'Your support makes this project possible. One-off or recurring contributions, every gesture counts — thank you for being part of the adventure!',
+  'support.spontaneous': 'Spontaneous donation',
+  'support.from': 'Starting from',
+  'support.oneTime': 'One-time support',
+  'support.thanks': 'Instant thank you message',
+  'support.paypal': 'Send via PayPal',
+  'support.contrib': 'Become a contributor',
+  'support.perMonth': '/month',
+  'support.rewards': 'View Rewards',
+  'support.partner': 'Partner platforms',
+  'support.flex': 'Flexible',
+  'support.free': 'Custom',
+  'support.choose': 'Choose your amount',
+  'support.cancel': 'Cancel anytime',
+  'support.community': 'Engaged community',
+  'support.visit': 'Visit My Page',
+  'support.availableSoon': 'Donation platforms available (soon):',
+
+  'contact.heading': 'Contact & FAQ',
+  'contact.tagline': 'Sponsors, press, co-adventurers — let’s talk',
+  'contact.form': 'Contact form',
+  'contact.name': 'Name',
+  'contact.email': 'Email',
+  'contact.message': 'Message',
+  'contact.send': 'Send',
+  'contact.faq': 'FAQ',
+  'contact.q1': 'Why restored vehicles?',
+  'contact.a1': 'For reliability, durability and adaptability to varied terrains.',
+  'contact.q2': 'How do you handle contingencies?',
+  'contact.a2': 'Alternate routes, weather monitoring, ready documents, local partners.',
+  'contact.q3': 'Can I join for a leg?',
+  'contact.a3': 'Yes, depending on availability and logistics; contact us.',
+
+  'footer.quick': 'Quick Links',
+  'footer.dontMiss': "Don't miss any step!",
+  'footer.subscribe': 'Subscribe Now',
+  'footer.privacy': 'Privacy Policy',
+  'footer.terms': 'Terms of Use',
+  'footer.about': 'About',
+  'footer.tips': 'Travel Tips',
+  'footer.gallery': 'Photo Gallery',
+};
+
+type I18nContextValue = {
+  lang: Lang;
+  setLang: (l: Lang) => void;
+  t: (key: string) => string;
+};
+
+const I18nContext = createContext<I18nContextValue | null>(null);
+
+export function I18nProvider({ children }: { children: ReactNode }) {
+  const [lang, setLang] = useState<Lang>('fr');
+
+  const dict = lang === 'fr' ? fr : en;
+
+  const value = useMemo(
+    () => ({
+      lang,
+      setLang,
+      t: (key: string) => dict[key] ?? key,
+    }),
+    [lang, dict]
+  );
+
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
+}
+
+export function useI18n() {
+  const ctx = useContext(I18nContext);
+  if (!ctx) throw new Error('useI18n must be used within I18nProvider');
+  return ctx;
+}

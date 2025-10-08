@@ -1,7 +1,10 @@
 import { Calendar, ArrowRight, BookOpen } from 'lucide-react';
 import { blogPosts } from '../data/blogPosts';
+import { useI18n } from '../i18n/I18nContext';
 
 export default function BlogPosts() {
+  const { t } = useI18n();
+
   return (
     <section id="blog" className="py-24 px-4 sm:px-6 lg:px-8 bg-amber-50 relative overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 opacity-5">
@@ -15,9 +18,9 @@ export default function BlogPosts() {
             <BookOpen className="text-amber-600 mx-auto" size={48} />
           </div>
           <h2 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-stone-900 mb-4">
-            My Travel Log
+            {t('blog.heading')}
           </h2>
-          <p className="text-xl text-stone-600 font-serif">Stories from the road, captured in words and images</p>
+          <p className="text-xl text-stone-600 font-serif">{t('blog.tagline')}</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -57,7 +60,7 @@ export default function BlogPosts() {
                 </p>
 
                 <button type="button" className="flex items-center gap-2 text-amber-600 font-serif hover:gap-3 transition-all group focus-ring">
-                  <span>Read More</span>
+                  <span>{t('blog.readMore')}</span>
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
@@ -67,7 +70,7 @@ export default function BlogPosts() {
 
         <div className="text-center mt-12">
           <button type="button" className="bg-stone-900 hover:bg-stone-800 text-amber-50 font-serif px-10 py-4 rounded-full text-lg transition-all hover:scale-105 shadow-xl focus-ring">
-            View All Stories
+            {t('blog.viewAll')}
           </button>
         </div>
       </div>

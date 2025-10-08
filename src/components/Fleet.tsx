@@ -1,6 +1,9 @@
 import { Truck, Wrench } from 'lucide-react';
+import { useI18n } from '../i18n/I18nContext';
 
 export default function Fleet() {
+  const { t } = useI18n();
+
   return (
     <section id="fleet" className="py-24 px-4 sm:px-6 lg:px-8 bg-amber-50 relative overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 opacity-5">
@@ -14,9 +17,9 @@ export default function Fleet() {
             <Truck className="text-amber-600 mx-auto" size={48} />
           </div>
           <h2 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-stone-900 mb-4">
-            La Flotte
+            {t('fleet.heading')}
           </h2>
-          <p className="text-xl text-stone-600 font-serif">2–3 véhicules restaurés, optimisés pour l’overlanding</p>
+          <p className="text-xl text-stone-600 font-serif">{t('fleet.tagline')}</p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -61,7 +64,7 @@ export default function Fleet() {
                   ))}
                 </ul>
                 <button type="button" className="bg-stone-900 hover:bg-stone-800 text-amber-50 font-serif px-6 py-3 rounded-full transition-all hover:scale-105 shadow-xl focus-ring">
-                  Voir plus
+                  {t('fleet.viewMore')}
                 </button>
               </div>
             </article>

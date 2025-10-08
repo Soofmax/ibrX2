@@ -1,6 +1,9 @@
 import { Map, CalendarDays, Globe2 } from 'lucide-react';
+import { useI18n } from '../i18n/I18nContext';
 
 export default function Itinerary() {
+  const { t } = useI18n();
+
   return (
     <section id="itinerary" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-100 to-amber-50 relative overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 opacity-5">
@@ -14,9 +17,9 @@ export default function Itinerary() {
             <Globe2 className="text-amber-600 mx-auto" size={48} />
           </div>
           <h2 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-stone-900 mb-4">
-            Itinéraire Détaillé
+            {t('itinerary.heading')}
           </h2>
-          <p className="text-xl text-stone-600 font-serif">Un parcours transcontinental, étape par étape</p>
+          <p className="text-xl text-stone-600 font-serif">{t('itinerary.tagline')}</p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
@@ -24,11 +27,10 @@ export default function Itinerary() {
             <div className="p-8">
               <div className="flex items-center gap-3 mb-4">
                 <Map className="text-amber-600" size={24} />
-                <h3 className="text-2xl font-handwritten text-stone-900">Trajet Global</h3>
+                <h3 className="text-2xl font-handwritten text-stone-900">{t('itinerary.routeTitle')}</h3>
               </div>
               <p className="text-stone-700 font-serif leading-relaxed">
-                Un itinéraire en plusieurs continents, avec des étapes clés: Europe → Asie → Amériques → Océanie → Afrique.
-                Les passages sensibles et les saisons sont pris en compte pour maximiser sécurité et météo favorables.
+                Europe → Asie → Amériques → Océanie → Afrique. {t('itinerary.tagline')}
               </p>
             </div>
             <div className="relative aspect-video bg-gradient-to-br from-stone-200 to-amber-100">
@@ -43,7 +45,7 @@ export default function Itinerary() {
           <div className="bg-white rounded-3xl shadow-2xl border border-stone-200 p-8">
             <div className="flex items-center gap-3 mb-4">
               <CalendarDays className="text-amber-600" size={24} />
-              <h3 className="text-2xl font-handwritten text-stone-900">Calendrier indicatif</h3>
+              <h3 className="text-2xl font-handwritten text-stone-900">{t('itinerary.calendarTitle')}</h3>
             </div>
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-stone-700 font-serif">
@@ -70,8 +72,7 @@ export default function Itinerary() {
 
             <div className="mt-6">
               <p className="text-stone-600 font-serif">
-                Points forts: Alpes, Salar de Uyuni, Outback, Route de la Soie, Serengeti. Les dates restent flexibles selon
-                conditions locales, visas et logistique.
+                {t('itinerary.points')}
               </p>
             </div>
           </div>

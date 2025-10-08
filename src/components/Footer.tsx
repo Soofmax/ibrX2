@@ -1,10 +1,12 @@
 import { Youtube, Instagram, Facebook, Mail, Send, Compass } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useI18n } from '../i18n/I18nContext';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
+  const { t } = useI18n();
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,7 +26,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <Compass className="text-amber-400" size={36} />
-              <h3 className="text-3xl font-handwritten text-amber-400">World Tour</h3>
+              <h3 className="text-3xl font-handwritten text-amber-400">{t('header.siteName')}</h3>
             </div>
             <p className="text-amber-100/80 font-serif leading-relaxed mb-6">
               Following the wind, collecting stories, and sharing adventures from every corner of the globe.
@@ -61,33 +63,33 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-2xl font-handwritten mb-6 text-amber-400">Quick Links</h3>
+            <h3 className="text-2xl font-handwritten mb-6 text-amber-400">{t('footer.quick')}</h3>
             <ul className="space-y-3">
               <li>
                 <button type="button" onClick={() => navigate('/')} className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
-                  About Me
+                  {t('footer.about')}
                 </button>
               </li>
               <li>
                 <button type="button" onClick={() => navigate('/blog')} className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
-                  Travel Tips
+                  {t('footer.tips')}
                 </button>
               </li>
               <li>
                 <button type="button" onClick={() => navigate('/blog')} className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
-                  Photo Gallery
+                  {t('footer.gallery')}
                 </button>
               </li>
               <li>
                 <button type="button" onClick={() => navigate('/contact')} className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
-                  Contact
+                  {t('nav.contact')}
                 </button>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-2xl font-handwritten mb-4 text-amber-400">Don't miss any step!</h3>
+            <h3 className="text-2xl font-handwritten mb-4 text-amber-400">{t('footer.dontMiss')}</h3>
             <p className="text-amber-100/80 font-serif mb-4 text-sm leading-relaxed">
               Get weekly updates with new stories, travel tips, and exclusive content delivered to your inbox.
             </p>
@@ -107,7 +109,7 @@ export default function Footer() {
                 type="submit"
                 className="w-full bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 px-6 py-4 rounded-full font-serif transition-all hover:scale-105 shadow-lg flex items-center justify-center gap-2 focus-ring"
               >
-                <span>Subscribe Now</span>
+                <span>{t('footer.subscribe')}</span>
                 <Send size={18} />
               </button>
             </form>
@@ -121,10 +123,10 @@ export default function Footer() {
             </p>
             <div className="flex gap-6 text-sm">
               <button type="button" className="text-amber-100/70 hover:text-amber-400 transition-colors font-serif focus-ring">
-                Privacy Policy
+                {t('footer.privacy')}
               </button>
               <button type="button" className="text-amber-100/70 hover:text-amber-400 transition-colors font-serif focus-ring">
-                Terms of Use
+                {t('footer.terms')}
               </button>
             </div>
           </div>

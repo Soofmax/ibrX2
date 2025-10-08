@@ -1,6 +1,9 @@
 import { Coffee, Gift, Heart, Sparkles, Check } from 'lucide-react';
+import { useI18n } from '../i18n/I18nContext';
 
 export default function Crowdfunding() {
+  const { t } = useI18n();
+
   return (
     <section id="support" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-900 to-stone-800 relative overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 opacity-10">
@@ -14,10 +17,10 @@ export default function Crowdfunding() {
             <Sparkles className="text-amber-400 mx-auto" size={48} />
           </div>
           <h2 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-amber-50 mb-6">
-            Soutenir l’expédition
+            {t('support.heading')}
           </h2>
           <p className="text-xl text-amber-100/90 font-serif max-w-3xl mx-auto leading-relaxed">
-            Votre soutien rend ce projet possible. Don ponctuel ou contribution régulière, chaque geste compte — merci d’être de l’aventure !
+            {t('support.tagline')}
           </p>
         </div>
 
@@ -30,7 +33,7 @@ export default function Crowdfunding() {
             </div>
 
             <h3 className="text-3xl font-handwritten text-stone-900 mb-3 text-center">
-              Don spontané
+              {t('support.spontaneous')}
             </h3>
 
             <p className="text-stone-700 font-serif mb-6 text-center leading-relaxed text-lg">
@@ -38,23 +41,23 @@ export default function Crowdfunding() {
             </p>
 
             <div className="bg-white rounded-2xl p-4 mb-6 border border-amber-200">
-              <p className="text-center font-serif text-stone-600 mb-2">À partir de</p>
+              <p className="text-center font-serif text-stone-600 mb-2">{t('support.from')}</p>
               <p className="text-center text-4xl font-handwritten text-amber-700">5€</p>
             </div>
 
             <ul className="space-y-2 mb-6">
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <Check size={18} className="text-amber-600 flex-shrink-0" />
-                <span>Don unique</span>
+                <span>{t('support.oneTime')}</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <Check size={18} className="text-amber-600 flex-shrink-0" />
-                <span>Message de remerciement</span>
+                <span>{t('support.thanks')}</span>
               </li>
             </ul>
 
             <button type="button" className="w-full bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-amber-50 font-serif px-6 py-4 rounded-full transition-all hover:scale-105 shadow-lg text-lg focus-ring">
-              Envoyer via PayPal
+              {t('support.paypal')}
             </button>
           </div>
 
@@ -70,7 +73,7 @@ export default function Crowdfunding() {
             </div>
 
             <h3 className="text-3xl font-handwritten text-amber-50 mb-3 text-center">
-              Devenir contributeur
+              {t('support.contrib')}
             </h3>
 
             <p className="text-amber-100/90 font-serif mb-6 text-center leading-relaxed text-lg">
@@ -79,7 +82,7 @@ export default function Crowdfunding() {
 
             <div className="bg-stone-800/50 rounded-2xl p-4 mb-6 border border-amber-500/30">
               <p className="text-center font-serif text-amber-200 mb-2">Dès</p>
-              <p className="text-center text-4xl font-handwritten text-amber-400">10€<span className="text-xl">/mois</span></p>
+              <p className="text-center text-4xl font-handwritten text-amber-400">10€<span className="text-xl">{t('support.perMonth')}</span></p>
             </div>
 
             <ul className="space-y-2 mb-6">
@@ -102,7 +105,7 @@ export default function Crowdfunding() {
             </ul>
 
             <button type="button" className="w-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-serif px-6 py-4 rounded-full transition-all hover:scale-105 shadow-xl text-lg focus-ring">
-              Voir les récompenses
+              {t('support.rewards')}
             </button>
           </div>
 
@@ -114,7 +117,7 @@ export default function Crowdfunding() {
             </div>
 
             <h3 className="text-3xl font-handwritten text-stone-900 mb-3 text-center">
-              Plateformes partenaires
+              {t('support.partner')}
             </h3>
 
             <p className="text-stone-700 font-serif mb-6 text-center leading-relaxed text-lg">
@@ -122,34 +125,34 @@ export default function Crowdfunding() {
             </p>
 
             <div className="bg-white rounded-2xl p-4 mb-6 border border-rose-200">
-              <p className="text-center font-serif text-stone-600 mb-2">Flexible</p>
-              <p className="text-center text-4xl font-handwritten text-rose-600">Libre</p>
+              <p className="text-center font-serif text-stone-600 mb-2">{t('support.flex')}</p>
+              <p className="text-center text-4xl font-handwritten text-rose-600">{t('support.free')}</p>
             </div>
 
             <ul className="space-y-2 mb-6">
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <Check size={18} className="text-rose-600 flex-shrink-0" />
-                <span>Montant au choix</span>
+                <span>{t('support.choose')}</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <Check size={18} className="text-rose-600 flex-shrink-0" />
-                <span>Annulation à tout moment</span>
+                <span>{t('support.cancel')}</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <Check size={18} className="text-rose-600 flex-shrink-0" />
-                <span>Communauté engagée</span>
+                <span>{t('support.community')}</span>
               </li>
             </ul>
 
             <button type="button" className="w-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-rose-50 font-serif px-6 py-4 rounded-full transition-all hover:scale-105 shadow-lg text-lg focus-ring">
-              Visiter la page
+              {t('support.visit')}
             </button>
           </div>
         </div>
 
         <div className="mt-12">
           <div className="text-center mb-4">
-            <p className="text-amber-100/90 font-serif">Plateformes de dons disponibles (bientôt):</p>
+            <p className="text-amber-100/90 font-serif">{t('support.availableSoon')}</p>
           </div>
           <div className="flex flex-wrap justify-center gap-3">
             <a href="#" className="bg-amber-600 hover:bg-amber-500 text-amber-50 font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring">PayPal</a>

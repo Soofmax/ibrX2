@@ -1,6 +1,99 @@
 import { MapPin, Navigation, Calendar } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { useI18n } from '../i18n/I18nContext';
+
+type Stop = { name: string; t: number };
+
+const stops: Stop[] = [
+  { name: 'Paris', t: 0.00 },
+  { name: 'Lyon', t: 0.18 },
+  { name: 'Barcelona', t: 0.30 },
+  { name: 'Rome', t: 0.45 },
+  { name: 'Athens', t: 0.55 },
+  { name: 'Istanbul', t: 0.60 },
+  { name: 'Cairo', t: 0.75 },
+  { name: 'Nairobi', t: 0.88 },
+  { name: 'Cape Town', t: 1.00 },
+];
 
 export default function CurrentLocation() {
+  const { t } = useI18n();
+  const pathRef = useRef<SVGPathElement | null>(null);
+  const [progress, setProgress] = useState(0);
+  const [positions, setPositions] = useState<{ x: number; y: number; name: string; t: number }[]>([]);
+  const [currentStopIndex, setCurrentStopIndex] = useState(0);
+
+  useEffect(() => {
+    const path = pathRef.current;
+    if (!path) return;
+    const length = path.getTotalLength();
+    const pts = stops.map((s) => {
+      const p = path.getPointAtLength(s.t * length);
+      return { x: p.x, y: p.y, name: s.name, t: s.t };
+    });
+    setPositions(pts);
+  }, []);
+
+  useEffect(() => {
+    const speedPerSec = 0.06; // progress units per second
+    const stopDurationMs = 1500;
+    const path = pathRef.current;
+    if (!path) return;
+
+    let rafId = 0;
+    let prev = performance.now();
+    let p = 0;
+    let pausedUntil = 0;
+    let currentIdx = 0;
+
+    const tick = (time: number) => {
+      const dt = (time - prev) / 1000;
+      prev = time;
+
+      if (time < pausedUntil) {
+        rafId = requestAnimationFrame(tick);
+        return;
+      }
+
+      const prevP = p;
+      p += speedPerSec * dt;
+      if (p >= 1) p = 0;
+
+      // detect crossing a stop
+      const nextIdx = stops.findIndex((s) => s.t > prevP && s.t <= p + 0.0001);
+      if (nextIdx !== -1) {
+        pausedUntil = time + stopDurationMs;
+        currentIdx = nextIdx;
+      }
+
+      setCurrentStopIndex(currentIdx);
+      setProgress(p);
+      rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
+
+  // Compute van transform
+  const vanTransform = (() => {
+    const path = pathRef.current;
+    if (!path) return { x: 120, y: 280, angle: 0 };
+    const length = path.getTotalLength();
+    const p1 = path.getPointAtLength(progress * length);
+    const p2 = path.getPointAtLength(Math.min(progress * length + 1, length));
+    const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
+    return { x: p1.x, y: p1.y, angle };
+  })();
+
+  const lastStop = stops[currentStopIndex]?.name ?? stops[0].name;
+  const nextStop = stops[currentStopIndex + 1]?.name ?? stops[0].name;
+
+  const jumpTo = (tval: number, idx: number) => {
+    setProgress(tval);
+    setCurrentStopIndex(idx);
+  };
+
   return (
     <section id="map" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-100 to-amber-50 relative overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 opacity-5">
@@ -14,9 +107,9 @@ export default function CurrentLocation() {
             <Navigation className="text-amber-600 mx-auto animate-pulse" size={48} />
           </div>
           <h2 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-stone-900 mb-4">
-            Où suis-je maintenant ?
+            {t('current.heading')}
           </h2>
-          <p className="text-xl text-stone-600 font-serif">Suivre le vent, une destination à la fois</p>
+          <p className="text-xl text-stone-600 font-serif">{t('current.subtitle')}</p>
         </div>
 
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-stone-200 transform hover:scale-[1.01] transition-transform duration-500">
@@ -34,18 +127,12 @@ export default function CurrentLocation() {
                     <feMergeNode in="SourceGraphic"/>
                   </feMerge>
                 </filter>
-                <path id="routePath" d="M 120,280 Q 200,220 300,240 T 500,250 Q 650,260 750,240 T 880,250" />
-                <g id="vanIcon">
-                  <rect x="-15" y="-10" width="30" height="18" rx="3" fill="#1C1917" />
-                  <rect x="5" y="-8" width="14" height="12" rx="2" fill="#F59E0B" />
-                  <circle cx="-8" cy="10" r="4" fill="#0f172a" />
-                  <circle cx="8" cy="10" r="4" fill="#0f172a" />
-                </g>
               </defs>
 
               <rect width="1000" height="500" fill="url(#mapGradient)"/>
 
               <path
+                ref={pathRef}
                 d="M 120,280 Q 200,220 300,240 T 500,250 Q 650,260 750,240 T 880,250"
                 stroke="#d97706"
                 strokeWidth="4"
@@ -63,46 +150,25 @@ export default function CurrentLocation() {
                 />
               </path>
 
-              <g>
-                <use href="#vanIcon">
-                  <animateMotion dur="8s" repeatCount="indefinite" rotate="auto">
-                    <mpath href="#routePath" />
-                  </animateMotion>
-                </use>
-              </g>
+              {positions.map((p, idx) => (
+                <g key={p.name} transform={`translate(${p.x}, ${p.y})`} style={{ cursor: 'pointer' }} onClick={() => jumpTo(p.t, idx)}>
+                  <circle r="10" fill="#78350f" opacity="0.6" />
+                  <text x="14" y="-12" fontSize="14" fill="#1C1917" fontFamily="serif">{p.name}</text>
+                </g>
+              ))}
 
-              <circle cx="120" cy="280" r="10" fill="#78350f" opacity="0.5">
-                <animate attributeName="r" values="10;12;10" dur="2s" repeatCount="indefinite"/>
-              </circle>
-              <circle cx="300" cy="240" r="10" fill="#78350f" opacity="0.5">
-                <animate attributeName="r" values="10;12;10" dur="2s" begin="0.3s" repeatCount="indefinite"/>
-              </circle>
-              <circle cx="500" cy="250" r="10" fill="#78350f" opacity="0.5">
-                <animate attributeName="r" values="10;12;10" dur="2s" begin="0.6s" repeatCount="indefinite"/>
-              </circle>
-              <circle cx="750" cy="240" r="10" fill="#78350f" opacity="0.5">
-                <animate attributeName="r" values="10;12;10" dur="2s" begin="0.9s" repeatCount="indefinite"/>
-              </circle>
-
-              <g transform="translate(880, 250)" filter="url(#glow)">
-                <circle r="20" fill="#dc2626" opacity="0.3">
-                  <animate attributeName="r" values="20;28;20" dur="2s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
-                </circle>
-                <circle r="15" fill="#b45309"/>
-                <path
-                  d="M 0,-30 L -10,-10 L 0,-5 L 10,-10 Z"
-                  fill="#dc2626"
-                  stroke="#fff"
-                  strokeWidth="2"
-                />
+              <g transform={`translate(${vanTransform.x}, ${vanTransform.y}) rotate(${vanTransform.angle})`} filter="url(#glow)">
+                <rect x="-15" y="-10" width="30" height="18" rx="3" fill="#1C1917" />
+                <rect x="5" y="-8" width="14" height="12" rx="2" fill="#F59E0B" />
+                <circle cx="-8" cy="10" r="4" fill="#0f172a" />
+                <circle cx="8" cy="10" r="4" fill="#0f172a" />
               </g>
 
               <text x="500" y="380" fontSize="24" fill="#78350f" textAnchor="middle" fontFamily="serif" fontStyle="italic">
-                Carte de l’itinéraire (animation de van)
+                {t('current.svgTitle')}
               </text>
               <text x="500" y="410" fontSize="16" fill="#a8a29e" textAnchor="middle" fontFamily="serif">
-                Suivi en direct à venir
+                {t('current.svgSubtitle')}
               </text>
             </svg>
           </div>
@@ -115,11 +181,11 @@ export default function CurrentLocation() {
                     <MapPin className="text-green-600" size={28} />
                   </div>
                   <div>
-                    <p className="text-sm text-stone-500 font-serif mb-1">Dernière étape</p>
-                    <h3 className="text-2xl font-handwritten text-stone-900 mb-1">Paris, France</h3>
+                    <p className="text-sm text-stone-500 font-serif mb-1">{t('current.lastStop')}</p>
+                    <h3 className="text-2xl font-handwritten text-stone-900 mb-1">{lastStop}</h3>
                     <div className="flex items-center gap-2 text-sm text-stone-600">
                       <Calendar size={14} />
-                      <span className="font-serif">21 mars 2025</span>
+                      <span className="font-serif">—</span>
                     </div>
                   </div>
                 </div>
@@ -131,15 +197,18 @@ export default function CurrentLocation() {
                     <Navigation className="text-amber-700" size={28} />
                   </div>
                   <div>
-                    <p className="text-sm text-amber-700 font-serif mb-1">Prochaine destination</p>
-                    <h3 className="text-2xl font-handwritten text-stone-900 mb-1">Barcelone, Espagne</h3>
+                    <p className="text-sm text-amber-700 font-serif mb-1">{t('current.nextDestination')}</p>
+                    <h3 className="text-2xl font-handwritten text-stone-900 mb-1">{nextStop}</h3>
                     <div className="flex items-center gap-2 text-sm text-stone-600">
                       <Calendar size={14} />
-                      <span className="font-serif">28 mars 2025</span>
+                      <span className="font-serif">—</span>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="mt-6 text-center">
+              <p className="text-stone-600 font-serif">Cliquez sur une ville sur la carte pour simuler un arrêt.</p>
             </div>
           </div>
         </div>
