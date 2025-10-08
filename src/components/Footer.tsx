@@ -15,7 +15,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gradient-to-b from-stone-800 to-stone-900 text-green-50 py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <footer className="bg-gradient-to-b from-green-900 to-green-950 text-green-50 py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-10 left-10 w-64 h-64 bg-green-600 rounded-full blur-3xl"></div>
         <div className="absolute bottom-10 right-10 w-80 h-80 bg-orange-600 rounded-full blur-3xl"></div>
