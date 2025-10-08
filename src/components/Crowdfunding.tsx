@@ -1,5 +1,5 @@
 import { Coffee, Gift, Heart, Sparkles, Check } from 'lucide-react';
-import { useI18n } from '../i18n/I18nContext';
+import { useI18n } from '../i18n/useI18n';
 
 export default function Crowdfunding() {
   const { t } = useI18n();

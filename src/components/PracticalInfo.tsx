@@ -1,5 +1,5 @@
 import { FileCheck2, Stethoscope, LifeBuoy } from 'lucide-react';
-import { useI18n } from '../i18n/I18nContext';
+import { useI18n } from '../i18n/useI18n';
 
 export default function PracticalInfo() {
   const { t } = useI18n();

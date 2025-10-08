@@ -1,5 +1,5 @@
 import { Users, Compass, Wrench, MapPinned } from 'lucide-react';
-import { useI18n } from '../i18n/I18nContext';
+import { useI18n } from '../i18n/useI18n';
 
 export default function Team() {
   const { t } = useI18n();

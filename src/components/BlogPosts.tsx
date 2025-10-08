@@ -1,6 +1,6 @@
 import { Calendar, ArrowRight, BookOpen } from 'lucide-react';
 import { blogPosts } from '../data/blogPosts';
-import { useI18n } from '../i18n/I18nContext';
+import { useI18n } from '../i18n/useI18n';
 
 export default function BlogPosts() {
   const { t } = useI18n();

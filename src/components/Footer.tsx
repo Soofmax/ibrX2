@@ -1,7 +1,7 @@
 import { Youtube, Instagram, Facebook, Mail, Send, Compass, Camera } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useI18n } from '../i18n/I18nContext';
+import { useI18n } from '../i18n/useI18n';
 
 export default function Footer() {
   const [email, setEmail] = useState('');

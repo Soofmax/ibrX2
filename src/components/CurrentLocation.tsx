@@ -1,6 +1,6 @@
 import { MapPin, Navigation, Calendar, Ship } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { useI18n } from '../i18n/I18nContext';
+import { useI18n } from '../i18n/useI18n';
 import { routeStops } from '../data/routeStops';
 import { expeditionTotals } from '../data/expeditionPlan';
 

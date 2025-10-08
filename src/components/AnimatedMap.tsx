@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useI18n } from '../i18n/I18nContext';
+import { useI18n } from '../i18n/useI18n';
 import { routeStops } from '../data/routeStops';
 import { Navigation, Ship } from 'lucide-react';
 

@@ -1,5 +1,5 @@
 import { Handshake, Store } from 'lucide-react';
-import { useI18n } from '../i18n/I18nContext';
+import { useI18n } from '../i18n/useI18n';
 import { useNavigate } from 'react-router-dom';
 
 export default function Sponsoring() {
