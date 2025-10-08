@@ -4,7 +4,7 @@ import type { TestingLibraryMatchers } from '@testing-library/jest-dom/matchers'
 
 expect.extend(matchers);
 
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 declare module 'vitest' {
-  interface Assertion<T = any> extends TestingLibraryMatchers<T, void> {}
-  interface AsymmetricMatchersContaining extends TestingLibraryMatchers<any, void> {}
+  interface Assertion<T = unknownicMatchersContaining extends TestingLibraryMatchers<any, void> {}
 }
