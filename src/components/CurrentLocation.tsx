@@ -28,7 +28,8 @@ const stops: Stop[] = (() => {
 })();
 
 export default function CurrentLocation() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const locale = lang === 'fr' ? 'fr-FR' : 'en-US';
   const pathRef = useRef<SVGPathElement | null>(null);
   const [progress, setProgress] = useState(0);
   const [positions, setPositions] = useState<{ x: number; y: number; name: string; t: number; tooltip: string }[]>([]);
@@ -270,12 +271,12 @@ export default function CurrentLocation() {
                     </span>
                   )}
                 </div>
-                <p className="text-stone-700 text-sm">État: <span className="font-semibold">{playing ? 'en mouvement' : 'en pause'}</span></p>
-                <p className="text-stone-700 text-sm">Vitesse: <span className="font-semibold">{speedMultiplier}×</span> (modèle 250 km/j)</p>
+                <p className="text-stone-700 text-sm">{t('current.state')} <span className="font-semibold">{playing ? t('current.moving') : t('current.paused')}</span></p>
+                <p className="text-stone-700 text-sm">{t('current.speedLabel')} <span className="font-semibold">{speedMultiplier}×</span> ({t('current.speedModelFmt').replace('{n}', String(averageKmPerDay))})</p>
                 {etaInfo && (
                   <div className="mt-2 text-stone-700 text-sm">
-                    <p>Distance restante: <span className="font-semibold">{Math.round(etaInfo.kmRemaining).toLocaleString('fr-FR')} km</span></p>
-                    <p>ETA prochaine étape: <span className="font-semibold">{etaInfo.etaDate.toLocaleString('fr-FR', { weekday: 'short', hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' })}</span></p>
+                    <p>{t('current.distanceRemaining')} <span className="font-semibold">{Math.round(etaInfo.kmRemaining).toLocaleString(locale)} {t('current.km')}</span></p>
+                    <p>{t('current.etaNext')} <span className="font-semibold">{etaInfo.etaDate.toLocaleString(locale, { weekday: 'short', hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' })}</span></p>
                     <p className="text-amber-700 text-xs italic mt-1">{t('current.etaSimulated')}</p>
                   </div>
                 )}
@@ -472,7 +473,7 @@ export default function CurrentLocation() {
                     jumpTo(stops[prev].t, prev);
                   }}
                 >
-                  Étape précédente
+                  {t('current.prevStep')}
                 </button>
                 <button
                   type="button"
@@ -482,11 +483,11 @@ export default function CurrentLocation() {
                     jumpTo(stops[next].t, next);
                   }}
                 >
-                  Étape suivante
+                  {t('current.nextStep')}
                 </button>
               </div>
               <p className="text-stone-600 font-serif mt-2">
-                Cliquez sur une ville sur la carte ou utilisez les boutons pour simuler un arrêt. Barre d’espace : pause/lecture.
+                {t('current une ville sur la carte ou utilisez les boutons pour simuler un arrêt. Barre d’espace : pause/lecture.
               </p>
             </div>
           </div>
