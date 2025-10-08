@@ -1,35 +1,24 @@
 import { Calendar, ArrowRight, BookOpen } from 'lucide-react';
-
-const blogPosts = [
-  {
-    id: 1,
-    title: "First Steps in the City of Lights",
-    excerpt: "Wandering through the cobblestone streets of Montmartre, I discovered that Paris is more than just a destination—it's a feeling that stays with you.",
-    date: "March 15, 2025",
-    image: "https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?auto=compress&cs=tinysrgb&w=800",
-    category: "City Guide"
-  },
-  {
-    id: 2,
-    title: "Hidden Cafés and Local Secrets",
-    excerpt: "Beyond the tourist hotspots lies a network of charming cafés where locals gather. Today I found one that serves the best croissants I've ever tasted.",
-    date: "March 18, 2025",
-    image: "https://images.pexels.com/photos/1002740/pexels-photo-1002740.jpeg?auto=compress&cs=tinysrgb&w=800",
-    category: "Food & Culture"
-  },
-  {
-    id: 3,
-    title: "Sunset at the Seine",
-    excerpt: "As golden hour painted the river in hues of amber and rose, I realized why artists have been drawn to this city for centuries. Pure magic.",
-    date: "March 21, 2025",
-    image: "https://images.pexels.com/photos/2363/france-landmark-lights-night.jpg?auto=compress&cs=tinysrgb&w=800",
-    category: "Photography"
-  }
-];
+import { blogPosts } from '../data/blogPosts';
+import { useI18n } from '../i18n/I18nContext';
 
 export default function BlogPosts() {
+  const { t } = useI18n();
+
+  const buildSrcSet = (url: string) => {
+    // Generate responsive variants by replacing the width param commonly used in Pexels URLs (w=...)
+    const widths = [480, 768, 1200, 1600];
+    return widths
+      .map((w) => {
+        const hasW = /[?&]w=\d+/.test(url);
+        const u = hasW ? url.replace(/w=\d+/, `w=${w}`) : `${url}${url.includes('?') ? '&' : '?'}w=${w}`;
+        return `${u} ${w}w`;
+      })
+      .join(', ');
+  };
+
   return (
-    <section id="blog" className="py-24 px-4 sm:px-6 lg:px-8 bg-amber-50 relative overflow-hidden">
+    <section id="blog" className="py-24 px-4 sm:px-6 lg:px-8 bg-amber-50 relative overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-40 right-20 w-96 h-96 bg-amber-600 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 left-20 w-80 h-80 bg-orange-600 rounded-full blur-3xl"></div>
@@ -41,9 +30,9 @@ export default function BlogPosts() {
             <BookOpen className="text-amber-600 mx-auto" size={48} />
           </div>
           <h2 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-stone-900 mb-4">
-            My Travel Log
+            {t('blog.heading')}
           </h2>
-          <p className="text-xl text-stone-600 font-serif">Stories from the road, captured in words and images</p>
+          <p className="text-xl text-stone-600 font-serif">{t('blog.tagline')}</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -56,8 +45,12 @@ export default function BlogPosts() {
               <div className="relative aspect-[4/3] overflow-hidden bg-stone-200">
                 <img
                   src={post.image}
+                  srcSet={buildSrcSet(post.image)}
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                   alt={post.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="absolute top-4 left-4">
@@ -81,8 +74,8 @@ export default function BlogPosts() {
                   {post.excerpt}
                 </p>
 
-                <button className="flex items-center gap-2 text-amber-600 font-serif hover:gap-3 transition-all group">
-                  <span>Read More</span>
+                <button type="button" className="flex items-center gap-2 text-amber-600 font-serif hover:gap-3 transition-all group focus-ring">
+                  <span>{t('blog.readMore')}</span>
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
@@ -91,8 +84,8 @@ export default function BlogPosts() {
         </div>
 
         <div className="text-center mt-12">
-          <button className="bg-stone-900 hover:bg-stone-800 text-amber-50 font-serif px-10 py-4 rounded-full text-lg transition-all hover:scale-105 shadow-xl">
-            View All Stories
+          <button type="button" className="bg-stone-900 hover:bg-stone-800 text-amber-50 font-serif px-10 py-4 rounded-full text-lg transition-all hover:scale-105 shadow-xl focus-ring">
+            {t('blog.viewAll')}
           </button>
         </div>
       </div>
