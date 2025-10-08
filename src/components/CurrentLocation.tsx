@@ -30,6 +30,7 @@ const stops: Stop[] = (() => {
 export default function CurrentLocation() {
   const { t, lang } = useI18n();
   const locale = lang === 'fr' ? 'fr-FR' : 'en-US';
+
   const pathRef = useRef<SVGPathElement | null>(null);
   const [progress, setProgress] = useState(0);
   const [positions, setPositions] = useState<{ x: number; y: number; name: string; t: number; tooltip: string }[]>([]);
@@ -366,7 +367,9 @@ export default function CurrentLocation() {
                   onFocus={() => {
                     const tip = document.getElementById('map-tooltip');
                     if (tip) {
-                      const ferry = stops[idx]?.modeToNext === 'ferry'  `<<div class='font-serif text-[10px] text-amber-700 mt-1'>${t('current.nextferry</div>" : "";
+                      const ferry = stops[idx]?.modeToNext === 'ferry'
+                        ? `<div class='font-serif text-[10px] text-amber-700 mt-1'>${t('current.nextFerrySegment')}</div>`
+                        : '';
                       tip.style.left = `${p.x}px`;
                       tip.style.top = `${p.y - 24}px`;
                       tip.innerHTML = `<div class='bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2'>
@@ -384,7 +387,7 @@ export default function CurrentLocation() {
                   onMouseEnter={() => {
                     const tip = document.getElementById('map-tooltip');
                     if (tip) {
-                      const ferry = stops[idx]?.modeToNext === 'ferry' ? `<div class='font-serif text-[10px] text-amber-700 mt-1'>${t('current.nextFerrySegment')}</div>` : "";
+                      const ferry = stops[idx]?.modeToNext === 'ferry' ? `<div class='font-serif text-[10px] text-amber-700 mt-1'>${t('current.nextFerrySegment')}</div>` : '';
                       tip.style.left = `${p.x}px`;
                       tip.style.top = `${p.y - 24}px`;
                       tip.innerHTML = `<div class='bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2'>
@@ -424,8 +427,11 @@ export default function CurrentLocation() {
               </text>
             </svg>
             <div aria-live="polite" className="sr-only">
-              {`Dernière étape: ${lastStop}. Prochaine destination: ${nextStop}. `}
-              {etaInfo ? `Distance restante environ ${Math.round(etaInfo.kmRemaining)} kilomètres. ETA ${etaInfo.etaDate.toLocaleString('fr-FR')}. ${etaInfo.isFerry ? t('current.ferry') + '. ' : ''}${t('current.etaSimulatedShort')}` : ''}
+              {
+                etaInfo
+                  ? `${t('map.lastStep')}: ${lastStop}. ${t('map.nextDestination')}: ${nextStop}. ${t('current.distanceRemaining')} ${Math.round(etaInfo.kmRemaining).toLocaleString(locale)} ${t('current.km')}. ${t('current.etaNext')} ${etaInfo.etaDate.toLocaleString(locale)}. ${etaInfo.isFerry ? t('current.ferry') + '. ' : ''}${t('current.etaSimulatedShort')}`
+                  : `${t('map.lastStep')}: ${lastStop}. ${t('map.nextDestination')}: ${nextStop}.`
+              }
             </div>
           </div>
 
@@ -484,6 +490,18 @@ export default function CurrentLocation() {
                   }}
                 >
                   {t('current.nextStep')}
+                </button>
+              </div>
+              <p className="text-stone-600 font-serif mt-2">
+                {t('current.help')}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
                 </button>
               </div>
               <p className="text-stone-600 font-serif mt-2">
