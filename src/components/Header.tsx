@@ -38,14 +38,32 @@ export default function Header() {
             <button type="button" onClick={() => scrollToSection('home')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
               Home
             </button>
+            <button type="button" onClick={() => scrollToSection('map')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
+              Itinerary
+            </button>
+            <button type="button" onClick={() => scrollToSection('fleet')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
+              Fleet
+            </button>
+            <button type="button" onClick={() => scrollToSection('team')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
+              Team
+            </button>
+            <button type="button" onClick={() => scrollToSection('logistics')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
+              Logistics
+            </button>
+            <button type="button" onClick={() => scrollToSection('practical')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
+              Practical
+            </button>
             <button type="button" onClick={() => scrollToSection('blog')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
               Blog
             </button>
-            <button type="button" onClick={() => scrollToSection('map')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
-              Map
+            <button type="button" onClick={() => scrollToSection('sponsors')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
+              Sponsors
             </button>
             <button type="button" onClick={() => scrollToSection('support')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
               Support
+            </button>
+            <button type="button" onClick={() => scrollToSection('contact')} className="px-5 py-2 text-amber-50 hover:bg-amber-600 rounded-full transition-all font-serif hover:scale-105 focus-ring">
+              Contact
             </button>
           </nav>
 
@@ -66,14 +84,32 @@ export default function Header() {
             <button type="button" onClick={() => scrollToSection('home')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
               Home
             </button>
+            <button type="button" onClick={() => scrollToSection('map')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
+              Itinerary
+            </button>
+            <button type="button" onClick={() => scrollToSection('fleet')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
+              Fleet
+            </button>
+            <button type="button" onClick={() => scrollToSection('team')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
+              Team
+            </button>
+            <button type="button" onClick={() => scrollToSection('logistics')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
+              Logistics
+            </button>
+            <button type="button" onClick={() => scrollToSection('practical')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
+              Practical
+            </button>
             <button type="button" onClick={() => scrollToSection('blog')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
               Blog
             </button>
-            <button type="button" onClick={() => scrollToSection('map')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
-              Map
+            <button type="button" onClick={() => scrollToSection('sponsors')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
+              Sponsors
             </button>
             <button type="button" onClick={() => scrollToSection('support')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
               Support
+            </button>
+            <button type="button" onClick={() => scrollToSection('contact')} className="text-amber-50 hover:bg-amber-600 transition-all font-serif text-left px-4 py-2 rounded-lg focus-ring">
+              Contact
             </button>
           </nav>
         )}
