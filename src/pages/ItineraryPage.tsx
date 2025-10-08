@@ -1,10 +1,10 @@
-import AnimatedMap from '../components/AnimatedMap';
+import EuropeCarousel from '../components/EuropeCarousel';
 import Itinerary from '../components/Itinerary';
 
 export default function ItineraryPage() {
   return (
     <div className="space-y-12">
-      <AnimatedMap />
+      <EuropeCarousel />
       <Itinerary />
     </div>
   );
