@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App.tsx';
 import './index.css';
-import { I18nProvider } from './i18n/I18nContext';
+import I18nProvider from './i18n/context';
 
 // Preconnect hints for performance (fonts + hero images host)
 (function addPreconnects() {
