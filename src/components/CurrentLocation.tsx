@@ -416,7 +416,7 @@ export default function CurrentLocation(): JSX.Element {
               </g>
 
               <foreignObject x="0" y="0" width="1000" height="500">
-               <<div
+                <div
                   xmlns="http://www.w3.org/1999/xhtml"
                   id="map-tooltip"
                   style={{
@@ -426,8 +426,8 @@ export default function CurrentLocation(): JSX.Element {
                     zIndex: 30,
                     pointerEvents: 'none',
                   }}
-              ></  div>
-            </t>foreignObject>
+                ></div>
+              </foreignObject>
 
 
               <text x="500" y="380" fontSize="24" fill="#16A34A" textAnchor="middle" fontFamily="serif" fontStyle="italic">
