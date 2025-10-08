@@ -195,7 +195,7 @@ export default function CurrentLocation() {
                     if (tip) tip.style.display = 'none';
                   }}
                 >
-                  <circle r="10" fill="#78350f" opacity="0.6" />
+                  <circle r="10" fill="#16A34A" opacity="0.7" />
                   <text x="14" y="-12" fontSize="14" fill="#1C1917" fontFamily="serif">{p.name}</text>
                 </g>
               ))}
@@ -211,7 +211,7 @@ export default function CurrentLocation() {
                 <div xmlns="http://www.w3.org/1999/xhtml" id="map-tooltip" style="position:absolute; display:none; transform:translate(-50%, -110%); z-index:30; pointer-events:none;"></div>
               </foreignObject>
 
-              <text x="500" y="380" fontSize="24" fill="#78350f" textAnchor="middle" fontFamily="serif" fontStyle="italic">
+              <text x="500" y="380" fontSize="24" fill="#16A34A" textAnchor="middle" fontFamily="serif" fontStyle="italic">
                 {t('current.svgTitle')}
               </text>
               <text x="500" y="410" fontSize="16" fill="#a8a29e" textAnchor="middle" fontFamily="serif">
