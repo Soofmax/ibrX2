@@ -3,19 +3,104 @@ import { useEffect } from 'react';
 type Props = {
   title: string;
   description?: string;
+  path?: string;
+  image?: string;
+  lang?: 'fr' | 'en';
+  siteName?: string;
 };
 
-export default function SEO({ title, description }: Props) {
+function ensureMetaByName(name: string, content?: string) {
+  if (!content) return;
+  let el = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute('name', name);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
+}
+
+function ensureMetaByProperty(property: string, content?: string) {
+  if (!content) return;
+  let el = document.querySelector(`meta[property="${property}"]`) as HTMLMetaElement | null;
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute('property', property);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
+}
+
+function ensureLinkRel(rel: string, href: string) {
+  let link = document.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement | null;
+  if (!link) {
+    link = document.createElement('link');
+    link.setAttribute('rel', rel);
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', href);
+}
+
+export default function SEO({
+  title,
+  description,
+  path,
+  image,
+  lang = 'fr',
+  siteName = 'Transcontinental Trek',
+}: Props) {
   useEffect(() => {
+    const origin =
+      typeof window !== 'undefined' && window.location
+        ? `${window.location.origin}`
+        : 'https://example.com';
+    const canonical = path ? `${origin}${path}` : (typeof window !== 'undefined' ? window.location.href : origin);
+    const ogLocale = lang === 'en' ? 'en_US' : 'fr_FR';
+    const fallbackImage =
+      image ||
+      'https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&w=1200';
+
+    // Title and description
     document.title = title;
-    let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
-    if (!meta) {
-      meta = document.createElement('meta');
-      meta.setAttribute('name', 'description');
-      document.head.appendChild(meta);
+    ensureMetaByName('description', description || '');
+
+    // Canonical
+    ensureLinkRel('canonical', canonical);
+
+    // Open Graph
+    ensureMetaByProperty('og:type', 'website');
+    ensureMetaByProperty('og:site_name', siteName);
+    ensureMetaByProperty('og:title', title);
+    ensureMetaByProperty('og:description', description || '');
+    ensureMetaByProperty('og:url', canonical);
+    ensureMetaByProperty('og:image', fallbackImage);
+    ensureMetaByProperty('og:locale', ogLocale);
+
+    // Twitter
+    ensureMetaByName('twitter:card', 'summary_large_image');
+    ensureMetaByName('twitter:title', title);
+    ensureMetaByName('twitter:description', description || '');
+    ensureMetaByName('twitter:image', fallbackImage);
+
+    // JSON-LD (Website)
+    const ldId = 'ld-website';
+    let ld = document.getElementById(ldId) as HTMLScriptElement | null;
+    if (!ld) {
+      ld = document.createElement('script');
+      ld.type = 'application/ld+json';
+      ld.id = ldId;
+      document.head.appendChild(ld);
     }
-    if (meta) meta.setAttribute('content', description || '');
-  }, [title, description]);
+    const ldPayload = {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: siteName,
+      url: canonical,
+      inLanguage: lang,
+      description: description || '',
+    };
+    ld.text = JSON.stringify(ldPayload);
+  }, [title, description, path, image, lang, siteName]);
 
   return null;
 }

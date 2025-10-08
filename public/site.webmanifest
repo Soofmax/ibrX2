@@ -1,0 +1,10 @@
+{
+  "name": "Transcontinental Trek",
+  "short_name": "Trek",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFBEB",
+  "theme_color": "#F59E0B",
+  "lang": "fr",
+  "icons": []
+}

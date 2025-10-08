@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState, ReactNode } from 'react';
+import { createContext, useContext, useMemo, useState, ReactNode, useEffect } from 'react';
 
 type Lang = 'fr' | 'en';
 
@@ -257,7 +257,29 @@ type I18nContextValue = {
 const I18nContext = createContext<I18nContextValue | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>('fr');
+  const [lang, setLang] = useState<Lang>(() => {
+    try {
+      const saved = typeof window !== 'undefined' ? window.localStorage.getItem('lang') : null;
+      if (saved === 'fr' || saved === 'en') return saved;
+      const nav = typeof navigator !== 'undefined' ? navigator.language.toLowerCase() : '';
+      return nav.startsWith('en') ? 'en' : 'fr';
+    } catch {
+      return 'fr';
+    }
+  });
+
+  useEffect(() => {
+    try {
+      if (typeof document !== 'undefined') {
+        document.documentElement.lang = lang;
+      }
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem('lang', lang);
+      }
+    } catch {
+      // no-op
+    }
+  }, [lang]);
 
   const dict = lang === 'fr' ? fr : en;
 
