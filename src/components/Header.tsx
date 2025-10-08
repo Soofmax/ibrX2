@@ -26,8 +26,8 @@ export default function Header() {
   const navClass = (path: string) =>
     `px-5 py-2 rounded-full transition-all font-serif focus-ring ${
       location.pathname === path
-        ? 'bg-amber-600 text-amber-50 active-underline'
-        : 'text-amber-50 hover:bg-amber-600 hover:scale-105'
+        ? 'bg-green-600 text-white active-underline'
+        : 'text-white hover:bg-green-600 hover:scale-105'
     }`;
 
   return (
@@ -39,8 +39,8 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3 group cursor-pointer" onClick={() => go('/')}>
-            <Compass className="text-amber-500 group-hover:rotate-180 transition-transform duration-700" size={32} />
-            <h1 className="text-2xl sm:text-3xl font-handwritten text-amber-50 drop-shadow-lg">
+            <Compass className="text-green-500 group-hover:rotate-180 transition-transform duration-700" size={32} />
+            <h1 className="text-2xl sm:text-3xl font-handwritten text-white drop-shadow-lg">
               {t('header.siteName')}
             </h1>
           </div>
@@ -85,7 +85,7 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
-              className="text-amber-50 bg-stone-800/50 px-3 py-2 rounded-full backdrop-blur-sm focus-ring"
+              className="text-white bg-stone-800/50 px-3 py-2 rounded-full backdrop-blur-sm focus-ring"
               aria-label="Toggle language"
             >
               {lang === 'fr' ? 'FR' : 'EN'}
@@ -97,7 +97,7 @@ export default function Header() {
               aria-controls="mobile-menu"
               aria-expanded={mobileMenuOpen}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-amber-50 bg-stone-800/50 p-2 rounded-full backdrop-blur-sm focus-ring"
+              className="md:hidden text-white bg-stone-800/50 p-2 rounded-full backdrop-blur-sm focus-ring"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -109,7 +109,7 @@ export default function Header() {
             aria-controls="mobile-menu"
             aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-amber-50 bg-stone-800/50 p-2 rounded-full backdrop-blur-sm focus-ring"
+            className="md:hidden text-white bg-stone-800/50 p-2 rounded-full backdrop-blur-sm focus-ring"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -118,8 +118,8 @@ export default function Header() {
         {mobileMenuOpen && (
           <nav id="mobile-menu" className="md:hidden mt-4 pb-4 flex flex-col space-y-2 bg-stone-800/50 rounded-xl p-4 backdrop-blur-sm animate-fade-in" aria-label="Mobile">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-amber-50 font-serif">Langue</span>
-              <button type="button" onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} className="text-amber-50 bg-stone-700 px-3 py-1 rounded-full focus-ring">
+              <span className="text-white font-serif">Langue</span>
+              <button type="button" onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} className="text-white bg-stone-700 px-3 py-1 rounded-full focus-ring">
                 {lang === 'fr' ? 'FR' : 'EN'}
               </button>
             </div>

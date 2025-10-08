@@ -105,16 +105,16 @@ export default function CurrentLocation() {
   };
 
   return (
-    <section id="map" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-100 to-amber-50 relative overflow-hidden scroll-mt-24">
+    <section id="map" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-100 to-green-50 relative overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-10 w-64 h-64 bg-amber-600 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-10 w-64 h-64 bg-green-600 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-stone-600 rounded-full blur-3xl"></div>
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <div className="inline-block mb-4">
-            <Navigation className="text-amber-600 mx-auto animate-pulse" size={48} />
+            <Navigation className="text-green-600 mx-auto animate-pulse" size={48} />
           </div>
           <h2 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-stone-900 mb-4">
             {t('current.heading')}
@@ -123,10 +123,10 @@ export default function CurrentLocation() {
         </div>
 
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-stone-200 transform hover:scale-[1.01] transition-transform duration-500">
-          <div className="relative aspect-video bg-gradient-to-br from-stone-200 to-amber-100 overflow-hidden">
+          <div className="relative aspect-video bg-gradient-to-br from-stone-200 to-green-100 overflow-hidden">
             {/* Legend for accessibility */}
             <div className="absolute top-4 right-4 z-20">
-              <div className="bg-white/90 border border-amber-200 rounded-xl p-4 shadow-lg font-serif">
+              <div className="bg-white/90 border border-green-200 rounded-xl p-4 shadow-lg font-serif">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-8 h-5 bg-stone-900 rounded-sm"></div>
                   <span className="text-stone-900 font-semibold">Van</span>
@@ -140,7 +140,7 @@ export default function CurrentLocation() {
               <defs>
                 <linearGradient id="mapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#f5f5f4" />
-                  <stop offset="100%" stopColor="#fef3c7" />
+                  <stop offset="100%" stopColor="#dcfce7" />
                 </linearGradient>
                 <filter id="glow">
                   <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
@@ -183,7 +183,7 @@ export default function CurrentLocation() {
                     if (tip) {
                       tip.style.left = `${p.x}px`;
                       tip.style.top = `${p.y - 24}px`;
-                      tip.innerHTML = `<div class='bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2'>
+                      tip.innerHTML = `<div class='bg-white/95 border border-green-200 text-stone-900 rounded-xl shadow-xl px-3 py-2'>
                         <div class='font-serif text-sm font-semibold'>${p.name}</div>
                         <div class='font-serif text-xs text-stone-600'>${p.tooltip}</div>
                       </div>`;
@@ -202,7 +202,7 @@ export default function CurrentLocation() {
 
               <g transform={`translate(${vanTransform.x}, ${vanTransform.y}) rotate(${vanTransform.angle})`} filter="url(#glow)">
                 <rect x="-15" y="-10" width="30" height="18" rx="3" fill="#1C1917" />
-                <rect x="5" y="-8" width="14" height="12" rx="2" fill="#F59E0B" />
+                <rect x="5" y="-8" width="14" height="12" rx="2" fill="#22C55E" />
                 <circle cx="-8" cy="10" r="4" fill="#0f172a" />
                 <circle cx="8" cy="10" r="4" fill="#0f172a" />
               </g>
@@ -220,7 +220,7 @@ export default function CurrentLocation() {
             </svg>
           </div>
 
-          <div className="p-8 bg-gradient-to-br from-white to-amber-50/30">
+          <div className="p-8 bg-gradient-to-br from-white to-green-50/30">
             <div className="grid md:grid-cols-2 gap-6">
               <div className="bg-white rounded-2xl p-8 shadow-lg border border-stone-200 hover:shadow-xl transition-shadow">
                 <div className="flex items-start gap-4">
@@ -238,13 +238,13 @@ export default function CurrentLocation() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-8 shadow-lg border border-amber-200 hover:shadow-xl transition-shadow">
+              <div className="bg-gradient-to-br from-green-50 to-lime-50 rounded-2xl p-8 shadow-lg border border-green-200 hover:shadow-xl transition-shadow">
                 <div className="flex items-start gap-4">
-                  <div className="bg-amber-200 p-3 rounded-full">
-                    <Navigation className="text-amber-700" size={28} />
+                  <div className="bg-green-200 p-3 rounded-full">
+                    <Navigation className="text-green-700" size={28} />
                   </div>
                   <div>
-                    <p className="text-sm text-amber-700 font-serif mb-1">{t('current.nextDestination')}</p>
+                    <p className="text-sm text-green-700 font-serif mb-1">{t('current.nextDestination')}</p>
                     <h3 className="text-2xl font-handwritten text-stone-900 mb-1">{nextStop}</h3>
                     <div className="flex items-center gap-2 text-sm text-stone-600">
                       <Calendar size={14} />
