@@ -32,7 +32,8 @@ export default function Footer() {
                 href="https://youtube.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-stone-700 hover:bg-red-600 p-3 rounded-full transition-all hover:scale-110 hover:rotate-6 shadow-lg"
+                aria-label="YouTube"
+                className="bg-stone-700 hover:bg-red-600 p-3 rounded-full transition-all hover:scale-110 hover:rotate-6 shadow-lg focus-ring"
               >
                 <Youtube size={24} />
               </a>
@@ -40,7 +41,8 @@ export default function Footer() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-stone-700 hover:bg-pink-600 p-3 rounded-full transition-all hover:scale-110 hover:rotate-6 shadow-lg"
+                aria-label="Instagram"
+                className="bg-stone-700 hover:bg-pink-600 p-3 rounded-full transition-all hover:scale-110 hover:rotate-6 shadow-lg focus-ring"
               >
                 <Instagram size={24} />
               </a>
@@ -48,7 +50,8 @@ export default function Footer() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-stone-700 hover:bg-blue-600 p-3 rounded-full transition-all hover:scale-110 hover:rotate-6 shadow-lg"
+                aria-label="Facebook"
+                className="bg-stone-700 hover:bg-blue-600 p-3 rounded-full transition-all hover:scale-110 hover:rotate-6 shadow-lg focus-ring"
               >
                 <Facebook size={24} />
               </a>
@@ -59,22 +62,22 @@ export default function Footer() {
             <h3 className="text-2xl font-handwritten mb-6 text-amber-400">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <button className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform">
+                <button type="button" className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
                   About Me
                 </button>
               </li>
               <li>
-                <button className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform">
+                <button type="button" className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
                   Travel Tips
                 </button>
               </li>
               <li>
-                <button className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform">
+                <button type="button" className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
                   Photo Gallery
                 </button>
               </li>
               <li>
-                <button className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform">
+                <button type="button" className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
                   Contact
                 </button>
               </li>
@@ -100,7 +103,7 @@ export default function Footer() {
               </div>
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 px-6 py-4 rounded-full font-serif transition-all hover:scale-105 shadow-lg flex items-center justify-center gap-2"
+                className="w-full bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 px-6 py-4 rounded-full font-serif transition-all hover:scale-105 shadow-lg flex items-center justify-center gap-2 focus-ring"
               >
                 <span>Subscribe Now</span>
                 <Send size={18} />
@@ -115,10 +118,10 @@ export default function Footer() {
               © 2025 Your Name. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
-              <button className="text-amber-100/70 hover:text-amber-400 transition-colors font-serif">
+              <button type="button" className="text-amber-100/70 hover:text-amber-400 transition-colors font-serif focus-ring">
                 Privacy Policy
               </button>
-              <button className="text-amber-100/70 hover:text-amber-400 transition-colors font-serif">
+              <button type="button" className="text-amber-100/70 hover:text-amber-400 transition-colors font-serif focus-ring">
                 Terms of Use
               </button>
             </div>
