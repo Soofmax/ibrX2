@@ -30,6 +30,8 @@ const stops: Stop[] = (() => {
 export default function CurrentLocation() {
   const { t, lang } = useI18n();
   const locale = lang === 'fr' ? 'fr-FR' : 'en-US';
+  const { t, lang } = useI18n();
+  const locale = lang === 'fr' ? 'fr-FR' : 'en-US';
 
   const pathRef = useRef<SVGPathElement | null>(null);
   const [progress, setProgress] = useState(0);
@@ -285,13 +287,12 @@ export default function CurrentLocation() {
             </div>
 
             <svg
-              className="w-full h-full"
-              viewBox="0 0 1000 500"
-              xmlns="http://www.w3.org/2000/svg"
-              role="img"
-              aria-label="Carte de l’itinéraire. Utilisez la touche Tab pour naviguer entre les villes, Entrée pour simuler un arrêt."
-            >
-              <defs>
+                className="w-full h-full"
+                viewBox="0 0 1000 500"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                aria-label={t('current.svgAriaLabel')}
+              >
                 <linearGradient id="mapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#f5f5f4" />
                   <stop offset="100%" stopColor="#fef3c7" />
