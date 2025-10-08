@@ -156,7 +156,7 @@ export default function CurrentLocation() {
               <path
                 ref={pathRef}
                 d="M 120,280 Q 200,220 300,240 T 500,250 Q 650,260 750,240 T 880,250"
-                stroke="#d97706"
+                stroke="#16A34A"
                 strokeWidth="4"
                 fill="none"
                 strokeDasharray="10,8"
