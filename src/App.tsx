@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ErrorBoundary from './components/ErrorBoundary';
 
 import Home from './pages/Home';
 import ItineraryPage from './pages/ItineraryPage';
@@ -30,22 +31,24 @@ function App() {
 
       <Header />
       <main id="main-content" role="main" tabIndex={-1}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/itinerary" element={<ItineraryPage />} />
-          <Route path="/fleet" element={<FleetPage />} />
-          <Route path="/team" element={<TeamPage />} />
-          <Route path="/logistics" element={<LogisticsPage />} />
-          <Route path="/practical" element={<PracticalPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/sponsors" element={<SponsorsPage />} />
-          <Route path="/sponsor-targets" element={<SponsorTargetsPage />} />
-          <Route path="/support" element={<SupportPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <ErrorBoundary>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/itinerary" element={<ItineraryPage />} />
+            <Route path="/fleet" element={<FleetPage />} />
+            <Route path="/team" element={<TeamPage />} />
+            <Route path="/logistics" element={<LogisticsPage />} />
+            <Route path="/practical" element={<PracticalPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/sponsors" element={<SponsorsPage />} />
+            <Route path="/sponsor-targets" element={<SponsorTargetsPage />} />
+            <Route path="/support" element={<SupportPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ErrorBoundary>
       </main>
       <Footer />
     </div>

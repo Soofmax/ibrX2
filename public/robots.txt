@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://transcontinental-trek.netlify.app/sitemap.xml

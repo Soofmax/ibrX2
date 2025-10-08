@@ -188,10 +188,12 @@ const en: Dict = {
   'current.nextFerrySegment': 'Next segment: ferry',
   'current.etaSimulated': 'Simulated ETA — to be validated with the client',
   'current.etaSimulatedShort': 'Simulated estimation.',
-  'current.svgAriaLabel': 'Route map. Use Tab to navigate between citiesp',
+  'current.svgAriaLabel': 'Route map. Use Tab to navigate between cities. Press Enter to simulate a stop.',
+  'map.lastStep': 'Last stop',
   'map.lastStepText': '—',
   'map.nextDestination': 'Next Destination',
   'map.nextDestinationText': '—',
+  'current.cityAriaSuffix': 'Press Enter to simulate a stop.',
 
   'current.state': 'State:',
   'current.moving': 'moving',
