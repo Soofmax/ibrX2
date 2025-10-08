@@ -1,23 +1,30 @@
 import { MapPin, Navigation, Calendar } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../i18n/I18nContext';
+import { routeStops } from '../data/routeStops';
 
-type Stop = { name: string; t: number; tooltip: string; pauseMs?: number };
+type Stop = {
+  name: string;
+  t: number;
+  tooltip: string;
+  pauseMs?: number;
+  continent: string;
+  modeToNext?: 'road' | 'ferry';
+};
 
-const stops: Stop[] = [
-  { name: 'Londres', t: 0.00, tooltip: 'Départ symbolique de l’épopée' },
-  { name: 'Istanbul', t: 0.09, tooltip: 'Pont entre Europe et Asie', pauseMs: 7000 },
-  { name: 'Rio de Janeiro', t: 0.18, tooltip: 'Vibrations sud-américaines' },
-  { name: 'La Paz', t: 0.27, tooltip: 'Aventure en haute altitude (Salar de Uyuni)', pauseMs: 10000 },
-  { name: 'Mexico', t: 0.36, tooltip: 'Culture vibrante et histoire' },
-  { name: 'Anchorage', t: 0.45, tooltip: 'Frontière nordique sauvage' },
-  { name: 'Sydney', t: 0.54, tooltip: 'Plongée dans l’Outback (Uluru)', pauseMs: 10000 },
-  { name: 'Auckland', t: 0.63, tooltip: 'Terres maories majestueuses' },
-  { name: 'Singapour', t: 0.72, tooltip: 'Hub moderne de l’Asie' },
-  { name: 'Ulaanbaatar', t: 0.81, tooltip: 'Steppes infinies du Gobi' },
-  { name: 'Le Caire', t: 0.90, tooltip: 'Porte vers l’Afrique (Serengeti)', pauseMs: 10000 },
-  { name: 'Cape Town', t: 1.00, tooltip: 'Fin d’une odyssée légendaire', pauseMs: 15000 },
-];
+// Build an evenly spaced sequence of stops along the path based on the route order.
+const stops: Stop[] = (() => {
+  const n = routeStops.length;
+  return routeStops.map((rs, idx) => ({
+    name: rs.label,
+    continent: rs.continent,
+    t: n <= 1 ? 0 : idx / (n - 1),
+    tooltip: rs.label,
+    modeToNext: rs.modeToNext,
+    // Pause durations can be tuned later per key capitals
+    pauseMs: undefined,
+  }));
+})();
 
 export default function CurrentLocation() {
   const { t } = useI18n();
@@ -25,6 +32,8 @@ export default function CurrentLocation() {
   const [progress, setProgress] = useState(0);
   const [positions, setPositions] = useState<{ x: number; y: number; name: string; t: number; tooltip: string }[]>([]);
   const [currentStopIndex, setCurrentStopIndex] = useState(0);
+  const [playing, setPlaying] = useState(true);
+  const [speedMultiplier, setSpeedMultiplier] = useState(1);
 
   useEffect(() => {
     const path = pathRef.current;
@@ -41,9 +50,7 @@ export default function CurrentLocation() {
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    // Progress units per second by segment (adapted by region/country)
-    const segmentSpeeds = [0.06, 0.10, 0.04, 0.06, 0.07, 0.10, 0.08, 0.10, 0.06, 0.07, 0.06]; // last segment fallback
-    const defaultStopMs = 1500;
+    const defaultStopMs = 1200;
     const path = pathRef.current;
     if (!path) return;
 
@@ -56,13 +63,23 @@ export default function CurrentLocation() {
       const dt = (time - prev) / 1000;
       prev = time;
 
+      // Respect reduced motion and pause/play state
+      if (!playing || prefersReducedMotion) {
+        rafId = requestAnimationFrame(tick);
+        return;
+      }
+
       if (time < pauseUntilRef.current) {
         rafId = requestAnimationFrame(tick);
         return;
       }
 
       const prevP = p;
-      const speedPerSec = prefersReducedMotion ? 0 : (segmentSpeeds[currentIdx] ?? 0.06);
+      const mode = stops[currentIdx]?.modeToNext ?? 'road';
+      const base = 0.06;
+      const ferryFactor = mode === 'ferry' ? 1.15 : 1.0;
+      const speedPerSec = base * ferryFactor * (speedMultiplier || 1);
+
       p += speedPerSec * dt;
       if (p >= 1) p = 0;
 
@@ -81,7 +98,7 @@ export default function CurrentLocation() {
 
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
-  }, []);
+  }, [playing, speedMultiplier]);
 
   // Compute van transform
   const vanTransform = (() => {
@@ -124,6 +141,34 @@ export default function CurrentLocation() {
 
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-stone-200 transform hover:scale-[1.01] transition-transform duration-500">
           <div className="relative aspect-video bg-gradient-to-br from-stone-200 to-amber-100 overflow-hidden">
+            {/* Controls */}
+            <div className="absolute top-4 left-4 z-20">
+              <div className="bg-white/90 border border-amber-200 rounded-xl p-3 shadow-lg font-serif flex items-center gap-2">
+                <button
+                  type="button"
+                  className="btn btn-secondary px-4 py-2"
+                  onClick={() => setPlaying((p) => !p)}
+                  aria-pressed={playing}
+                  aria-label={playing ? 'Mettre en pause l’animation' : 'Relancer l’animation'}
+                >
+                  {playing ? 'Pause' : 'Lecture'}
+                </button>
+                <div className="flex items-center gap-1">
+                  <span className="text-stone-600 text-sm mr-1">Vitesse:</span>
+                  {[0.75, 1, 1.5, 2].map((v) => (
+                    <button
+                      key={v}
+                      type="button"
+                      onClick={() => setSpeedMultiplier(v)}
+                      className={`px-2 py-1 rounded-full text-sm border ${speedMultiplier === v ? 'bg-amber-600 text-white border-amber-600' : 'bg-white text-stone-700 border-amber-200 hover:bg-amber-50'}`}
+                      aria-label={`Vitesse ${v}x`}
+                    >
+                      {v}x
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
             {/* Legend for accessibility */}
             <div className="absolute top-4 right-4 z-20">
               <div className="bg-white/90 border border-amber-200 rounded-xl p-4 shadow-lg font-serif">
@@ -287,7 +332,31 @@ export default function CurrentLocation() {
               </div>
             </div>
             <div className="mt-6 text-center">
-              <p className="text-stone-600 font-serif">Cliquez sur une ville sur la carte pour simuler un arrêt.</p>
+              <div className="inline-flex items-center gap-2">
+                <button
+                  type="button"
+                  className="btn btn-secondary px-4 py-2"
+                  onClick={() => {
+                    const prev = currentStopIndex > 0 ? currentStopIndex - 1 : 0;
+                    jumpTo(stops[prev].t, prev);
+                  }}
+                >
+                  Étape précédente
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary px-5 py-2"
+                  onClick={() => {
+                    const next = (currentStopIndex + 1) % stops.length;
+                    jumpTo(stops[next].t, next);
+                  }}
+                >
+                  Étape suivante
+                </button>
+              </div>
+              <p className="text-stone-600 font-serif mt-2">
+                Cliquez sur une ville sur la carte ou utilisez les boutons pour simuler un arrêt. Barre d’espace : pause/lecture.
+              </p>
             </div>
           </div>
         </div>
