@@ -30,8 +30,6 @@ const stops: Stop[] = (() => {
 export default function CurrentLocation() {
   const { t, lang } = useI18n();
   const locale = lang === 'fr' ? 'fr-FR' : 'en-US';
-  const { t, lang } = useI18n();
-  const locale = lang === 'fr' ? 'fr-FR' : 'en-US';
 
   const pathRef = useRef<SVGPathElement | null>(null);
   const [progress, setProgress] = useState(0);
@@ -287,21 +285,22 @@ export default function CurrentLocation() {
             </div>
 
             <svg
-                className="w-full h-full"
-                viewBox="0 0 1000 500"
-                xmlns="http://www.w3.org/2000/svg"
-                role="img"
-                aria-label={t('current.svgAriaLabel')}
-              >
+              className="w-full h-full"
+              viewBox="0 0 1000 500"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-label={t('current.svgAriaLabel')}
+            >
+              <defs>
                 <linearGradient id="mapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#f5f5f4" />
                   <stop offset="100%" stopColor="#fef3c7" />
                 </linearGradient>
                 <filter id="glow">
-                  <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                  <feGaussianBlur stdDeviation="4" result="coloredBlur" />
                   <feMerge>
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
                   </feMerge>
                 </filter>
               </defs>
@@ -358,7 +357,7 @@ export default function CurrentLocation() {
                   onClick={() => jumpTo(p.t, idx)}
                   tabIndex={0}
                   role="button"
-                  aria-label={`${p.name}. ${p.tooltip}. Appuyez sur Entrée pour simuler un arrêt.`}
+                  aria-label={`${p.name}. ${p.tooltip}. ${t('current.cityAriaSuffix')}`}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault();
@@ -502,16 +501,4 @@ export default function CurrentLocation() {
       </div>
     </section>
   );
-}
-                </button>
-              </div>
-              <p className="text-stone-600 font-serif mt-2">
-                {t('current une ville sur la carte ou utilisez les boutons pour simuler un arrêt. Barre d’espace : pause/lecture.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+
