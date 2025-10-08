@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Optional: retain node_modules cache between builds
+[functions]
+  node_bundler = "esbuild"
