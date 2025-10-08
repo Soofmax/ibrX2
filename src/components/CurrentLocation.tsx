@@ -27,7 +27,7 @@ const stops: Stop[] = (() => {
   }));
 })();
 
-export default function CurrentLocation() {
+export default function CurrentLocation(): JSX.Element {
   const { t, lang } = useI18n();
   const locale = lang === 'fr' ? 'fr-FR' : 'en-US';
 
