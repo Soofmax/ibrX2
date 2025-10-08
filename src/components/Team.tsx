@@ -51,7 +51,7 @@ export default function Team() {
 
         <div className="grid lg:grid-cols-4 gap-8">
           {members.map((m, i) => (
-            <div key={i} className="bg-white rounded-2xl p-6 shadow-lg border border-stone-200 hover:shadow-2xl transition-all">
+            <div key={i} className="bg-white rounded-2xl p-8 shadow-lg border border-stone-200 hover:shadow-2xl transition-all">
               <div className="flex items-center gap-3 mb-3">
                 <m.icon className="text-amber-600" size={24} />
                 <h3 className="text-2xl font-handwritten text-stone-900">{m.name}</h3>

@@ -73,7 +73,7 @@ export default function Fleet() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
-              <div className="p-6">
+              <div className="p-8">
                 <div className="flex items-center gap-2 text-stone-500 mb-3">
                   <Wrench size={16} className="text-amber-600" />
                   <span className="font-serif">Restauration & modifications</span>

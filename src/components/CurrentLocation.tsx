@@ -124,6 +124,18 @@ export default function CurrentLocation() {
 
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-stone-200 transform hover:scale-[1.01] transition-transform duration-500">
           <div className="relative aspect-video bg-gradient-to-br from-stone-200 to-amber-100 overflow-hidden">
+            {/* Legend for accessibility */}
+            <div className="absolute top-4 right-4 z-20">
+              <div className="bg-white/90 border border-amber-200 rounded-xl p-4 shadow-lg font-serif">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-8 h-5 bg-stone-900 rounded-sm"></div>
+                  <span className="text-stone-900 font-semibold">Van</span>
+                </div>
+                <p className="text-stone-700 text-sm">État: <span className="font-semibold">dynamique</span></p>
+                <p className="text-stone-700 text-sm">Vitesse: <span className="font-semibold">variable</span></p>
+              </div>
+            </div>
+
             <svg className="w-full h-full" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="mapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -161,8 +173,28 @@ export default function CurrentLocation() {
               </path>
 
               {positions.map((p, idx) => (
-                <g key={p.name} transform={`translate(${p.x}, ${p.y})`} style={{ cursor: 'pointer' }} onClick={() => jumpTo(p.t, idx)}>
-                  <title>{p.tooltip}</title>
+                <g
+                  key={p.name}
+                  transform={`translate(${p.x}, ${p.y})`}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => jumpTo(p.t, idx)}
+                  onMouseEnter={() => {
+                    const tip = document.getElementById('map-tooltip');
+                    if (tip) {
+                      tip.style.left = `${p.x}px`;
+                      tip.style.top = `${p.y - 24}px`;
+                      tip.innerHTML = `<div class='bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2'>
+                        <div class='font-serif text-sm font-semibold'>${p.name}</div>
+                        <div class='font-serif text-xs text-stone-600'>${p.tooltip}</div>
+                      </div>`;
+                      tip.style.display = 'block';
+                    }
+                  }}
+                  onMouseLeave={() => {
+                    const tip = document.getElementById('map-tooltip');
+                    if (tip) tip.style.display = 'none';
+                  }}
+                >
                   <circle r="10" fill="#78350f" opacity="0.6" />
                   <text x="14" y="-12" fontSize="14" fill="#1C1917" fontFamily="serif">{p.name}</text>
                 </g>
@@ -175,6 +207,10 @@ export default function CurrentLocation() {
                 <circle cx="8" cy="10" r="4" fill="#0f172a" />
               </g>
 
+              <foreignObject x="0" y="0" width="1000" height="500">
+                <div xmlns="http://www.w3.org/1999/xhtml" id="map-tooltip" style="position:absolute; display:none; transform:translate(-50%, -110%); z-index:30; pointer-events:none;"></div>
+              </foreignObject>
+
               <text x="500" y="380" fontSize="24" fill="#78350f" textAnchor="middle" fontFamily="serif" fontStyle="italic">
                 {t('current.svgTitle')}
               </text>
@@ -186,7 +222,7 @@ export default function CurrentLocation() {
 
           <div className="p-8 bg-gradient-to-br from-white to-amber-50/30">
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-white rounded-2xl p-6 shadow-lg border border-stone-200 hover:shadow-xl transition-shadow">
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-stone-200 hover:shadow-xl transition-shadow">
                 <div className="flex items-start gap-4">
                   <div className="bg-green-100 p-3 rounded-full">
                     <MapPin className="text-green-600" size={28} />
@@ -202,7 +238,7 @@ export default function CurrentLocation() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 shadow-lg border border-amber-200 hover:shadow-xl transition-shadow">
+              <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-8 shadow-lg border border-amber-200 hover:shadow-xl transition-shadow">
                 <div className="flex items-start gap-4">
                   <div className="bg-amber-200 p-3 rounded-full">
                     <Navigation className="text-amber-700" size={28} />

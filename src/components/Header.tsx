@@ -26,7 +26,7 @@ export default function Header() {
   const navClass = (path: string) =>
     `px-5 py-2 rounded-full transition-all font-serif focus-ring ${
       location.pathname === path
-        ? 'bg-amber-600 text-amber-50'
+        ? 'bg-amber-600 text-amber-50 active-underline'
         : 'text-amber-50 hover:bg-amber-600 hover:scale-105'
     }`;
 
