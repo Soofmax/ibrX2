@@ -20,7 +20,7 @@ const cities: City[] = [
   { name: 'Copenhague (Danemark)', region: 'Nord' },
 ];
 
-function WeatherLayer({ region, t }: { region: City['region']; t: (k: string) => string }) {
+function WeatherLayer({ region }: { region: City['region'] }) {
   // Affiche une météo simple selon la région
   // Nord: pluie légère, Centre: nuages, Sud: soleil
   if (region === 'Sud') {
@@ -107,7 +107,7 @@ export default function EuropeCarousel(): JSX.Element {
             {/* Terre stylisée */}
             <rect x="0" y="180" width="1000" height="60" fill="#86efac" />
             {/* Météo selon la ville active */}
-            <WeatherLayer region={current.region} t={t} />
+            <WeatherLayer region={current.region} />
           </svg>
         </div>
 

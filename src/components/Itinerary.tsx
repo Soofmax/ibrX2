@@ -52,27 +52,27 @@ export default function Itinerary() {
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Europe</span>
-                <span>~3 mois • ~9 000 km</span>
+                <span>~3 mois • ~9 000 km</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Amériques</span>
-                <span>~8 mois • ~28 000 km</span>
+                <span>~8 mois • ~28 000 km</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Océanie</span>
-                <span>~1 mois • ~4 000 km</span>
+                <span>~1 mois • ~4 000 km</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Asie</span>
-                <span>~6 mois • ~23 000 km</span>
+                <span>~6 mois • ~23 000 km</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Afrique</span>
-                <span>~8 mois • ~32 000 km</span>
+                <span>~8 mois • ~32 000 km</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Retour</span>
-                <span>~0,5 mois • ~1 500 km</span>
+                <span>~0,5 mois • ~1 500 km</span>
               </li>
             </ul>
 
@@ -133,7 +133,7 @@ export default function Itinerary() {
           </div>
           <div className="mt-6 text-stone-700">
             <p>
-              Total Global : <span className="font-semibold">{expeditionTotals.distanceKm.toLocaleString('fr-FR')} km</span>,
+              Total Global : <span className="font-semibold">{expeditionTotals.distanceKm.toLocaleString('fr-FR')} km</span>,
               <span className="font-semibold"> {expeditionTotals.months} mois</span>.
             </p>
           </div>

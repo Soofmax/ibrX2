@@ -8,8 +8,7 @@ import { Navigation, Ship } from 'lucide-react';
  * Minimal info, playful visuals.
  */
 export default function AnimatedMap(): JSX.Element {
-  const { t, lang } = useI18n();
-  const locale = lang === 'fr' ? 'fr-FR' : 'en-US';
+  const { t } = useI18n();
 
   // Animation state
   const [playing, setPlaying] = useState(true);
