@@ -1,11 +1,12 @@
 import { createContext, useContext } from 'react';
+import type { I18nKeys } from './dict';
 
 export type Lang = 'fr' | 'en';
 
 export type I18nContextValue = {
   lang: Lang;
   setLang: (l: Lang) => void;
-  t: (key: string) => string;
+  t: (key: I18nKeys) => string;
 };
 
 export const I18nContext = createContext<I18nContextValue | null>(null);
