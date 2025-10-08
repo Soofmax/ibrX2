@@ -15,7 +15,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gradient-to-b from-green-900 to-green-950 text-green-50 py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <footer className="bg-gradient-to-b from-green-900 to-green-950 text-white py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-10 left-10 w-64 h-64 bg-green-600 rounded-full blur-3xl"></div>
         <div className="absolute bottom-10 right-10 w-80 h-80 bg-orange-600 rounded-full blur-3xl"></div>
@@ -25,10 +25,10 @@ export default function Footer() {
         <div className="grid lg:grid-cols-3 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <Compass className="text-green-400" size={36} />
-              <h3 className="text-3xl font-handwritten text-green-400">{t('header.siteName')}</h3>
+              <Compass className="text-amber-400" size={36} />
+              <h3 className="text-3xl font-handwritten text-amber-400">{t('header.siteName')}</h3>
             </div>
-            <p className="text-green-100/80 font-serif leading-relaxed mb-6">
+            <p className="text-white/80 font-serif leading-relaxed mb-6">
               Following the wind, collecting stories, and sharing adventures from every corner of the globe.
             </p>
             <div className="flex gap-3">
@@ -72,25 +72,25 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-2xl font-handwritten mb-6 text-green-400">{t('footer.quick')}</h3>
+            <h3 className="text-2xl font-handwritten mb-6 text-amber-400">{t('footer.quick')}</h3>
             <ul className="space-y-3">
               <li>
-                <button type="button" onClick={() => navigate('/')} className="text-green-100/80 hover:text-green-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button type="button" onClick={() => navigate('/')} className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
                   {t('footer.about')}
                 </button>
               </li>
               <li>
-                <button type="button" onClick={() => navigate('/blog')} className="text-green-100/80 hover:text-green-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button type="button" onClick={() => navigate('/blog')} className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
                   {t('footer.tips')}
                 </button>
               </li>
               <li>
-                <button type="button" onClick={() => navigate('/blog')} className="text-green-100/80 hover:text-green-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button type="button" onClick={() => navigate('/blog')} className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
                   {t('footer.gallery')}
                 </button>
               </li>
               <li>
-                <button type="button" onClick={() => navigate('/contact')} className="text-green-100/80 hover:text-green-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button type="button" onClick={() => navigate('/contact')} className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
                   {t('nav.contact')}
                 </button>
               </li>
@@ -98,8 +98,8 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-2xl font-handwritten mb-4 text-green-400">{t('footer.dontMiss')}</h3>
-            <p className="text-green-100/80 font-serif mb-4 text-sm leading-relaxed">
+            <h3 className="text-2xl font-handwritten mb-4 text-amber-400">{t('footer.dontMiss')}</h3>
+            <p className="text-white/80 font-serif mb-4 text-sm leading-relaxed">
               Get weekly updates with new stories, travel tips, and exclusive content delivered to your inbox.
             </p>
             <form onSubmit={handleSubscribe} className="space-y-3">
@@ -127,14 +127,14 @@ export default function Footer() {
 
         <div className="border-t border-stone-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="font-serif text-green-100/70 text-center md:text-left">
+            <p className="font-serif text-white/70 text-center md:text-left">
               © 2025 Your Name. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
-              <button type="button" onClick={() => navigate('/privacy')} className="text-green-100/70 hover:text-green-400 transition-colors font-serif focus-ring">
+              <button type="button" onClick={() => navigate('/privacy')} className="text-white/70 hover:text-amber-400 transition-colors font-serif focus-ring">
                 {t('footer.privacy')}
               </button>
-              <button type="button" onClick={() => navigate('/terms')} className="text-green-100/70 hover:text-green-400 transition-colors font-serif focus-ring">
+              <button type="button" onClick={() => navigate('/terms')} className="text-white/70 hover:text-amber-400 transition-colors font-serif focus-ring">
                 {t('footer.terms')}
               </button>
             </div>
