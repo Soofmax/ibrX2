@@ -419,7 +419,6 @@ export default function CurrentLocation(): JSX.Element {
 
               <foreignObject x="0" y="0" width="1000" height="500">
                 <div
-                  xmlns="http://www.w3.org/1999/xhtml"
                   id="map-tooltip"
                   style={{
                     position: 'absolute',

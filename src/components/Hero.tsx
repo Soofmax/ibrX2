@@ -25,7 +25,7 @@ export default function Hero() {
             alt=""
             className="w-full h-full object-cover"
             loading="eager"
-            fetchpriority="high"
+            fetchPriority="high"
             decoding="async"
           />
         </div>
