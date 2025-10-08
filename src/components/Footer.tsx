@@ -1,8 +1,10 @@
 import { Youtube, Instagram, Facebook, Mail, Send, Compass } from 'lucide-react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,22 +64,22 @@ export default function Footer() {
             <h3 className="text-2xl font-handwritten mb-6 text-amber-400">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <button type="button" className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button type="button" onClick={() => navigate('/')} className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
                   About Me
                 </button>
               </li>
               <li>
-                <button type="button" className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button type="button" onClick={() => navigate('/blog')} className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
                   Travel Tips
                 </button>
               </li>
               <li>
-                <button type="button" className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button type="button" onClick={() => navigate('/blog')} className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
                   Photo Gallery
                 </button>
               </li>
               <li>
-                <button type="button" className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button type="button" onClick={() => navigate('/contact')} className="text-amber-100/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
                   Contact
                 </button>
               </li>

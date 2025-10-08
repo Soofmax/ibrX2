@@ -1,15 +1,11 @@
 import { ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Hero() {
-  const scrollToSupport = () => {
-    const element = document.getElementById('support');
-    element?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const navigate = useNavigate();
 
-  const scrollToNext = () => {
-    const element = document.getElementById('map');
-    element?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const goSupport = () => navigate('/support');
+  const goItinerary = () => navigate('/itinerary');
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden scroll-mt-24">
@@ -43,7 +39,7 @@ export default function Hero() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
           <button
             type="button"
-            onClick={scrollToSupport}
+            onClick={goSupport}
             className="group relative bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-amber-50 font-serif px-10 py-5 rounded-full text-lg transition-all hover:scale-105 shadow-2xl hover:shadow-amber-500/50 overflow-hidden focus-ring"
           >
             <span className="relative z-10">Support the Adventure</span>
@@ -52,7 +48,7 @@ export default function Hero() {
 
           <button
             type="button"
-            onClick={scrollToNext}
+            onClick={goItinerary}
             className="bg-stone-800/50 hover:bg-stone-700/50 backdrop-blur-sm border-2 border-amber-500/30 hover:border-amber-400 text-amber-50 font-serif px-10 py-5 rounded-full text-lg transition-all hover:scale-105 shadow-2xl focus-ring"
           >
             Explore My Journey
@@ -62,7 +58,7 @@ export default function Hero() {
 
       <button
         type="button"
-        onClick={scrollToNext}
+        onClick={goItinerary}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-amber-400 animate-bounce cursor-pointer hover:text-amber-300 transition-colors focus-ring"
       >
         <ChevronDown size={40} />

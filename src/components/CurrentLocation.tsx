@@ -125,7 +125,7 @@ export default function CurrentLocation() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2zl p-6 shadow-lg border border-amber-200 hover:shadow-xl transition-shadow">
+              <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 shadow-lg border border-amber-200 hover:shadow-xl transition-shadow">
                 <div className="flex items-start gap-4">
                   <div className="bg-amber-200 p-3 rounded-full">
                     <Navigation className="text-amber-700" size={28} />
