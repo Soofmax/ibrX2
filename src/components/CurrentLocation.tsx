@@ -427,7 +427,8 @@ export default function CurrentLocation(): JSX.Element {
                     pointerEvents: 'none',
                   }}
               ></  div>
-             ct>
+            </t>foreignObject>
+
 
               <text x="500" y="380" fontSize="24" fill="#16A34A" textAnchor="middle" fontFamily="serif" fontStyle="italic">
                 {t('current.svgTitle')}
