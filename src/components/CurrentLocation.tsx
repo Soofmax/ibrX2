@@ -416,8 +416,18 @@ export default function CurrentLocation(): JSX.Element {
               </g>
 
               <foreignObject x="0" y="0" width="1000" height="500">
-                <div xmlns="http://www.w3.org/1999/xhtml" id="map-tooltip" style="position:absolute; display:none; transform:translate(-50%, -110%); z-index:30; pointer-events:none;"></div>
-              </foreignObject>
+               <<div
+                  xmlns="http://www.w3.org/1999/xhtml"
+                  id="map-tooltip"
+                  style={{
+                    position: 'absolute',
+                    display: 'none',
+                    transform: 'translate(-50%, -110%)',
+                    zIndex: 30,
+                    pointerEvents: 'none',
+                  }}
+              ></  div>
+             ct>
 
               <text x="500" y="380" fontSize="24" fill="#16A34A" textAnchor="middle" fontFamily="serif" fontStyle="italic">
                 {t('current.svgTitle')}
