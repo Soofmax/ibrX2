@@ -19,7 +19,7 @@ import NotFound from './pages/NotFound';
 
 function App() {
   return (
-    <div className="min-h-screen bg-green-50">
+    <div className="min-h-screen bg-amber-50">
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
