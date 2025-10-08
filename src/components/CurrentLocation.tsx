@@ -101,8 +101,8 @@ export default function CurrentLocation(): JSX.Element {
       const dt = (time - prev) / 1000;
       prev = time;
 
-      // Respect reduced motion and pause/play state
-      if (!playing || prefersReducedMotion) {
+      // Respect pause/play state
+      if (!playing) {
         rafId = requestAnimationFrame(tick);
         return;
       }
@@ -114,7 +114,7 @@ export default function CurrentLocation(): JSX.Element {
 
       const prevP = p;
       const mode = stops[currentIdx]?.modeToNext ?? 'road';
-      const base = 0.06;
+      const base = prefersReducedMotion ? 0.02 : 0.06;
       const ferryFactor = mode === 'ferry' ? 1.15 : 1.0;
       const speedPerSec = base * ferryFactor * (speedMultiplier || 1);
 
@@ -404,7 +404,9 @@ export default function CurrentLocation(): JSX.Element {
                   }}
                 >
                   <circle r="10" fill="#16A34A" opacity="0.7" />
-                  <text x="14" y="-12" fontSize="14" fill="#1C1917" fontFamily="serif">{p.name}</text>
+                  {(idx === currentStopIndex || idx === currentStopIndex + 1) && (
+                    <text x="14" y="-12" fontSize="14" fill="#1C1917" fontFamily="serif">{p.name}</text>
+                  )}
                 </g>
               ))}
 
