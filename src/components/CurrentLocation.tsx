@@ -40,6 +40,18 @@ export default function CurrentLocation(): JSX.Element {
   const [segments, setSegments] = useState<{ points: string; ferry: boolean; mid: { x: number; y: number }; pxLen: number }[]>([]);
   const [totalPxLen, setTotalPxLen] = useState(0);
 
+  // refs to avoid exhaustive-deps warning while keeping animation loop stable
+  const progressRef = useRef(progress);
+  const currentStopIndexRef = useRef(currentStopIndex);
+
+  useEffect(() => {
+    progressRef.current = progress;
+  }, [progress]);
+
+  useEffect(() => {
+    currentStopIndexRef.current = currentStopIndex;
+  }, [currentStopIndex]);
+
   useEffect(() => {
     const path = pathRef.current;
     if (!path) return;
@@ -94,8 +106,8 @@ export default function CurrentLocation(): JSX.Element {
 
     let rafId = 0;
     let prev = performance.now();
-    let p = progress;
-    let currentIdx = currentStopIndex;
+    let p = progressRef.current;
+    let currentIdx = currentStopIndexRef.current;
 
     const tick = (time: number) => {
       const dt = (time - prev) / 1000;
