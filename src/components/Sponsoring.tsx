@@ -1,8 +1,10 @@
 import { Handshake, Store } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Sponsoring() {
   const { t } = useI18n();
+  const navigate = useNavigate();
 
   return (
     <section id="sponsors" className="py-24 px-4 sm:px-6 lg:px-8 bg-amber-50 relative overflow-hidden scroll-mt-24">
@@ -33,9 +35,14 @@ export default function Sponsoring() {
               <li>• Mention dans la newsletter</li>
               <li>• Invitations à des événements clés (départ/arrivée)</li>
             </ul>
-            <a href="mailto:sponsors@transcontinentaltrek.com" className="inline-block mt-6 bg-stone-900 hover:bg-stone-800 text-amber-50 font-serif px-6 py-3 rounded-full transition-all hover:scale-105 shadow-xl focus-ring">
-              {t('sponsors.mediaKit')}
-            </a>
+            <div className="flex flex-wrap gap-3 mt-6">
+              <a href="mailto:sponsors@transcontinentaltrek.com" className="inline-block bg-stone-900 hover:bg-stone-800 text-amber-50 font-serif px-6 py-3 rounded-full transition-all hover:scale-105 shadow-xl focus-ring">
+                {t('sponsors.mediaKit')}
+              </a>
+              <button type="button" onClick={() => navigate('/sponsor-targets')} className="inline-block bg-amber-600 hover:bg-amber-700 text-white font-serif px-6 py-3 rounded-full transition-all hover:scale-105 shadow-xl focus-ring">
+                {t('nav.targets')}
+              </button>
+            </div>
           </div>
 
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-stone-200 hover:shadow-2xl transition-all">

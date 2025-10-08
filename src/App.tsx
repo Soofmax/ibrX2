@@ -12,6 +12,9 @@ import BlogPage from './pages/BlogPage';
 import SponsorsPage from './pages/SponsorsPage';
 import SupportPage from './pages/SupportPage';
 import ContactPage from './pages/ContactPage';
+import SponsorTargetsPage from './pages/SponsorTargetsPage';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Terms from './pages/Terms';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -27,8 +30,11 @@ function App() {
         <Route path="/practical" element={<PracticalPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/sponsors" element={<SponsorsPage />} />
+        <Route path="/sponsor-targets" element={<SponsorTargetsPage />} />
         <Route path="/support" element={<SupportPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<Terms />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

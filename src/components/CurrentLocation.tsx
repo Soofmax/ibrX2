@@ -23,7 +23,7 @@ export default function CurrentLocation() {
   const { t } = useI18n();
   const pathRef = useRef<SVGPathElement | null>(null);
   const [progress, setProgress] = useState(0);
-  const [positions, setPositions] = useState<{ x: number; y: number; name: string; t: number }[]>([]);
+  const [positions, setPositions] = useState<{ x: number; y: number; name: string; t: number; tooltip: string }[]>([]);
   const [currentStopIndex, setCurrentStopIndex] = useState(0);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function CurrentLocation() {
     const length = path.getTotalLength();
     const pts = stops.map((s) => {
       const p = path.getPointAtLength(s.t * length);
-      return { x: p.x, y: p.y, name: s.name, t: s.t };
+      return { x: p.x, y: p.y, name: s.name, t: s.t, tooltip: s.tooltip };
     });
     setPositions(pts);
   }, []);
@@ -41,7 +41,8 @@ export default function CurrentLocation() {
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const speedPerSec = prefersReducedMotion ? 0 : 0.06; // progress units per second
+    // Progress units per second by segment (adapted by region/country)
+    const segmentSpeeds = [0.06, 0.10, 0.04, 0.06, 0.07, 0.10, 0.08, 0.10, 0.06, 0.07, 0.06]; // last segment fallback
     const defaultStopMs = 1500;
     const path = pathRef.current;
     if (!path) return;
@@ -61,6 +62,7 @@ export default function CurrentLocation() {
       }
 
       const prevP = p;
+      const speedPerSec = prefersReducedMotion ? 0 : (segmentSpeeds[currentIdx] ?? 0.06);
       p += speedPerSec * dt;
       if (p >= 1) p = 0;
 

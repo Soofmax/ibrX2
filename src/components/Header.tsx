@@ -70,6 +70,9 @@ export default function Header() {
             <button type="button" onClick={() => go('/sponsors')} className={navClass('/sponsors')}>
               {t('nav.sponsors')}
             </button>
+            <button type="button" onClick={() => go('/sponsor-targets')} className={navClass('/sponsor-targets')}>
+              {t('nav.targets')}
+            </button>
             <button type="button" onClick={() => go('/support')} className={navClass('/support')}>
               {t('nav.support')}
             </button>
@@ -143,6 +146,9 @@ export default function Header() {
             </button>
             <button type="button" onClick={() => go('/sponsors')} className={navClass('/sponsors')}>
               {t('nav.sponsors')}
+            </button>
+            <button type="button" onClick={() => go('/sponsor-targets')} className={navClass('/sponsor-targets')}>
+              {t('nav.targets')}
             </button>
             <button type="button" onClick={() => go('/support')} className={navClass('/support')}>
               {t('nav.support')}

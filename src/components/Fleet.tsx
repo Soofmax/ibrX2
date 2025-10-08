@@ -6,35 +6,35 @@ export default function Fleet() {
 
   const vehicles = [
     {
-      name: 'DAF 1113 — Feu Nomade',
+      name: 'Camion restauré — Nomade',
       summary: 'Restauré pour conquérir les terrains extrêmes du Gobi au Sahara.',
       specs: [
-        'Camion pompier 1985, 4x4, moteur Cummins 5.9L',
-        'Pneus Michelin XZL 385/85 R20, treuil Warn',
+        'Camion 4x4 restauré (diesel 6 cylindres)',
+        'Pneus tout-terrain 385/85 R20, treuil robuste',
         'Réservoirs: 300L carburant, 200L eau',
-        'Camper isolé, panneaux solaires 400W, chauffage diesel',
-        'Suspension renforcée Marquart',
+        'Cellule isolée, solaire 400W, chauffage diesel',
+        'Suspension renforcée',
       ],
       image: 'https://images.pexels.com/photos/532002/pexels-photo-532002.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      name: 'DAF 1113 — Pionnier du Désert',
+      name: 'Camion restauré — Pionnier',
       summary: 'Prêt pour les dunes et les cols montagneux.',
       specs: [
-        'Camion pompier 1987, 4x4, moteur Cummins 5.9L',
-        'Treuil Warn, différentiels verrouillables',
+        'Camion 4x4 restauré (diesel 6 cylindres)',
+        'Treuil, différentiels verrouillables',
         'Réservoirs: 300L carburant, 200L eau',
         'Frigo, solaire 400W, navigation GPS',
-        'Boîte ZF-S5-42 reconditionnée',
+        'Boîte reconditionnée',
       ],
       image: 'https://images.pexels.com/photos/532001/pexels-photo-532001.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      name: 'Camion logistique — Étoile Logistique',
+      name: 'Camion logistique — Support',
       summary: 'Pilier logistique pour une aventure sans faille.',
       specs: [
-        '4x4 récent, PTAC 9–12 t, moteur Euro 6',
-        'Boîte auto Powershift, autonomie 700 km',
+        '4x4 récent, PTAC 9–12 t',
+        'Boîte automatique, autonomie 700 km',
         'Compartiments sécurisés, jerrycans 300L',
         'Pneus mixtes, GPS intégré, hayon élévateur',
         'Cabine double, climatisation',

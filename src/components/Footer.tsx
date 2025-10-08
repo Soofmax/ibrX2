@@ -1,4 +1,4 @@
-import { Youtube, Instagram, Facebook, Mail, Send, Compass } from 'lucide-react';
+import { Youtube, Instagram, Facebook, Mail, Send, Compass, Camera } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useI18n } from '../i18n/I18nContext';
@@ -33,7 +33,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-3">
               <a
-                href="https://youtube.com"
+                href="https://youtube.com/@TranscontinentalTrek"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="YouTube"
@@ -42,7 +42,7 @@ export default function Footer() {
                 <Youtube size={24} />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://instagram.com/transcontinentaltrek"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -51,13 +51,22 @@ export default function Footer() {
                 <Instagram size={24} />
               </a>
               <a
-                href="https://facebook.com"
+                href="https://facebook.com/TranscontinentalTrek"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
                 className="bg-stone-700 hover:bg-blue-600 p-3 rounded-full transition-all hover:scale-110 hover:rotate-6 shadow-lg focus-ring"
               >
                 <Facebook size={24} />
+              </a>
+              <a
+                href="https://snapchat.com/add/transcontinentaltrek"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Snapchat"
+                className="bg-stone-700 hover:bg-amber-600 p-3 rounded-full transition-all hover:scale-110 hover:rotate-6 shadow-lg focus-ring"
+              >
+                <Camera size={24} />
               </a>
             </div>
           </div>
@@ -122,10 +131,10 @@ export default function Footer() {
               © 2025 Your Name. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
-              <button type="button" className="text-amber-100/70 hover:text-amber-400 transition-colors font-serif focus-ring">
+              <button type="button" onClick={() => navigate('/privacy')} className="text-amber-100/70 hover:text-amber-400 transition-colors font-serif focus-ring">
                 {t('footer.privacy')}
               </button>
-              <button type="button" className="text-amber-100/70 hover:text-amber-400 transition-colors font-serif focus-ring">
+              <button type="button" onClick={() => navigate('/terms')} className="text-amber-100/70 hover:text-amber-400 transition-colors font-serif focus-ring">
                 {t('footer.terms')}
               </button>
             </div>

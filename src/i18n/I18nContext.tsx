@@ -5,7 +5,7 @@ type Lang = 'fr' | 'en';
 type Dict = Record<string, string>;
 
 const fr: Dict = {
-  'header.siteName': 'World Tour',
+  'header.siteName': 'Transcontinental Trek',
   'nav.home': 'Accueil',
   'nav.itinerary': 'Itinéraire',
   'nav.fleet': 'Flotte',
@@ -15,6 +15,7 @@ const fr: Dict = {
   'nav.blog': 'Blog',
   'nav.sponsors': 'Sponsors',
   'nav.support': 'Soutien',
+  'nav.targets': 'Cibles sponsors',
   'nav.contact': 'Contact',
 
   'notfound.title': 'Page introuvable',
@@ -22,11 +23,11 @@ const fr: Dict = {
   'notfound.back': 'Retour à l’accueil',
 
   'hero.pretitle': 'Aventure Transcontinentale',
-  'hero.title1': 'Épopée DAF & Mercedes',
-  'hero.title2': '5 Continents',
-  'hero.paragraph': "Parcourez le monde avec notre convoi de deux DAF 1113 restaurés et un Mercedes logistique, des Alpes au Sahara. Rejoignez notre odyssée pour découvrir des paysages épiques et des cultures uniques. Soutenez-nous pour écrire l’histoire !",
-  'hero.ctaSupport': "Soutenez l’Aventure",
-  'hero.ctaExplore': 'Découvrez l’Itinéraire',
+  'hero.title1': 'Épopée transcontinentale',
+  'hero.title2': '5 continents',
+  'hero.paragraph': "Pars avec nous à bord de deux camions restaurés et d’un camion logistique, des Alpes au Sahara, sur 18–36 mois. Découvre des paysages époustouflants, soutiens notre quête, et rejoins l’histoire !",
+  'hero.ctaSupport': "Soutenez l’aventure",
+  'hero.ctaExplore': 'Découvrez l’itinéraire',
 
   'current.heading': 'Où suis-je maintenant ?',
   'current.subtitle': 'Suivre le vent, une destination à la fois',
@@ -34,6 +35,10 @@ const fr: Dict = {
   'current.svgSubtitle': 'Suivi en direct à venir',
   'current.lastStop': 'Dernière étape',
   'current.nextDestination': 'Prochaine destination',
+  'map.lastStep': 'Dernière étape',
+  'map.lastStepText': '—',
+  'map.nextDestination': 'Prochaine destination',
+  'map.nextDestinationText': '—',
 
   'itinerary.heading': 'Itinéraire Détaillé',
   'itinerary.tagline': 'Un parcours transcontinental, étape par étape',
@@ -122,7 +127,7 @@ const fr: Dict = {
 };
 
 const en: Dict = {
-  'header.siteName': 'World Tour',
+  'header.siteName': 'Transcontinental Trek',
   'nav.home': 'Home',
   'nav.itinerary': 'Itinerary',
   'nav.fleet': 'Fleet',
@@ -132,6 +137,7 @@ const en: Dict = {
   'nav.blog': 'Blog',
   'nav.sponsors': 'Sponsors',
   'nav.support': 'Support',
+  'nav.targets': 'Sponsor Targets',
   'nav.contact': 'Contact',
 
   'notfound.title': 'Page not found',
@@ -139,9 +145,9 @@ const en: Dict = {
   'notfound.back': 'Back to home',
 
   'hero.pretitle': 'Transcontinental Adventure',
-  'hero.title1': 'DAF & Mercedes Epic',
+  'hero.title1': 'Transcontinental Odyssey',
   'hero.title2': '5 Continents',
-  'hero.paragraph': 'Travel the world with our convoy of two restored DAF 1113 trucks and a logistics Mercedes, from the Alps to the Sahara. Join our odyssey to discover epic landscapes and unique cultures. Support us to write history!',
+  'hero.paragraph': 'Travel the world with our convoy of two restored trucks and a logistics vehicle, from the Alps to the Sahara. Join our odyssey to discover epic landscapes and unique cultures. Support us to write history!',
   'hero.ctaSupport': 'Support the Adventure',
   'hero.ctaExplore': 'Discover the Itinerary',
 
@@ -151,6 +157,10 @@ const en: Dict = {
   'current.svgSubtitle': 'Live tracking coming soon',
   'current.lastStop': 'Last Stop',
   'current.nextDestination': 'Next Destination',
+  'map.lastStep': 'Last Step',
+  'map.lastStepText': '—',
+  'map.nextDestination': 'Next Destination',
+  'map.nextDestinationText': '—',
 
   'itinerary.heading': 'Detailed Itinerary',
   'itinerary.tagline': 'A transcontinental route, step by step',
