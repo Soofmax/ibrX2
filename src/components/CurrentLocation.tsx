@@ -236,19 +236,19 @@ export default function CurrentLocation() {
                   className="btn btn-secondary px-4 py-2"
                   onClick={() => setPlaying((p) => !p)}
                   aria-pressed={playing}
-                  aria-label={playing ? 'Mettre en pause l’animation' : 'Relancer l’animation'}
+                  aria-label={playing ? t('current.pauseAria') : t('current.playAria')}
                 >
-                  {playing ? 'Pause' : 'Lecture'}
+                  {playing ? t('current.pause') : t('current.play')}
                 </button>
                 <div className="flex items-center gap-1">
-                  <span className="text-stone-600 text-sm mr-1">Vitesse:</span>
+                  <span className="text-stone-600 text-sm mr-1">{t('current.speedLabel')}</span>
                   {[0.5, 1, 1.5, 2, 3].map((v) => (
                     <button
                       key={v}
                       type="button"
                       onClick={() => setSpeedMultiplier(v)}
                       className={`px-2 py-1 rounded-full text-sm border ${speedMultiplier === v ? 'bg-amber-600 text-white border-amber-600' : 'bg-white text-stone-700 border-amber-200 hover:bg-amber-50'}`}
-                      aria-label={`Vitesse ${v}x`}
+                      aria-label={`${t('current.speedLabel')} ${v}x`}
                     >
                       {v}x
                     </button>
@@ -266,7 +266,7 @@ export default function CurrentLocation() {
                   </div>
                   {etaInfo?.isFerry && (
                     <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full text-xs">
-                      <Ship size={14} /> Ferry
+                      <Ship size={14} /> {t('current.ferry')}
                     </span>
                   )}
                 </div>
@@ -276,7 +276,7 @@ export default function CurrentLocation() {
                   <div className="mt-2 text-stone-700 text-sm">
                     <p>Distance restante: <span className="font-semibold">{Math.round(etaInfo.kmRemaining).toLocaleString('fr-FR')} km</span></p>
                     <p>ETA prochaine étape: <span className="font-semibold">{etaInfo.etaDate.toLocaleString('fr-FR', { weekday: 'short', hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' })}</span></p>
-                    <p className="text-amber-700 text-xs italic mt-1">ETA simulée — à valider avec le client</p>
+                    <p className="text-amber-700 text-xs italic mt-1">{t('current.etaSimulated')}</p>
                   </div>
                 )}
               </div>
@@ -365,7 +365,7 @@ export default function CurrentLocation() {
                   onFocus={() => {
                     const tip = document.getElementById('map-tooltip');
                     if (tip) {
-                      const ferry = stops[idx]?.modeToNext === 'ferry' ? "<div class='font-serif text-[10px] text-amber-700 mt-1'>Segment suivant: ferry</div>" : "";
+                      const ferry = stops[idx]?.modeToNext === 'ferry'  `<<div class='font-serif text-[10px] text-amber-700 mt-1'>${t('current.nextferry</div>" : "";
                       tip.style.left = `${p.x}px`;
                       tip.style.top = `${p.y - 24}px`;
                       tip.innerHTML = `<div class='bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2'>
@@ -383,7 +383,7 @@ export default function CurrentLocation() {
                   onMouseEnter={() => {
                     const tip = document.getElementById('map-tooltip');
                     if (tip) {
-                      const ferry = stops[idx]?.modeToNext === 'ferry' ? "<div class='font-serif text-[10px] text-amber-700 mt-1'>Segment suivant: ferry</div>" : "";
+                      const ferry = stops[idx]?.modeToNext === 'ferry' ? `<div class='font-serif text-[10px] text-amber-700 mt-1'>${t('current.nextFerrySegment')}</div>` : "";
                       tip.style.left = `${p.x}px`;
                       tip.style.top = `${p.y - 24}px`;
                       tip.innerHTML = `<div class='bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2'>
@@ -424,7 +424,7 @@ export default function CurrentLocation() {
             </svg>
             <div aria-live="polite" className="sr-only">
               {`Dernière étape: ${lastStop}. Prochaine destination: ${nextStop}. `}
-              {etaInfo ? `Distance restante environ ${Math.round(etaInfo.kmRemaining)} kilomètres. ETA ${etaInfo.etaDate.toLocaleString('fr-FR')}. ${etaInfo.isFerry ? 'Segment ferry. ' : ''}Estimation simulée.` : ''}
+              {etaInfo ? `Distance restante environ ${Math.round(etaInfo.kmRemaining)} kilomètres. ETA ${etaInfo.etaDate.toLocaleString('fr-FR')}. ${etaInfo.isFerry ? t('current.ferry') + '. ' : ''}${t('current.etaSimulatedShort')}` : ''}
             </div>
           </div>
 
