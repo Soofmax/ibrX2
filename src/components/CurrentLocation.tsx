@@ -501,4 +501,5 @@ export default function CurrentLocation(): JSX.Element {
       </div>
     </section>
   );
+}
 
