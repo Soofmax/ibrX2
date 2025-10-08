@@ -44,16 +44,16 @@ export default function Fleet() {
   ];
 
   return (
-    <section id="fleet" className="py-24 px-4 sm:px-6 lg:px-8 bg-green-50 relative overflow-hidden scroll-mt-24">
+    <section id="fleet" className="py-24 px-4 sm:px-6 lg:px-8 bg-amber-50 relative overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-40 right-20 w-96 h-96 bg-green-600 rounded-full blur-3xl"></div>
+        <div className="absolute top-40 right-20 w-96 h-96 bg-amber-600 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 left-20 w-80 h-80 bg-orange-600 rounded-full blur-3xl"></div>
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <div className="inline-block mb-4">
-            <Truck className="text-green-600 mx-auto" size={48} />
+            <Truck className="text-amber-600 mx-auto" size={48} />
           </div>
           <h2 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-stone-900 mb-4">
             {t('fleet.heading')}
@@ -75,10 +75,10 @@ export default function Fleet() {
               </div>
               <div className="p-8">
                 <div className="flex items-center gap-2 text-stone-500 mb-3">
-                  <Wrench size={16} className="text-green-600" />
+                  <Wrench size={16} className="text-amber-600" />
                   <span className="font-serif">Restauration & modifications</span>
                 </div>
-                <h3 className="text-2xl font-handwritten text-stone-900 mb-2 group-hover:text-green-700 transition-colors">
+                <h3 className="text-2xl font-handwritten text-stone-900 mb-2 group-hover:text-amber-700 transition-colors">
                   {v.name}
                 </h3>
                 <p className="text-stone-700 font-serif mb-3">{v.summary}</p>

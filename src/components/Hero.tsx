@@ -12,7 +12,7 @@ export default function Hero() {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-stone-900 via-stone-800 to-green-900"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-stone-900 via-stone-800 to-amber-900"></div>
         <div className="absolute inset-0 opacity-20">
           <img
             src="https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&w=1920"
@@ -25,16 +25,16 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto text-center">
-        <div className="inline-block mb-6 px-6 py-2 bg-green-600/20 backdrop-blur-sm rounded-full border border-amber-500/30 animate-fade-in">
+        <div className="inline-block mb-6 px-6 py-2 bg-amber-600/20 backdrop-blur-sm rounded-full border border-amber-500/30 animate-fade-in">
           <p className="text-amber-300 font-serif text-sm tracking-wider">{t('hero.pretitle')}</p>
         </div>
 
-        <h2 className="text-5xl sm:text-6xl lg:text-8xl font-handwritten text-green-50 mb-8 animate-fade-in drop-shadow-2xl leading-tight">
+        <h2 className="text-5xl sm:text-6xl lg:text-8xl font-handwritten text-amber-50 mb-8 animate-fade-in drop-shadow-2xl leading-tight">
           {t('hero.title1')}
           <span className="block text-amber-400 mt-2">{t('hero.title2')}</span>
         </h2>
 
-        <p className="text-xl sm:text-2xl text-green-100/90 font-serif max-w-3xl mx-auto mb-12 leading-relaxed animate-fade-in drop-shadow-lg">
+        <p className="text-xl sm:text-2xl text-amber-100/90 font-serif max-w-3xl mx-auto mb-12 leading-relaxed animate-fade-in drop-shadow-lg">
           {t('hero.paragraph')}
         </p>
 
@@ -42,7 +42,7 @@ export default function Hero() {
           <button
             type="button"
             onClick={goSupport}
-            className="group relative bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white font-serif px-10 py-5 rounded-full text-lg transition-all hover:scale-105 shadow-2xl hover:shadow-green-500/50 overflow-hidden focus-ring"
+            className="group relative bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-amber-50 font-serif px-10 py-5 rounded-full text-lg transition-all hover:scale-105 shadow-2xl hover:shadow-amber-500/50 overflow-hidden focus-ring"
           >
             <span className="relative z-10">{t('hero.ctaSupport')}</span>
             <div className="absolute inset-0 bg-white/20 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
@@ -51,7 +51,7 @@ export default function Hero() {
           <button
             type="button"
             onClick={goItinerary}
-            className="bg-stone-800/50 hover:bg-stone-700/50 backdrop-blur-sm border-2 border-green-500/30 hover:border-green-400 text-white font-serif px-10 py-5 rounded-full text-lg transition-all hover:scale-105 shadow-2xl focus-ring"
+            className="bg-stone-800/50 hover:bg-stone-700/50 backdrop-blur-sm border-2 border-amber-500/30 hover:border-amber-400 text-amber-50 font-serif px-10 py-5 rounded-full text-lg transition-all hover:scale-105 shadow-2xl focus-ring"
           >
             {t('hero.ctaExplore')}
           </button>
@@ -61,7 +61,7 @@ export default function Hero() {
       <button
         type="button"
         onClick={goItinerary}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-green-400 animate-bounce cursor-pointer hover:text-green-300 transition-colors focus-ring"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-amber-400 animate-bounce cursor-pointer hover:text-amber-300 transition-colors focus-ring"
       >
         <ChevronDown size={40} />
       </button>
