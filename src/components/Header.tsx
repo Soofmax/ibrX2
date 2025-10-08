@@ -46,39 +46,34 @@ export default function Header() {
           </div>
 
           <nav className="hidden md:flex space-x-1 bg-green-800/40 rounded-full px-2 py-2 backdrop-blur-sm" aria-label="Primary">
-            <button type="button" onClick={() => go('/')} className={navClass('/')}>
+            <button type="button" aria-current={location.pathname === '/' ? 'page' : undefined} onClick={() => go('/')} className={navClass('/')}>
               {t('nav.home')}
             </button>
-            <button type="button" onClick={() => go('/itinerary')} className={navClass('/itinerary')}>
+            <button type="button" aria-current={location.pathname === '/itinerary' ? 'page' : undefined} onClick={() => go('/itinerary')} className={navClass('/itinerary')}>
               {t('nav.itinerary')}
-            </button>
-            <button type="button" onClick={() => go('/fleet')} className={navClass('/fleet')}>
+                       <button type="button" aria-current={location.pathname === '/fleet' ? 'page' : undefined} onClick={() => go('/fleet')} className={navClass('/fleet')}>
               {t('nav.fleet')}
             </button>
-            <button type="button" onClick={() => go('/team')} className={navClass('/team')}>
+            <button type="button" aria-current={location.pathname === '/team' ? 'page' : undefined} onClick={() => go('/team')} className={navClass('/team')}>
               {t('nav.team')}
-            </button>
-            <button type="button" onClick={() => go('/logistics')} className={navClass('/logistics')}>
-              {t('nav.logistics')}
-            </button>
-            <button type="button" onClick={() => go('/practical')} className={navClass('/practical')}>
+          </  button>
+n>
+            <button type="button" aria-current={location.pathname === '/logistics' ? 'page' : undefined} onClick={() => go('/logistics')} className={navClass('/            <button type="button" aria-current={location.pathname === '/practical' ? 'page' : undefined} onClick={() => go('/practical')} className={navClass('/practical')}>
               {t('nav.practical')}
-            </button>
-            <button type="button" onClick={() => go('/blog')} className={navClass('/blog')}>
+                       <button type="button" aria-current={location.pathname === '/blog' ? 'page' : undefined} onClick={() => go('/blog')} className={navClass('/blog')}>
               {t('nav.blog')}
             </button>
-            <button type="button" onClick={() => go('/sponsors')} className={navClass('/sponsors')}>
+            <button type="button" aria-current={location.pathname === '/sponsors' ? 'page' : undefined} onClick={() => go('/sponsors')} className={navClass('/sponsors')}>
               {t('nav.sponsors')}
-            </button>
-            <button type="button" onClick={() => go('/sponsor-targets')} className={navClass('/sponsor-targets')}>
+           >
+            <button type="button" aria-current={location.pathname === '/sponsor-targets' ? 'page' : undefined} onClick={() => go('/sponsor-targets')} className={navClass('/sponsor-targets')}>
               {t('nav.targets')}
-            </button>
-            <button type="button" onClick={() => go('/support')} className={navClass('/support')}>
+           
+            <button type="button" aria-current={location.pathname === '/support' ? 'page' : undefined} onClick={() => go('/support')} className={navClass('/support')}>
               {t('nav.support')}
-            </button>
-            <button type="button" onClick={() => go('/contact')} className={navClass('/contact')}>
-              {t('nav.contact')}
-            </button>
+           
+            <button type="button" aria-current={location.pathname === '/contact' ? 'page' : undefined} onClick={() => go('/contact')} className={navClass('/contact')}>
+              {
           </nav>
 
           <div className="hidden md:flex items-center gap-2">
@@ -123,37 +118,37 @@ export default function Header() {
                 {lang === 'fr' ? 'FR' : 'EN'}
               </button>
             </div>
-            <button type="button" onClick={() => go('/')} className={navClass('/')}>
+            <button type="button" aria-current={location.pathname === '/' ? 'page' : undefined} onClick={() => go('/')} className={navClass('/')}>
               {t('nav.home')}
             </button>
-            <button type="button" onClick={() => go('/itinerary')} className={navClass('/itinerary')}>
+            <button type="button" aria-current={location.pathname === '/itinerary' ? 'page' : undefined} onClick={() => go('/itinerary')} className={navClass('/itinerary')}>
               {t('nav.itinerary')}
             </button>
-            <button type="button" onClick={() => go('/fleet')} className={navClass('/fleet')}>
+            <button type="button" aria-current={location.pathname === '/fleet' ? 'page' : undefined} onClick={() => go('/fleet')} className={navClass('/fleet')}>
               {t('nav.fleet')}
             </button>
-            <button type="button" onClick={() => go('/team')} className={navClass('/team')}>
+            <button type="button" aria-current={location.pathname === '/team' ? 'page' : undefined} onClick={() => go('/team')} className={navClass('/team')}>
               {t('nav.team')}
             </button>
-            <button type="button" onClick={() => go('/logistics')} className={navClass('/logistics')}>
+            <button type="button" aria-current={location.pathname === '/logistics' ? 'page' : undefined} onClick={() => go('/logistics')} className={navClass('/logistics')}>
               {t('nav.logistics')}
             </button>
-            <button type="button" onClick={() => go('/practical')} className={navClass('/practical')}>
+            <button type="button" aria-current={location.pathname === '/practical' ? 'page' : undefined} onClick={() => go('/practical')} className={navClass('/practical')}>
               {t('nav.practical')}
             </button>
-            <button type="button" onClick={() => go('/blog')} className={navClass('/blog')}>
+            <button type="button" aria-current={location.pathname === '/blog' ? 'page' : undefined} onClick={() => go('/blog')} className={navClass('/blog')}>
               {t('nav.blog')}
             </button>
-            <button type="button" onClick={() => go('/sponsors')} className={navClass('/sponsors')}>
+            <button type="button" aria-current={location.pathname === '/sponsors' ? 'page' : undefined} onClick={() => go('/sponsors')} className={navClass('/sponsors')}>
               {t('nav.sponsors')}
             </button>
-            <button type="button" onClick={() => go('/sponsor-targets')} className={navClass('/sponsor-targets')}>
+            <button type="button" aria-current={location.pathname === '/sponsor-targets' ? 'page' : undefined} onClick={() => go('/sponsor-targets')} className={navClass('/sponsor-targets')}>
               {t('nav.targets')}
             </button>
-            <button type="button" onClick={() => go('/support')} className={navClass('/support')}>
+            <button type="button" aria-current={location.pathname === '/support' ? 'page' : undefined} onClick={() => go('/support')} className={navClass('/support')}>
               {t('nav.support')}
             </button>
-            <button type="button" onClick={() => go('/contact')} className={navClass('/contact')}>
+            <button type="button" aria-current={location.pathname === '/contact' ? 'page' : undefined} onClick={() => go('/contact')} className={navClass('/contact')}>
               {t('nav.contact')}
             </button>
           </nav>
