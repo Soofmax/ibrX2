@@ -2,18 +2,21 @@ import { MapPin, Navigation, Calendar } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../i18n/I18nContext';
 
-type Stop = { name: string; t: number };
+type Stop = { name: string; t: number; tooltip: string; pauseMs?: number };
 
 const stops: Stop[] = [
-  { name: 'Paris', t: 0.00 },
-  { name: 'Lyon', t: 0.18 },
-  { name: 'Barcelona', t: 0.30 },
-  { name: 'Rome', t: 0.45 },
-  { name: 'Athens', t: 0.55 },
-  { name: 'Istanbul', t: 0.60 },
-  { name: 'Cairo', t: 0.75 },
-  { name: 'Nairobi', t: 0.88 },
-  { name: 'Cape Town', t: 1.00 },
+  { name: 'Londres', t: 0.00, tooltip: 'Départ symbolique de l’épopée' },
+  { name: 'Istanbul', t: 0.09, tooltip: 'Pont entre Europe et Asie', pauseMs: 7000 },
+  { name: 'Rio de Janeiro', t: 0.18, tooltip: 'Vibrations sud-américaines' },
+  { name: 'La Paz', t: 0.27, tooltip: 'Aventure en haute altitude (Salar de Uyuni)', pauseMs: 10000 },
+  { name: 'Mexico', t: 0.36, tooltip: 'Culture vibrante et histoire' },
+  { name: 'Anchorage', t: 0.45, tooltip: 'Frontière nordique sauvage' },
+  { name: 'Sydney', t: 0.54, tooltip: 'Plongée dans l’Outback (Uluru)', pauseMs: 10000 },
+  { name: 'Auckland', t: 0.63, tooltip: 'Terres maories majestueuses' },
+  { name: 'Singapour', t: 0.72, tooltip: 'Hub moderne de l’Asie' },
+  { name: 'Ulaanbaatar', t: 0.81, tooltip: 'Steppes infinies du Gobi' },
+  { name: 'Le Caire', t: 0.90, tooltip: 'Porte vers l’Afrique (Serengeti)', pauseMs: 10000 },
+  { name: 'Cape Town', t: 1.00, tooltip: 'Fin d’une odyssée légendaire', pauseMs: 15000 },
 ];
 
 export default function CurrentLocation() {
@@ -34,23 +37,25 @@ export default function CurrentLocation() {
     setPositions(pts);
   }, []);
 
+  const pauseUntilRef = useRef(0);
+
   useEffect(() => {
-    const speedPerSec = 0.06; // progress units per second
-    const stopDurationMs = 1500;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const speedPerSec = prefersReducedMotion ? 0 : 0.06; // progress units per second
+    const defaultStopMs = 1500;
     const path = pathRef.current;
     if (!path) return;
 
     let rafId = 0;
     let prev = performance.now();
-    let p = 0;
-    let pausedUntil = 0;
-    let currentIdx = 0;
+    let p = progress;
+    let currentIdx = currentStopIndex;
 
     const tick = (time: number) => {
       const dt = (time - prev) / 1000;
       prev = time;
 
-      if (time < pausedUntil) {
+      if (time < pauseUntilRef.current) {
         rafId = requestAnimationFrame(tick);
         return;
       }
@@ -62,7 +67,8 @@ export default function CurrentLocation() {
       // detect crossing a stop
       const nextIdx = stops.findIndex((s) => s.t > prevP && s.t <= p + 0.0001);
       if (nextIdx !== -1) {
-        pausedUntil = time + stopDurationMs;
+        const ms = stops[nextIdx].pauseMs ?? defaultStopMs;
+        pauseUntilRef.current = time + ms;
         currentIdx = nextIdx;
       }
 
@@ -92,6 +98,8 @@ export default function CurrentLocation() {
   const jumpTo = (tval: number, idx: number) => {
     setProgress(tval);
     setCurrentStopIndex(idx);
+    const ms = stops[idx].pauseMs ?? 1500;
+    pauseUntilRef.current = performance.now() + ms;
   };
 
   return (
@@ -152,6 +160,7 @@ export default function CurrentLocation() {
 
               {positions.map((p, idx) => (
                 <g key={p.name} transform={`translate(${p.x}, ${p.y})`} style={{ cursor: 'pointer' }} onClick={() => jumpTo(p.t, idx)}>
+                  <title>{p.tooltip}</title>
                   <circle r="10" fill="#78350f" opacity="0.6" />
                   <text x="14" y="-12" fontSize="14" fill="#1C1917" fontFamily="serif">{p.name}</text>
                 </g>

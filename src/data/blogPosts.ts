@@ -10,26 +10,26 @@ export interface BlogPost {
 export const blogPosts: BlogPost[] = [
   {
     id: 1,
-    title: "First Steps in the City of Lights",
-    excerpt: "Wandering through the cobblestone streets of Montmartre, I discovered that Paris is more than just a destination—it's a feeling that stays with you.",
-    date: "March 15, 2025",
-    image: "https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?auto=compress&cs=tinysrgb&w=800",
-    category: "City Guide"
+    title: "Restaurer un DAF 1113 : De Pompier à Nomade",
+    excerpt: "Transformer un camion de pompiers en camper robuste : découvrez les coulisses de notre restauration, du moteur Cummins aux pneus Michelin XZL.",
+    date: "01 novembre 2025",
+    image: "https://images.pexels.com/photos/532002/pexels-photo-532002.jpeg?auto=compress&cs=tinysrgb&w=800",
+    category: "Restauration"
   },
   {
     id: 2,
-    title: "Hidden Cafés and Local Secrets",
-    excerpt: "Beyond the tourist hotspots lies a network of charming cafés where locals gather. Today I found one that serves the best croissants I've ever tasted.",
-    date: "March 18, 2025",
-    image: "https://images.pexels.com/photos/1002740/pexels-photo-1002740.jpeg?auto=compress&cs=tinysrgb&w=800",
-    category: "Food & Culture"
+    title: "60 000 km : Planifier l’Impossible",
+    excerpt: "De Londres au Cap via le Gobi, notre itinéraire défie les frontières et les terrains. Suivez notre planification !",
+    date: "15 novembre 2025",
+    image: "https://images.pexels.com/photos/346714/pexels-photo-346714.jpeg?auto=compress&cs=tinysrgb&w=800",
+    category: "Itinéraire"
   },
   {
     id: 3,
-    title: "Sunset at the Seine",
-    excerpt: "As golden hour painted the river in hues of amber and rose, I realized why artists have been drawn to this city for centuries. Pure magic.",
-    date: "March 21, 2025",
-    image: "https://images.pexels.com/photos/2363/france-landmark-lights-night.jpg?auto=compress&cs=tinysrgb&w=800",
-    category: "Photography"
+    title: "Pourquoi DAF et Mercedes ? Une Histoire de Robustesse",
+    excerpt: "Héritage des DAF et fiabilité moderne d’un camion logistique : découvrez pourquoi ces véhicules sont nos compagnons.",
+    date: "01 décembre 2025",
+    image: "https://images.pexels.com/photos/2199293/pexels-photo-2199293.jpeg?auto=compress&cs=tinysrgb&w=800",
+    category: "Flotte"
   }
 ];

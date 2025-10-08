@@ -4,6 +4,45 @@ import { useI18n } from '../i18n/I18nContext';
 export default function Fleet() {
   const { t } = useI18n();
 
+  const vehicles = [
+    {
+      name: 'DAF 1113 — Feu Nomade',
+      summary: 'Restauré pour conquérir les terrains extrêmes du Gobi au Sahara.',
+      specs: [
+        'Camion pompier 1985, 4x4, moteur Cummins 5.9L',
+        'Pneus Michelin XZL 385/85 R20, treuil Warn',
+        'Réservoirs: 300L carburant, 200L eau',
+        'Camper isolé, panneaux solaires 400W, chauffage diesel',
+        'Suspension renforcée Marquart',
+      ],
+      image: 'https://images.pexels.com/photos/532002/pexels-photo-532002.jpeg?auto=compress&cs=tinysrgb&w=800',
+    },
+    {
+      name: 'DAF 1113 — Pionnier du Désert',
+      summary: 'Prêt pour les dunes et les cols montagneux.',
+      specs: [
+        'Camion pompier 1987, 4x4, moteur Cummins 5.9L',
+        'Treuil Warn, différentiels verrouillables',
+        'Réservoirs: 300L carburant, 200L eau',
+        'Frigo, solaire 400W, navigation GPS',
+        'Boîte ZF-S5-42 reconditionnée',
+      ],
+      image: 'https://images.pexels.com/photos/532001/pexels-photo-532001.jpeg?auto=compress&cs=tinysrgb&w=800',
+    },
+    {
+      name: 'Camion logistique — Étoile Logistique',
+      summary: 'Pilier logistique pour une aventure sans faille.',
+      specs: [
+        '4x4 récent, PTAC 9–12 t, moteur Euro 6',
+        'Boîte auto Powershift, autonomie 700 km',
+        'Compartiments sécurisés, jerrycans 300L',
+        'Pneus mixtes, GPS intégré, hayon élévateur',
+        'Cabine double, climatisation',
+      ],
+      image: 'https://images.pexels.com/photos/2199293/pexels-photo-2199293.jpeg?auto=compress&cs=tinysrgb&w=800',
+    },
+  ];
+
   return (
     <section id="fleet" className="py-24 px-4 sm:px-6 lg:px-8 bg-amber-50 relative overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 opacity-5">
@@ -23,23 +62,7 @@ export default function Fleet() {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {[
-            {
-              name: 'Véhicule A — 4x4 utilitaire',
-              specs: ['Suspensions renforcées', 'Réservoir carburant étendu', 'Tente de toit', 'Protection sous-châssis'],
-              image: 'https://images.pexels.com/photos/3716332/pexels-photo-3716332.jpeg?auto=compress&cs=tinysrgb&w=800'
-            },
-            {
-              name: 'Véhicule B — Confort longue distance',
-              specs: ['Aménagement nuit/jour', 'Panneaux solaires 400W', 'Réservoirs d’eau 100L', 'Navigation GPS double'],
-              image: 'https://images.pexels.com/photos/3033210/pexels-photo-3033210.jpeg?auto=compress&cs=tinysrgb&w=800'
-            },
-            {
-              name: 'Véhicule C — Polyvalent',
-              specs: ['Pneus tout-terrain', 'Treuil 12 000 lb', 'Support roues de secours', 'Kit compresseur'],
-              image: 'https://images.pexels.com/photos/3889614/pexels-photo-3889614.jpeg?auto=compress&cs=tinysrgb&w=800'
-            }
-          ].map((v, i) => (
+          {vehicles.map((v, i) => (
             <article key={i} className="group bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-stone-200">
               <div className="relative aspect-[4/3] overflow-hidden bg-stone-200">
                 <img
@@ -55,9 +78,10 @@ export default function Fleet() {
                   <Wrench size={16} className="text-amber-600" />
                   <span className="font-serif">Restauration & modifications</span>
                 </div>
-                <h3 className="text-2xl font-handwritten text-stone-900 mb-3 group-hover:text-amber-700 transition-colors">
+                <h3 className="text-2xl font-handwritten text-stone-900 mb-2 group-hover:text-amber-700 transition-colors">
                   {v.name}
                 </h3>
+                <p className="text-stone-700 font-serif mb-3">{v.summary}</p>
                 <ul className="space-y-2 mb-4">
                   {v.specs.map((s, idx) => (
                     <li key={idx} className="text-stone-700 font-serif leading-relaxed">• {s}</li>

@@ -4,11 +4,31 @@ import { useI18n } from '../i18n/I18nContext';
 export default function Team() {
   const { t } = useI18n();
 
-  const roles = [
-    { name: 'Capitaine de route', role: t('team.role.lead'), icon: Compass },
-    { name: 'Navigateur', role: t('team.role.nav'), icon: MapPinned },
-    { name: 'Mécanicien', role: t('team.role.mech'), icon: Wrench },
-    { name: 'Logistique', role: t('team.role.log'), icon: Users },
+  const members = [
+    {
+      name: 'Alex',
+      role: t('team.role.lead'),
+      bio: 'Passionné d’overlanding, Alex planifie cette aventure depuis 5 ans et excelle en logistique.',
+      icon: Compass,
+    },
+    {
+      name: 'Marie',
+      role: t('team.role.nav'),
+      bio: 'Experte en GPS et moteurs Cummins, Marie a traversé l’Asie en 4x4.',
+      icon: MapPinned,
+    },
+    {
+      name: 'Sam',
+      role: t('team.role.mech'),
+      bio: 'Conducteur aguerri, Sam capture l’épopée pour YouTube et les sponsors.',
+      icon: Wrench,
+    },
+    {
+      name: 'Logistique',
+      role: t('team.role.log'),
+      bio: 'Budget, ferrys, assurances — coordination et intendance du convoi.',
+      icon: Users,
+    },
   ];
 
   return (
@@ -30,13 +50,14 @@ export default function Team() {
         </div>
 
         <div className="grid lg:grid-cols-4 gap-8">
-          {roles.map((m, i) => (
+          {members.map((m, i) => (
             <div key={i} className="bg-white rounded-2xl p-6 shadow-lg border border-stone-200 hover:shadow-2xl transition-all">
               <div className="flex items-center gap-3 mb-3">
                 <m.icon className="text-amber-600" size={24} />
                 <h3 className="text-2xl font-handwritten text-stone-900">{m.name}</h3>
               </div>
               <p className="text-stone-700 font-serif">{m.role}</p>
+              <p className="text-stone-600 font-serif mt-2">{m.bio}</p>
             </div>
           ))}
         </div>

@@ -53,6 +53,18 @@ export default function ContactFAQ() {
                 <strong className="font-handwritten text-stone-900">{t('contact.q3')}</strong><br />
                 {t('contact.a3')}
               </li>
+              <li>
+                <strong className="font-handwritten text-stone-900">Quel permis pour conduire ?</strong><br />
+                Permis C (PTAC &gt; 7,5 t) et PCI pour l’international.
+              </li>
+              <li>
+                <strong className="font-handwritten text-stone-900">Comment suivre l’expédition ?</strong><br />
+                Via notre blog, X (#TranscontinentalTrek) et YouTube.
+              </li>
+              <li>
+                <strong className="font-handwritten text-stone-900">Comment soutenir ?</strong><br />
+                Dons via Patreon/PayPal ou sponsoring — contactez-nous.
+              </li>
             </ul>
           </div>
         </div>

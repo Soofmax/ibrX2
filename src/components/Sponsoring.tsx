@@ -26,13 +26,16 @@ export default function Sponsoring() {
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-stone-200 hover:shadow-2xl transition-all">
             <h3 className="text-2xl font-handwritten text-stone-900 mb-3">{t('sponsors.value')}</h3>
             <ul className="space-y-2 text-stone-700 font-serif">
-              <li>• Logos sur véhicules et contenus</li>
-              <li>• Mentions dans le journal de bord et les réseaux</li>
-              <li>• Production de photos/vidéos dédiées</li>
+              <li>• Logos sur camions et contenus</li>
+              <li>• Mentions régulières sur X, YouTube, Instagram (#TranscontinentalTrek)</li>
+              <li>• Articles dédiés sur le blog (ex: pneus, treuil)</li>
+              <li>• Vidéos sponsorisées montrant les produits en action</li>
+              <li>• Mention dans la newsletter</li>
+              <li>• Invitations à des événements clés (départ/arrivée)</li>
             </ul>
-            <button type="button" className="mt-6 bg-stone-900 hover:bg-stone-800 text-amber-50 font-serif px-6 py-3 rounded-full transition-all hover:scale-105 shadow-xl focus-ring">
+            <a href="mailto:sponsors@transcontinentaltrek.com" className="inline-block mt-6 bg-stone-900 hover:bg-stone-800 text-amber-50 font-serif px-6 py-3 rounded-full transition-all hover:scale-105 shadow-xl focus-ring">
               {t('sponsors.mediaKit')}
-            </button>
+            </a>
           </div>
 
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-stone-200 hover:shadow-2xl transition-all">

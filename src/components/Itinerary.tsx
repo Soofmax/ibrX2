@@ -50,23 +50,23 @@ export default function Itinerary() {
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Europe</span>
-                <span>Avril — Juin 2026</span>
-              </li>
-              <li className="flex items-center gap-2 text-stone-700 font-serif">
-                <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Asie</span>
-                <span>Juillet — Octobre 2026</span>
+                <span>Avril — Juin 2026 (Londres → Istanbul)</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Amériques</span>
-                <span>Janvier — Mai 2027</span>
+                <span>Juillet 2026 — Février 2027 (Rio → Alaska)</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Océanie</span>
-                <span>Juin — Août 2027</span>
+                <span>Mars — Juin 2027 (Sydney → Nouvelle-Zélande)</span>
+              </li>
+              <li className="flex items-center gap-2 text-stone-700 font-serif">
+                <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Asie</span>
+                <span>Juillet — Décembre 2027 (Singapour → Kazakhstan)</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
                 <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Afrique</span>
-                <span>Septembre — Décembre 2027</span>
+                <span>Janvier — Juin 2028 (Le Caire → Cape Town)</span>
               </li>
             </ul>
 

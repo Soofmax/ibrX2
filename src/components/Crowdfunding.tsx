@@ -155,10 +155,10 @@ export default function Crowdfunding() {
             <p className="text-amber-100/90 font-serif">{t('support.availableSoon')}</p>
           </div>
           <div className="flex flex-wrap justify-center gap-3">
-            <a href="#" className="bg-amber-600 hover:bg-amber-500 text-amber-50 font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring">PayPal</a>
-            <a href="#" className="bg-stone-800 hover:bg-stone-700 text-amber-50 font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring">Patreon</a>
-            <a href="#" className="bg-rose-600 hover:bg-rose-500 text-rose-50 font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring">Tipeee</a>
-            <a href="#" className="bg-orange-600 hover:bg-orange-500 text-white font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring">Ulule</a>
+            <a href="https://paypal.me/TranscontinentalTrek" target="_blank" rel="noopener noreferrer" className="bg-amber-600 hover:bg-amber-500 text-amber-50 font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring">PayPal</a>
+            <a href="https://patreon.com/TranscontinentalTrek" target="_blank" rel="noopener noreferrer" className="bg-stone-800 hover:bg-stone-700 text-amber-50 font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring">Patreon</a>
+            <a href="https://tipeee.com/transcontinental-trek" target="_blank" rel="noopener noreferrer" className="bg-rose-600 hover:bg-rose-500 text-rose-50 font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring">Tipeee</a>
+            <a href="https://ulule.com/transcontinental-trek" target="_blank" rel="noopener noreferrer" className="bg-orange-600 hover:bg-orange-500 text-white font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring">Ulule</a>
           </div>
         </div>
       </div>

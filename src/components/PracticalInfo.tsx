@@ -26,9 +26,9 @@ export default function PracticalInfo() {
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-stone-200 hover:shadow-2xl transition-all">
             <h3 className="text-2xl font-handwritten text-stone-900 mb-3">{t('practical.resources')}</h3>
             <ul className="space-y-2 text-stone-700 font-serif">
-              <li>• Forums spécialisés</li>
-              <li>• Applications de points d’intérêt et bivouacs</li>
-              <li>• Guides de pistes par région</li>
+              <li>• <a href="https://expeditionportal.com" target="_blank" rel="noopener noreferrer" className="text-amber-700 hover:underline">Expedition Portal</a></li>
+              <li>• <a href="https://www.ioverlander.com" target="_blank" rel="noopener noreferrer" className="text-amber-700 hover:underline">iOverlander</a></li>
+              <li>• <a href="https://overlandjournal.com" target="_blank" rel="noopener noreferrer" className="text-amber-700 hover:underline">Overland Journal</a></li>
             </ul>
           </div>
 
@@ -37,7 +37,7 @@ export default function PracticalInfo() {
               <LifeBuoy className="text-amber-600" size={24} />
               <h3 className="text-2xl font-handwritten text-stone-900">{t('practical.visas')}</h3>
             </div>
-            <p className="text-stone-700 font-serif">Documents clés: Carnet de Passages, permis internationaux, autorisations spécifiques selon pays.</p>
+            <p className="text-stone-700 font-serif">Carnet de Passages (~500 €/véhicule), permis C (PTAC &gt; 7,5 t) et PCI, visas anticipés (ex: Chine/Soudan) avec guides locaux si requis.</p>
           </div>
 
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-stone-200 hover:shadow-2xl transition-all">
@@ -46,9 +46,9 @@ export default function PracticalInfo() {
               <h3 className="text-2xl font-handwritten text-stone-900">{t('practical.health')}</h3>
             </div>
             <ul className="space-y-2 text-stone-700 font-serif">
-              <li>• Vaccins nécessaires selon zones</li>
-              <li>• Assurance voyage & évacuation</li>
-              <li>• Procédures en checkpoints</li>
+              <li>• Vaccins selon zones (ex: fièvre jaune, prophylaxie malaria)</li>
+              <li>• Assurance évacuation médicale (ex: Global Rescue)</li>
+              <li>• Consignes: éviter zones instables, procédés en checkpoints, convoi groupé</li>
             </ul>
           </div>
         </div>
