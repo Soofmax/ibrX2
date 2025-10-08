@@ -1,6 +1,7 @@
-import { Map, CalendarDays, Globe2 } from 'lucide-react';
+import { Map, CalendarDays, Globe2, Download } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { expeditionPlan, expeditionTotals } from '../data/expeditionPlan';
+import { generateCSVRoute, generateJSONRoute, downloadText } from '../utils/routeExport';
 
 export default function Itinerary() {
   const { t } = useI18n();
@@ -85,7 +86,27 @@ export default function Itinerary() {
 
         {/* Optimized roadmap table */}
         <div className="mt-12 bg-white rounded-3xl shadow-2xl border border-amber-200 p-8">
-          <h3 className="text-3xl font-handwritten text-stone-900 mb-4">Roadmap de l’expédition (optimisée)</h3>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-3xl font-handwritten text-stone-900">Roadmap de l’expédition (optimisée)</h3>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                className="btn btn-secondary px-4 py-2"
+                onClick={() => downloadText('route.csv', generateCSVRoute(), 'text/csv')}
+                aria-label="Télécharger le parcours au format CSV"
+              >
+                <Download size={16} className="mr-1" /> CSV
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary px-4 py-2"
+                onClick={() => downloadText('route.json', generateJSONRoute(), 'application/json')}
+                aria-label="Télécharger le parcours au format JSON"
+              >
+                <Download size={16} className="mr-1" /> JSON
+              </button>
+            </div>
+          </div>
           <div className="overflow-auto">
             <table className="min-w-full text-left font-serif text-sm">
               <thead>

@@ -34,6 +34,7 @@ export default function CurrentLocation() {
   const [currentStopIndex, setCurrentStopIndex] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [speedMultiplier, setSpeedMultiplier] = useState(1);
+  const [segments, setSegments] = useState<{ points: string; ferry: boolean }[]>([]);
 
   useEffect(() => {
     const path = pathRef.current;
@@ -44,6 +45,24 @@ export default function CurrentLocation() {
       return { x: p.x, y: p.y, name: s.name, t: s.t, tooltip: s.tooltip };
     });
     setPositions(pts);
+
+    // Build polylines per segment for styling (ferry dashed)
+    const segs: { points: string; ferry: boolean }[] = [];
+    for (let i = 0; i < stops.length - 1; i++) {
+      const a = stops[i];
+      const b = stops[i + 1];
+      const L1 = a.t * length;
+      const L2 = b.t * length;
+      const n = 24;
+      const arr: string[] = [];
+      for (let j = 0; j <= n; j++) {
+        const l = L1 + ((L2 - L1) * j) / n;
+        const pt = path.getPointAtLength(l);
+        arr.push(`${pt.x},${pt.y}`);
+      }
+      segs.push({ points: arr.join(' '), ferry: a.modeToNext === 'ferry' });
+    }
+    setSegments(segs);
   }, []);
 
   const pauseUntilRef = useRef(0);
@@ -111,6 +130,8 @@ export default function CurrentLocation() {
     return { x: p1.x, y: p1.y, angle };
   })();
 
+  const bounce = Math.sin(progress * Math.PI * 12) * 2;
+
   const lastStop = stops[currentStopIndex]?.name ?? stops[0].name;
   const nextStop = stops[currentStopIndex + 1]?.name ?? stops[0].name;
 
@@ -140,7 +161,22 @@ export default function CurrentLocation() {
         </div>
 
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-stone-200 transform hover:scale-[1.01] transition-transform duration-500">
-          <div className="relative aspect-video bg-gradient-to-br from-stone-200 to-amber-100 overflow-hidden">
+          <div
+            className="relative aspect-video bg-gradient-to-br from-stone-200 to-amber-100 overflow-hidden"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === ' ') {
+                e.preventDefault();
+                setPlaying((p) => !p);
+              } else if (e.key === 'ArrowRight') {
+                const next = (currentStopIndex + 1) % stops.length;
+                jumpTo(stops[next].t, next);
+              } else if (e.key === 'ArrowLeft') {
+                const prev = currentStopIndex > 0 ? currentStopIndex - 1 : 0;
+                jumpTo(stops[prev].t, prev);
+              }
+            }}
+          >
             {/* Controls */}
             <div className="absolute top-4 left-4 z-20">
               <div className="bg-white/90 border border-amber-200 rounded-xl p-3 shadow-lg font-serif flex items-center gap-2">
@@ -203,6 +239,22 @@ export default function CurrentLocation() {
               </defs>
 
               <rect width="1000" height="500" fill="url(#mapGradient)"/>
+              {/* Styled per-segment route (solid for road, dashed for ferry) */}
+              {segments.map((seg, i) => {
+                const active = i === Math.min(currentStopIndex, segments.length - 1);
+                return (
+                  <polyline
+                    key={i}
+                    points={seg.points}
+                    fill="none"
+                    stroke="#d97706"
+                    strokeOpacity={seg.ferry ? 0.6 : 0.85}
+                    strokeWidth={active ? 5 : 3}
+                    strokeDasharray={seg.ferry ? '8 6' : undefined}
+                    filter="url(#glow)"
+                  />
+                );
+              })}
 
               <path
                 ref={pathRef}
@@ -241,11 +293,13 @@ export default function CurrentLocation() {
                   onFocus={() => {
                     const tip = document.getElementById('map-tooltip');
                     if (tip) {
+                      const ferry = stops[idx]?.modeToNext === 'ferry' ? "<div class='font-serif text-[10px] text-amber-700 mt-1'>Segment suivant: ferry</div>" : "";
                       tip.style.left = `${p.x}px`;
                       tip.style.top = `${p.y - 24}px`;
                       tip.innerHTML = `<div class='bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2'>
                         <div class='font-serif text-sm font-semibold'>${p.name}</div>
                         <div class='font-serif text-xs text-stone-600'>${p.tooltip}</div>
+                        ${ferry}
                       </div>`;
                       tip.style.display = 'block';
                     }
@@ -276,7 +330,7 @@ export default function CurrentLocation() {
                 </g>
               ))}
 
-              <g transform={`translate(${vanTransform.x}, ${vanTransform.y}) rotate(${vanTransform.angle})`} filter="url(#glow)">
+              <g transform={`translate(${vanTransform.x}, ${vanTransform.y + bounce}) rotate(${vanTransform.angle})`} filter="url(#glow)">
                 <rect x="-15" y="-10" width="30" height="18" rx="3" fill="#1C1917" />
                 <rect x="5" y="-8" width="14" height="12" rx="2" fill="#F59E0B" />
                 <circle cx="-8" cy="10" r="4" fill="#0f172a" />
