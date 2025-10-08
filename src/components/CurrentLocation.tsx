@@ -1,7 +1,8 @@
-import { MapPin, Navigation, Calendar } from 'lucide-react';
+import { MapPin, Navigation, Calendar, Ship } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../i18n/I18nContext';
 import { routeStops } from '../data/routeStops';
+import { expeditionTotals } from '../data/expeditionPlan';
 
 type Stop = {
   name: string;
@@ -34,7 +35,8 @@ export default function CurrentLocation() {
   const [currentStopIndex, setCurrentStopIndex] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [speedMultiplier, setSpeedMultiplier] = useState(1);
-  const [segments, setSegments] = useState<{ points: string; ferry: boolean }[]>([]);
+  const [segments, setSegments] = useState<{ points: string; ferry: boolean; mid: { x: number; y: number }; pxLen: number }[]>([]);
+  const [totalPxLen, setTotalPxLen] = useState(0);
 
   useEffect(() => {
     const path = pathRef.current;
@@ -46,23 +48,38 @@ export default function CurrentLocation() {
     });
     setPositions(pts);
 
-    // Build polylines per segment for styling (ferry dashed)
-    const segs: { points: string; ferry: boolean }[] = [];
+    // Build polylines per segment for styling (ferry dashed) and compute pixel lengths
+    const segs: { points: string; ferry: boolean; mid: { x: number; y: number }; pxLen: number }[] = [];
+    let total = 0;
     for (let i = 0; i < stops.length - 1; i++) {
       const a = stops[i];
       const b = stops[i + 1];
       const L1 = a.t * length;
       const L2 = b.t * length;
       const n = 24;
-      const arr: string[] = [];
+      const arr: { x: number; y: number }[] = [];
       for (let j = 0; j <= n; j++) {
         const l = L1 + ((L2 - L1) * j) / n;
         const pt = path.getPointAtLength(l);
-        arr.push(`${pt.x},${pt.y}`);
+        arr.push({ x: pt.x, y: pt.y });
       }
-      segs.push({ points: arr.join(' '), ferry: a.modeToNext === 'ferry' });
+      let pxLen = 0;
+      for (let k = 0; k < arr.length - 1; k++) {
+        const dx = arr[k + 1].x - arr[k].x;
+        const dy = arr[k + 1].y - arr[k].y;
+        pxLen += Math.hypot(dx, dy);
+      }
+      total += pxLen;
+      const mid = arr[Math.floor(arr.length / 2)];
+      segs.push({
+        points: arr.map((p) => `${p.x},${p.y}`).join(' '),
+        ferry: a.modeToNext === 'ferry',
+        mid,
+        pxLen,
+      });
     }
     setSegments(segs);
+    setTotalPxLen(total);
   }, []);
 
   const pauseUntilRef = useRef(0);
@@ -135,6 +152,40 @@ export default function CurrentLocation() {
   const lastStop = stops[currentStopIndex]?.name ?? stops[0].name;
   const nextStop = stops[currentStopIndex + 1]?.name ?? stops[0].name;
 
+  // ETA simulation
+  const averageKmPerDay = 250; // configurable
+  const scaleKmPerPx = totalPxLen > 0 ? expeditionTotals.distanceKm / totalPxLen : 0;
+
+  const etaInfo = (() => {
+    if (!pathRef.current || segments.length === 0) return null;
+    const currIdx = Math.min(currentStopIndex, segments.length - 1);
+    const currStop = stops[currIdx];
+    const next = stops[currIdx + 1] ?? stops[currIdx]; // fallback
+    const seg = segments[currIdx];
+
+    const path = pathRef.current;
+    const length = path.getTotalLength();
+    const Lcurr = currStop.t * length;
+    const Lnext = next.t * length;
+    const Lnow = progress * length;
+
+    const segSpan = Math.max(1, Lnext - Lcurr);
+    const localT = Math.min(1, Math.max(0, (Lnow - Lcurr) / segSpan));
+
+    const pxRemaining = seg.pxLen * (1 - localT);
+    const kmRemaining = pxRemaining * scaleKmPerPx;
+
+    const travelDays = kmRemaining / averageKmPerDay;
+    const pauseMs = (next.pauseMs ?? 0);
+    const pauseDays = pauseMs / (1000 * 60 * 60 * 24);
+
+    const totalDays = travelDays + pauseDays;
+    const etaMs = totalDays * 24 * 60 * 60 * 1000;
+    const etaDate = new Date(Date.now() + etaMs);
+
+    return { kmRemaining, etaDate, isFerry: currStop.modeToNext === 'ferry' };
+  })();
+
   const jumpTo = (tval: number, idx: number) => {
     setProgress(tval);
     setCurrentStopIndex(idx);
@@ -191,7 +242,7 @@ export default function CurrentLocation() {
                 </button>
                 <div className="flex items-center gap-1">
                   <span className="text-stone-600 text-sm mr-1">Vitesse:</span>
-                  {[0.75, 1, 1.5, 2].map((v) => (
+                  {[0.5, 1, 1.5, 2, 3].map((v) => (
                     <button
                       key={v}
                       type="button"
@@ -205,15 +256,28 @@ export default function CurrentLocation() {
                 </div>
               </div>
             </div>
-            {/* Legend for accessibility */}
+            {/* Legend with segment type and ETA */}
             <div className="absolute top-4 right-4 z-20">
-              <div className="bg-white/90 border border-amber-200 rounded-xl p-4 shadow-lg font-serif">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-8 h-5 bg-stone-900 rounded-sm"></div>
-                  <span className="text-stone-900 font-semibold">Van</span>
+              <div className="bg-white/90 border border-amber-200 rounded-xl p-4 shadow-lg font-serif min-w-[240px]">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-5 bg-stone-900 rounded-sm"></div>
+                    <span className="text-stone-900 font-semibold">Van</span>
+                  </div>
+                  {etaInfo?.isFerry && (
+                    <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full text-xs">
+                      <Ship size={14} /> Ferry
+                    </span>
+                  )}
                 </div>
-                <p className="text-stone-700 text-sm">État: <span className="font-semibold">dynamique</span></p>
-                <p className="text-stone-700 text-sm">Vitesse: <span className="font-semibold">variable</span></p>
+                <p className="text-stone-700 text-sm">État: <span className="font-semibold">{playing ? 'en mouvement' : 'en pause'}</span></p>
+                <p className="text-stone-700 text-sm">Vitesse: <span className="font-semibold">{speedMultiplier}×</span> (modèle 250 km/j)</p>
+                {etaInfo && (
+                  <div className="mt-2 text-stone-700 text-sm">
+                    <p>Distance restante: <span className="font-semibold">{Math.round(etaInfo.kmRemaining).toLocaleString('fr-FR')} km</span></p>
+                    <p>ETA prochaine étape: <span className="font-semibold">{etaInfo.etaDate.toLocaleString('fr-FR', { weekday: 'short', hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' })}</span></p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -243,16 +307,23 @@ export default function CurrentLocation() {
               {segments.map((seg, i) => {
                 const active = i === Math.min(currentStopIndex, segments.length - 1);
                 return (
-                  <polyline
-                    key={i}
-                    points={seg.points}
-                    fill="none"
-                    stroke="#d97706"
-                    strokeOpacity={seg.ferry ? 0.6 : 0.85}
-                    strokeWidth={active ? 5 : 3}
-                    strokeDasharray={seg.ferry ? '8 6' : undefined}
-                    filter="url(#glow)"
-                  />
+                  <g key={i}>
+                    <polyline
+                      points={seg.points}
+                      fill="none"
+                      stroke="#d97706"
+                      strokeOpacity={seg.ferry ? 0.6 : 0.85}
+                      strokeWidth={active ? 5 : 3}
+                      strokeDasharray={seg.ferry ? '8 6' : undefined}
+                      filter="url(#glow)"
+                    />
+                    {seg.ferry && (
+                      <g transform={`translate(${seg.mid.x}, ${seg.mid.y})`} opacity="0.9">
+                        <path d="M -10 0 L 10 0 L 6 -6 L -8 -6 Z" fill="#d97706" stroke="#b45309" strokeWidth="0.5" />
+                        <rect x="-2" y="-10" width="4" height="4" fill="#1C1917" />
+                      </g>
+                    )}
+                  </g>
                 );
               })}
 
@@ -311,11 +382,13 @@ export default function CurrentLocation() {
                   onMouseEnter={() => {
                     const tip = document.getElementById('map-tooltip');
                     if (tip) {
+                      const ferry = stops[idx]?.modeToNext === 'ferry' ? "<div class='font-serif text-[10px] text-amber-700 mt-1'>Segment suivant: ferry</div>" : "";
                       tip.style.left = `${p.x}px`;
                       tip.style.top = `${p.y - 24}px`;
                       tip.innerHTML = `<div class='bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2'>
                         <div class='font-serif text-sm font-semibold'>${p.name}</div>
                         <div class='font-serif text-xs text-stone-600'>${p.tooltip}</div>
+                        ${ferry}
                       </div>`;
                       tip.style.display = 'block';
                     }
@@ -348,7 +421,10 @@ export default function CurrentLocation() {
                 {t('current.svgSubtitle')}
               </text>
             </svg>
-            <div aria-live="polite" className="sr-only">{`Dernière étape: ${lastStop}. Prochaine destination: ${nextStop}.`}</div>
+            <div aria-live="polite" className="sr-only">
+              {`Dernière étape: ${lastStop}. Prochaine destination: ${nextStop}. `}
+              {etaInfo ? `Distance restante environ ${Math.round(etaInfo.kmRemaining)} kilomètres. ETA ${etaInfo.etaDate.toLocaleString('fr-FR')}. ${etaInfo.isFerry ? 'Segment ferry.' : ''}` : ''}
+            </div>
           </div>
 
           <div className="p-8 bg-gradient-to-br from-white to-amber-50/30">
