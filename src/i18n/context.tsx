@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect, ReactNode } from 'react';
 import { I18nContext, type I18nContextValue, type Lang } from './useI18n';
 import { fr, en } from './dict';
+import { checkI18nConsistency } from './check';
 
 export default function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Lang>(() => {
@@ -26,6 +27,12 @@ export default function I18nProvider({ children }: { children: ReactNode }) {
       // no-op
     }
   }, [lang]);
+
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      checkI18nConsistency(fr as Record<string, string>, en as Record<string, string>);
+    }
+  }, []);
 
   const dict = lang === 'fr' ? fr : en;
 
