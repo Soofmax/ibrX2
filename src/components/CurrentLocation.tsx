@@ -14,9 +14,9 @@ export default function CurrentLocation() {
             <Navigation className="text-amber-600 mx-auto animate-pulse" size={48} />
           </div>
           <h2 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-stone-900 mb-4">
-            Where am I now?
+            Où suis-je maintenant ?
           </h2>
-          <p className="text-xl text-stone-600 font-serif">Following the wind, one destination at a time</p>
+          <p className="text-xl text-stone-600 font-serif">Suivre le vent, une destination à la fois</p>
         </div>
 
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-stone-200 transform hover:scale-[1.01] transition-transform duration-500">
@@ -34,6 +34,13 @@ export default function CurrentLocation() {
                     <feMergeNode in="SourceGraphic"/>
                   </feMerge>
                 </filter>
+                <path id="routePath" d="M 120,280 Q 200,220 300,240 T 500,250 Q 650,260 750,240 T 880,250" />
+                <g id="vanIcon">
+                  <rect x="-15" y="-10" width="30" height="18" rx="3" fill="#1C1917" />
+                  <rect x="5" y="-8" width="14" height="12" rx="2" fill="#F59E0B" />
+                  <circle cx="-8" cy="10" r="4" fill="#0f172a" />
+                  <circle cx="8" cy="10" r="4" fill="#0f172a" />
+                </g>
               </defs>
 
               <rect width="1000" height="500" fill="url(#mapGradient)"/>
@@ -55,6 +62,14 @@ export default function CurrentLocation() {
                   repeatCount="indefinite"
                 />
               </path>
+
+              <g>
+                <use href="#vanIcon">
+                  <animateMotion dur="8s" repeatCount="indefinite" rotate="auto">
+                    <mpath href="#routePath" />
+                  </animateMotion>
+                </use>
+              </g>
 
               <circle cx="120" cy="280" r="10" fill="#78350f" opacity="0.5">
                 <animate attributeName="r" values="10;12;10" dur="2s" repeatCount="indefinite"/>
@@ -84,10 +99,10 @@ export default function CurrentLocation() {
               </g>
 
               <text x="500" y="380" fontSize="24" fill="#78350f" textAnchor="middle" fontFamily="serif" fontStyle="italic">
-                Interactive Route Map
+                Carte de l’itinéraire (animation de van)
               </text>
               <text x="500" y="410" fontSize="16" fill="#a8a29e" textAnchor="middle" fontFamily="serif">
-                Live tracking coming soon
+                Suivi en direct à venir
               </text>
             </svg>
           </div>
@@ -100,27 +115,27 @@ export default function CurrentLocation() {
                     <MapPin className="text-green-600" size={28} />
                   </div>
                   <div>
-                    <p className="text-sm text-stone-500 font-serif mb-1">Last Stop</p>
+                    <p className="text-sm text-stone-500 font-serif mb-1">Dernière étape</p>
                     <h3 className="text-2xl font-handwritten text-stone-900 mb-1">Paris, France</h3>
                     <div className="flex items-center gap-2 text-sm text-stone-600">
                       <Calendar size={14} />
-                      <span className="font-serif">March 21, 2025</span>
+                      <span className="font-serif">21 mars 2025</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 shadow-lg border border-amber-200 hover:shadow-xl transition-shadow">
+              <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2zl p-6 shadow-lg border border-amber-200 hover:shadow-xl transition-shadow">
                 <div className="flex items-start gap-4">
                   <div className="bg-amber-200 p-3 rounded-full">
                     <Navigation className="text-amber-700" size={28} />
                   </div>
                   <div>
-                    <p className="text-sm text-amber-700 font-serif mb-1">Next Destination</p>
-                    <h3 className="text-2xl font-handwritten text-stone-900 mb-1">Barcelona, Spain</h3>
+                    <p className="text-sm text-amber-700 font-serif mb-1">Prochaine destination</p>
+                    <h3 className="text-2xl font-handwritten text-stone-900 mb-1">Barcelone, Espagne</h3>
                     <div className="flex items-center gap-2 text-sm text-stone-600">
                       <Calendar size={14} />
-                      <span className="font-serif">March 28, 2025</span>
+                      <span className="font-serif">28 mars 2025</span>
                     </div>
                   </div>
                 </div>
