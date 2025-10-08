@@ -39,6 +39,7 @@ export default function CurrentLocation(): JSX.Element {
   const [speedMultiplier, setSpeedMultiplier] = useState(1);
   const [segments, setSegments] = useState<{ points: string; ferry: boolean; mid: { x: number; y: number }; pxLen: number }[]>([]);
   const [totalPxLen, setTotalPxLen] = useState(0);
+  const [tooltip, setTooltip] = useState<{ x: number; y: number; name: string; tip: string; isFerry: boolean } | null>(null);
 
   // refs to avoid exhaustive-deps warning while keeping animation loop stable
   const progressRef = useRef(progress);
@@ -377,42 +378,28 @@ export default function CurrentLocation(): JSX.Element {
                     }
                   }}
                   onFocus={() => {
-                    const tip = document.getElementById('map-tooltip');
-                    if (tip) {
-                      const ferry = stops[idx]?.modeToNext === 'ferry'
-                        ? `<div class='font-serif text-[10px] text-amber-700 mt-1'>${t('current.nextFerrySegment')}</div>`
-                        : '';
-                      tip.style.left = `${p.x}px`;
-                      tip.style.top = `${p.y - 24}px`;
-                      tip.innerHTML = `<div class='bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2'>
-                        <div class='font-serif text-sm font-semibold'>${p.name}</div>
-                        <div class='font-serif text-xs text-stone-600'>${p.tooltip}</div>
-                        ${ferry}
-                      </div>`;
-                      tip.style.display = 'block';
-                    }
+                    setTooltip({
+                      x: p.x,
+                      y: p.y,
+                      name: p.name,
+                      tip: p.tooltip,
+                      isFerry: stops[idx]?.modeToNext === 'ferry',
+                    });
                   }}
                   onBlur={() => {
-                    const tip = document.getElementById('map-tooltip');
-                    if (tip) tip.style.display = 'none';
+                    setTooltip(null);
                   }}
                   onMouseEnter={() => {
-                    const tip = document.getElementById('map-tooltip');
-                    if (tip) {
-                      const ferry = stops[idx]?.modeToNext === 'ferry' ? `<div class='font-serif text-[10px] text-amber-700 mt-1'>${t('current.nextFerrySegment')}</div>` : '';
-                      tip.style.left = `${p.x}px`;
-                      tip.style.top = `${p.y - 24}px`;
-                      tip.innerHTML = `<div class='bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2'>
-                        <div class='font-serif text-sm font-semibold'>${p.name}</div>
-                        <div class='font-serif text-xs text-stone-600'>${p.tooltip}</div>
-                        ${ferry}
-                      </div>`;
-                      tip.style.display = 'block';
-                    }
+                    setTooltip({
+                      x: p.x,
+                      y: p.y,
+                      name: p.name,
+                      tip: p.tooltip,
+                      isFerry: stops[idx]?.modeToNext === 'ferry',
+                    });
                   }}
                   onMouseLeave={() => {
-                    const tip = document.getElementById('map-tooltip');
-                    if (tip) tip.style.display = 'none';
+                    setTooltip(null);
                   }}
                 >
                   <circle r="10" fill="#16A34A" opacity="0.7" />
@@ -430,16 +417,27 @@ export default function CurrentLocation(): JSX.Element {
               </g>
 
               <foreignObject x="0" y="0" width="1000" height="500">
-                <div
-                  id="map-tooltip"
-                  style={{
-                    position: 'absolute',
-                    display: 'none',
-                    transform: 'translate(-50%, -110%)',
-                    zIndex: 30,
-                    pointerEvents: 'none',
-                  }}
-                ></div>
+                {tooltip && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: `${tooltip.x}px`,
+                      top: `${tooltip.y - 24}px`,
+                      transform: 'translate(-50%, -110%)',
+                      zIndex: 30,
+                      pointerEvents: 'none',
+                      display: 'block',
+                    }}
+                  >
+                    <div className="bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2">
+                      <div className="font-serif text-sm font-semibold">{tooltip.name}</div>
+                      <div className="font-serif text-xs text-stone-600">{tooltip.tip}</div>
+                      {tooltip.isFerry && (
+                        <div className="font-serif text-[10px] text-amber-700 mt-1">{t('current.nextFerrySegment')}</div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </foreignObject>
 
 

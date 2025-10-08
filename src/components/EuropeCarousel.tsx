@@ -146,7 +146,8 @@ export default function EuropeCarousel(): JSX.Element {
               return (
                 <div
                   key={`${s.name}-${i}`}
-                  className={`shrink-0 w-[${itemWidth}px] px-4 py-6 border-r border-stone-100 ${active ? 'bg-amber-50' : 'bg-white'}`}
+                  className={`shrink-0 px-4 py-6 border-r border-stone-100 ${active ? 'bg-amber-50' : 'bg-white'}`}
+                  style={{ width: itemWidth }}
                   aria-current={active ? 'true' : undefined}
                 >
                   <div className="flex items-start gap-3">

@@ -101,33 +101,31 @@ export default function SEO({
     };
     ld.text = JSON.stringify(ldPayload);
   // Optional analytics: Plausible / Umami / Google Analytics (configurable via Vite env)
-    const plausibleDomain = (import.meta as any).env?.VITE_PLAUSIBLE_DOMAIN as string | undefined;
-    if (plausibleDomain && !document.getElementById('plausible-script')) {
+    const { VITE_PLAUSIBLE_DOMAIN, VITE_UMAMI_SRC, VITE_UMAMI_WEBSITE_ID, VITE_GA_ID } = import.meta.env;
+
+    if (VITE_PLAUSIBLE_DOMAIN && !document.getElementById('plausible-script')) {
       const s = document.createElement('script');
       s.defer = true;
       s.id = 'plausible-script';
-      s.setAttribute('data-domain', plausibleDomain);
+      s.setAttribute('data-domain', VITE_PLAUSIBLE_DOMAIN);
       s.src = 'https://plausible.io/js/script.js';
       document.head.appendChild(s);
     }
 
-    const umamiSrc = (import.meta as any).env?.VITE_UMAMI_SRC as string | undefined;
-    const umamiWebsiteId = (import.meta as any).env?.VITE_UMAMI_WEBSITE_ID as string | undefined;
-    if (umamiSrc && umamiWebsiteId && !document.getElementById('umami-script')) {
+    if (VITE_UMAMI_SRC && VITE_UMAMI_WEBSITE_ID && !document.getElementById('umami-script')) {
       const s = document.createElement('script');
       s.defer = true;
       s.id = 'umami-script';
-      s.setAttribute('data-website-id', umamiWebsiteId);
-      s.src = umamiSrc;
+      s.setAttribute('data-website-id', VITE_UMAMI_WEBSITE_ID);
+      s.src = VITE_UMAMI_SRC;
       document.head.appendChild(s);
     }
 
-    const gaId = (import.meta as any).env?.VITE_GA_ID as string | undefined;
-    if (gaId && !document.getElementById('ga-script')) {
+    if (VITE_GA_ID && !document.getElementById('ga-script')) {
       const s = document.createElement('script');
       s.async = true;
       s.id = 'ga-script';
-      s.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+      s.src = `https://www.googletagmanager.com/gtag/js?id=${VITE_GA_ID}`;
       document.head.appendChild(s);
 
       if (!document.getElementById('ga-init')) {
@@ -137,7 +135,7 @@ export default function SEO({
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', '${gaId}');
+          gtag('config', '${VITE_GA_ID}');
         `;
         document.head.appendChild(init);
       }

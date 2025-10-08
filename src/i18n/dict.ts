@@ -1,6 +1,4 @@
-export type Dict = Record<string, string>;
-
-export const fr: Dict = {
+export const fr = {
   'header.siteName': 'Transcontinental Trek',
   'nav.home': 'Accueil',
   'nav.itinerary': 'Itinéraire',
@@ -142,7 +140,10 @@ export const fr: Dict = {
   'footer.about': 'À propos',
   'footer.tips': 'Conseils',
   'footer.gallery': 'Galerie',
-};
+} as const;
+
+export type I18nKeys = keyof typeof fr;
+export type Dict = Record<I18nKeys, string>;
 
 export const en: Dict = {
   'header.siteName': 'Transcontinental Trek',
