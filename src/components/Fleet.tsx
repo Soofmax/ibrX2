@@ -43,6 +43,17 @@ export default function Fleet() {
     },
   ];
 
+  const buildSrcSet = (url: string) => {
+    const widths = [480, 768, 1200, 1600];
+    return widths
+      .map((w) => {
+        const hasW = /[?&]w=\d+/.test(url);
+        const u = hasW ? url.replace(/w=\d+/, `w=${w}`) : `${url}${url.includes('?') ? '&' : '?'}w=${w}`;
+        return `${u} ${w}w`;
+      })
+      .join(', ');
+  };
+
   return (
     <section id="fleet" className="py-24 px-4 sm:px-6 lg:px-8 bg-amber-50 relative overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 opacity-5">
@@ -67,9 +78,12 @@ export default function Fleet() {
               <div className="relative aspect-[4/3] overflow-hidden bg-stone-200">
                 <img
                   src={v.image}
+                  srcSet={buildSrcSet(v.image)}
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                   alt={v.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>

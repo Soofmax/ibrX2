@@ -16,9 +16,17 @@ export default function Hero() {
         <div className="absolute inset-0 opacity-20">
           <img
             src="https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            srcSet="
+              https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&w=640 640w,
+              https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&w=1280 1280w,
+              https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&w=1920 1920w
+            "
+            sizes="100vw"
             alt=""
             className="w-full h-full object-cover"
-            loading="lazy"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-stone-900/50"></div>

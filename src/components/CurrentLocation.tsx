@@ -136,7 +136,13 @@ export default function CurrentLocation() {
               </div>
             </div>
 
-            <svg className="w-full h-full" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              className="w-full h-full"
+              viewBox="0 0 1000 500"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-label="Carte de l’itinéraire. Utilisez la touche Tab pour naviguer entre les villes, Entrée pour simuler un arrêt."
+            >
               <defs>
                 <linearGradient id="mapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#f5f5f4" />
@@ -178,6 +184,31 @@ export default function CurrentLocation() {
                   transform={`translate(${p.x}, ${p.y})`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => jumpTo(p.t, idx)}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`${p.name}. ${p.tooltip}. Appuyez sur Entrée pour simuler un arrêt.`}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      jumpTo(p.t, idx);
+                    }
+                  }}
+                  onFocus={() => {
+                    const tip = document.getElementById('map-tooltip');
+                    if (tip) {
+                      tip.style.left = `${p.x}px`;
+                      tip.style.top = `${p.y - 24}px`;
+                      tip.innerHTML = `<div class='bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2'>
+                        <div class='font-serif text-sm font-semibold'>${p.name}</div>
+                        <div class='font-serif text-xs text-stone-600'>${p.tooltip}</div>
+                      </div>`;
+                      tip.style.display = 'block';
+                    }
+                  }}
+                  onBlur={() => {
+                    const tip = document.getElementById('map-tooltip');
+                    if (tip) tip.style.display = 'none';
+                  }}
                   onMouseEnter={() => {
                     const tip = document.getElementById('map-tooltip');
                     if (tip) {
@@ -218,6 +249,7 @@ export default function CurrentLocation() {
                 {t('current.svgSubtitle')}
               </text>
             </svg>
+            <div aria-live="polite" className="sr-only">{`Dernière étape: ${lastStop}. Prochaine destination: ${nextStop}.`}</div>
           </div>
 
           <div className="p-8 bg-gradient-to-br from-white to-amber-50/30">
