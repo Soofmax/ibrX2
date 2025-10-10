@@ -20,7 +20,7 @@ import NotFound from './pages/NotFound';
 
 function App() {
   return (
-    <div className="min-h-screen bg-amber-50">
+    <div className="min-h-screen bg-gradient-to-b from-green-900 via-green-800 to-amber-50">
       {/* Skip link for keyboard users */}
       <a
         href="#main-content"

@@ -1,14 +1,12 @@
 import { Menu, X, Compass } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useI18n } from '../i18n/useI18n';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [hideOnScroll, setHideOnScroll] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
-  const lastScrollY = useRef(0);
   const { lang, setLang, t } = useI18n();
   const navigate = useNavigate();
   const location = useLocation();
@@ -17,15 +15,6 @@ export default function Header() {
     const handleScroll = () => {
       const y = window.scrollY || 0;
       setScrolled(y > 50);
-      const last = lastScrollY.current || 0;
-      const delta = y - last;
-      // Hide on scroll down beyond threshold; show on scroll up
-      if (y > 120 && delta > 5) {
-        setHideOnScroll(true);
-      } else if (delta < -5 || y <= 120) {
-        setHideOnScroll(false);
-      }
-      lastScrollY.current = y;
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
@@ -46,9 +35,7 @@ export default function Header() {
     }`;
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-500 transform ${
-      hideOnScroll ? '-translate-y-full' : 'translate-y-0'
-    } ${
+    <header className={`fixed top-0 w-full z-50 transition-all duration-500 ${
       scrolled
         ? 'bg-green-900/95 backdrop-blur-md shadow-2xl'
         : 'bg-gradient-to-b from-green-800 to-green-900'
