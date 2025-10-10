@@ -103,7 +103,7 @@ export default function SEO({
     ensureMetaByProperty('og:url', canonical);
     ensureMetaByProperty('og:image', fallbackImage);
     ensureMetaByProperty('og:locale', ogLocale);
-    ensureMetaByProperty('og:locale:alternate', lang === 'en' ? 'fr_FR'
+    ensureMetaByProperty('og:locale:alternate', lang === 'en' ? 'fr_FR' : 'en_US');
     // Twitter
     ensureMetaByName('twitter:card', 'summary_large_image');
     ensureMetaByName('twitter:title', title);
