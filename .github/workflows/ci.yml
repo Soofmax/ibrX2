@@ -34,7 +34,21 @@ jobs:
           HUSKY: 0
         uses: EndBug/add-and-commit@v9
         with:
-          add: "."
+          add: |
+            src
+            public
+            docs
+            index.html
+            README.md
+            eslint.config.js
+            tailwind.config.js
+            vite.config.ts
+            tsconfig.json
+            tsconfig.app.json
+            tsconfig.node.json
+            package.json
+            .prettierrc.json
+            .prettierignore
           message: "chore(prettier): auto-format [skip ci]"
           default_author: github_actions
 
