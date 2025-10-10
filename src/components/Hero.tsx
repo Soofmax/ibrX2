@@ -49,15 +49,21 @@ export default function Hero() {
 
     let i = 0;
     const typing = setInterval(() => {
-      i++;
-      setTypedTitle(titleFull.slice(0, i));
-      if (i >= titleFull.length) {
+      if (i < titleFull.length - 1) {
+        i++;
+        setTypedTitle(titleFull.slice(0, i));
+      } else {
         clearInterval(typing);
-        setShowCaret(false);
+        // Petite pause avant d'afficher le point final
+        setTimeout(() => {
+          i = titleFull.length;
+          setTypedTitle(titleFull.slice(0, i));
+          setShowCaret(false);
+        }, 250);
       }
-    }, 85);
+    }, 130);
 
-    const blink = setInterval(() => setShowCaret((c) => !c), 600);
+    const blink = setInterval(() => setShowCaret((c) => !c), 700);
 
     return () => {
       clearInterval(typing);
