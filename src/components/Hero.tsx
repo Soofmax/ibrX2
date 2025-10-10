@@ -126,22 +126,18 @@ export default function Hero() {
         </h1>
 
         <h2 className="text-2xl sm:text-3xl text-amber-100/90 font-serif max-w-4xl mx-auto mb-8 leading-relaxed animate-fade-in drop-shadow-lg">
-          Suivez notre périple à travers les routes, à travers les villes, à travers les pays, à
-          travers le monde...
+          {t('hero.subtitle')}
         </h2>
 
         <div className="space-y-4 max-w-3xl mx-auto mb-12 animate-fade-in">
           <p className="text-xl sm:text-2xl text-amber-100/90 font-serif leading-relaxed drop-shadow-lg">
-            En 2032, l'aventure WanderGlobers commencera. Un périple de 60 000 km à travers 5
-            continents pour relier un maximum de capitales mondiales par la route.
+            {t('hero.p1')}
           </p>
           <p className="text-xl sm:text-2xl text-amber-100/90 font-serif leading-relaxed drop-shadow-lg">
-            À bord de trois camions Mercedes légendaires, dont deux robustes 1113, notre convoi
-            tracera cette odyssée.
+            {t('hero.p2')}
           </p>
           <p className="text-xl sm:text-2xl text-amber-100/90 font-serif leading-relaxed drop-shadow-lg">
-            L'aventure commence maintenant. Rejoignez-nous, suivez les préparatifs et soutenez la
-            mission pour 2032.
+            {t('hero.p3')}
           </p>
         </div>
 
@@ -196,6 +192,7 @@ export default function Hero() {
       <button
         type="button"
         onClick={goItinerary}
+        aria-label={t('hero.chevronAria')}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-amber-400 animate-bounce cursor-pointer hover:text-amber-300 transition-colors focus-ring"
       >
         <ChevronDown size={40} />
