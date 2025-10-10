@@ -10,8 +10,8 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "postinstall": "npx update-browserslist-db@latest --yes",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,css,md,html,json,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,css,md,html,json,yml}\"",
     "test": "vitest run",
     "test:watch": "vitest",
     "prepare": "husky install"
@@ -47,6 +47,6 @@
     "lint-staged": "^15.2.7"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,json,css,md,yml}": "prettier --write"
+    "*.{ts,tsx,js,jsx,json,css,md,yml,html}": "prettier --write"
   }
 }
