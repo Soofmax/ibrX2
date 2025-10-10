@@ -11,6 +11,7 @@ export const fr = {
   'nav.support': 'Soutien',
   'nav.targets': 'Cibles sponsors',
   'nav.contact': 'Contact',
+  'nav.more': 'Plus',
 
   'notfound.title': 'Page introuvable',
   'notfound.text': "Désolé, la page que vous cherchez n'existe pas ou a été déplacée.",

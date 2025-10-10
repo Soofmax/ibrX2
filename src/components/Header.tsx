@@ -83,7 +83,7 @@ export default function Header() {
                 aria-expanded={moreOpen}
                 className="px-5 py-2 rounded-full transition-all font-serif focus-ring text-white hover:bg-green-600 hover:scale-105"
               >
-                {lang === 'fr' ? 'Plus' : 'More'}
+                {t('nav.more')}
               </button>
               {moreOpen && (
                 <div role="menu" className="absolute right-0 top-full mt-2 w-56 bg-green-900/90 rounded-xl shadow-lg backdrop-blur-sm p-2 border border-green-700">
