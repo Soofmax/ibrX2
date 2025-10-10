@@ -1,4 +1,4 @@
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ArrowRight, Globe, Route, Truck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useI18n } from '../i18n/useI18n';
 import { useEffect, useState } from 'react';
@@ -16,14 +16,22 @@ export default function Hero() {
   const [showCaret, setShowCaret] = useState(true);
 
   useEffect(() => {
+    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      setTypedTitle(titleFull);
+      setShowCaret(false);
+      return;
+    }
+
     let i = 0;
     const typing = setInterval(() => {
       i++;
       setTypedTitle(titleFull.slice(0, i));
       if (i >= titleFull.length) {
         clearInterval(typing);
+        setTimeout(() => setShowCaret(false), 1000);
       }
-    }, 50);
+    }, 45);
 
     const blink = setInterval(() => setShowCaret((c) => !c), 500);
 
@@ -36,7 +44,7 @@ export default function Hero() {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-stone-900 via-stone-800 to-amber-900"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-green-900 via-green-800 to-amber-900"></div>
         <div className="absolute inset-0 opacity-20">
           <img
             src="https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&w=1920"
@@ -53,7 +61,7 @@ export default function Hero() {
             decoding="async"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-stone-900/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-green-900 via-transparent to-green-900/50"></div>
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto text-center">
@@ -89,9 +97,12 @@ export default function Hero() {
           <button
             type="button"
             onClick={goSupport}
-            className="group relative bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-amber-50 font-serif px-10 py-5 rounded-full text-lg transition-all hover:scale-105 shadow-2xl hover:shadow-amber-500/50 overflow-hidden focus-ring"
+            className="group relative bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-amber-50 font-serif px-10 py-5 rounded-full text-lg transition-all hover:scale-105 shadow-2xl hover:shadow-green-500/50 overflow-hidden focus-ring"
           >
-            <span className="relative z-10">{t('hero.ctaSupport')}</span>
+            <span className="relative z-10 inline-flex items-center gap-2">
+              {t('hero.ctaSupport')}
+              <ArrowRight size={20} />
+            </span>
             <div className="absolute inset-0 bg-white/20 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
           </button>
 
@@ -102,6 +113,31 @@ export default function Hero() {
           >
             {t('hero.ctaExplore')}
           </button>
+        </div>
+
+        {/* KPI strip under CTAs */}
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto animate-fade-in">
+          <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3">
+            <Globe className="text-green-700" size={24} />
+            <div>
+              <p className="text-stone-900 font-handwritten text-xl">60 000 km</p>
+              <p className="text-stone-700 font-serif text-sm">à parcourir</p>
+            </div>
+          </div>
+          <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3">
+            <Route className="text-green-700" size={24} />
+            <div>
+              <p className="text-stone-900 font-handwritten text-xl">5 continents</p>
+              <p className="text-stone-700 font-serif text-sm">sur l’itinéraire</p>
+            </div>
+          </div>
+          <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3">
+            <Truck className="text-green-700" size={24} />
+            <div>
+              <p className="text-stone-900 font-handwritten text-xl">3 camions</p>
+              <p className="text-stone-700 font-serif text-sm">Mercedes (2 × 1113)</p>
+            </div>
+          </div>
         </div>
       </div>
 
