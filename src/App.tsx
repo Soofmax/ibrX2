@@ -30,7 +30,8 @@ function App() {
       </a>
 
       <Header />
-      <main id="main-content" role="main" tabIndex={-1}>
+      {/* Add top padding to avoid body content overlapping the fixed header */}
+      <main id="main-content" role="main" tabIndex={-1} className="pt-24 md:pt-28">
         <ErrorBoundary>
           <Routes>
             <Route path="/" element={<Home />} />
