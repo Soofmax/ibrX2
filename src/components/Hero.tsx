@@ -1,6 +1,7 @@
 import { ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useI18n } from '../i18n/useI18n';
+import { useEffect, useState } from 'react';
 
 export default function Hero() {
   const navigate = useNavigate();
@@ -8,6 +9,29 @@ export default function Hero() {
 
   const goSupport = () => navigate('/support');
   const goItinerary = () => navigate('/itinerary');
+
+  // Typing effect for H1 (no CSS changes)
+  const titleFull = 'Périple Mondial des Capitales';
+  const [typedTitle, setTypedTitle] = useState('');
+  const [showCaret, setShowCaret] = useState(true);
+
+  useEffect(() => {
+    let i = 0;
+    const typing = setInterval(() => {
+      i++;
+      setTypedTitle(titleFull.slice(0, i));
+      if (i >= titleFull.length) {
+        clearInterval(typing);
+      }
+    }, 50);
+
+    const blink = setInterval(() => setShowCaret((c) => !c), 500);
+
+    return () => {
+      clearInterval(typing);
+      clearInterval(blink);
+    };
+  }, []);
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden scroll-mt-24">
@@ -37,14 +61,29 @@ export default function Hero() {
           <p className="text-amber-300 font-serif text-sm tracking-wider">{t('hero.pretitle')}</p>
         </div>
 
-        <h2 className="text-5xl sm:text-6xl lg:text-8xl font-handwritten text-amber-50 mb-8 animate-fade-in drop-shadow-2xl leading-tight">
-          {t('hero.title1')}
-          <span className="block text-amber-400 mt-2">{t('hero.title2')}</span>
+        <h1
+          className="text-5xl sm:text-6xl lg:text-8xl font-handwritten text-amber-50 mb-6 animate-fade-in drop-shadow-2xl leading-tight"
+          aria-label={titleFull}
+        >
+          {typedTitle}
+          <span aria-hidden="true" className="text-amber-400">{showCaret ? '|' : ' '}</span>
+        </h1>
+
+        <h2 className="text-2xl sm:text-3xl text-amber-100/90 font-serif max-w-4xl mx-auto mb-8 leading-relaxed animate-fade-in drop-shadow-lg">
+          Suivez notre périple à travers les routes, à travers les villes, à travers les pays, à travers le monde...
         </h2>
 
-        <p className="text-xl sm:text-2xl text-amber-100/90 font-serif max-w-3xl mx-auto mb-12 leading-relaxed animate-fade-in drop-shadow-lg">
-          {t('hero.paragraph')}
-        </p>
+        <div className="space-y-4 max-w-3xl mx-auto mb-12 animate-fade-in">
+          <p className="text-xl sm:text-2xl text-amber-100/90 font-serif leading-relaxed drop-shadow-lg">
+            En 2032, l'aventure WanderGlobers commencera. Un périple de 60 000 km à travers 5 continents pour relier un maximum de capitales mondiales par la route.
+          </p>
+          <p className="text-xl sm:text-2xl text-amber-100/90 font-serif leading-relaxed drop-shadow-lg">
+            À bord de trois camions Mercedes légendaires, dont deux robustes 1113, notre convoi tracera cette odyssée.
+          </p>
+          <p className="text-xl sm:text-2xl text-amber-100/90 font-serif leading-relaxed drop-shadow-lg">
+            L'aventure commence maintenant. Rejoignez-nous, suivez les préparatifs et soutenez la mission pour 2032.
+          </p>
+        </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
           <button
