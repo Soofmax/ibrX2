@@ -1,7 +1,7 @@
 import { ChevronDown, ArrowRight, Globe, Route, Truck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useI18n } from '../i18n/useI18n';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 export default function Hero() {
   const navigate = useNavigate();
@@ -11,10 +11,34 @@ export default function Hero() {
   const goItinerary = () => navigate('/itinerary');
 
   // Typing effect for H1 (no CSS changes)
-  const titleFull = 'Périple Mondial des Capitales';
+  const titleFull = 'Périple Mondial des Capitales.';
   const [typedTitle, setTypedTitle] = useState('');
   const [showCaret, setShowCaret] = useState(true);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  const [parallaxY, setParallaxY] = useState(0);
 
+  // Set fetchpriority attribute (lowercase) to avoid React warning while preserving behavior
+  useEffect(() => {
+    if (imgRef.current) {
+      imgRef.current.setAttribute('fetchpriority', 'high');
+    }
+  }, []);
+
+  // Very light parallax on the hero image (disabled if reduced motion)
+  useEffect(() => {
+    const reduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY || 0;
+        const offset = Math.min(y * 0.03, 30); // max 30px
+        setParallaxY(offset);
+        ticking = false;
+      });
   useEffect(() => {
     const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
@@ -29,11 +53,11 @@ export default function Hero() {
       setTypedTitle(titleFull.slice(0, i));
       if (i >= titleFull.length) {
         clearInterval(typing);
-        setTimeout(() => setShowCaret(false), 1000);
+        setShowCaret(false);
       }
-    }, 45);
+    }, 85);
 
-    const blink = setInterval(() => setShowCaret((c) => !c), 500);
+    const blink = setInterval(() => setShowCaret((c) => !c), 600);
 
     return () => {
       clearInterval(typing);
@@ -42,7 +66,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden scroll-mt-24">
+    <section id="home" className="relative min-h-[90vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-green-900 via-green-800 to-amber-900"></div>
         <div className="absolute inset-0 opacity-20">
@@ -57,11 +81,12 @@ export default function Hero() {
             alt=""
             className="w-full h-full object-cover"
             loading="eager"
-            fetchPriority="high"
             decoding="async"
+            ref={imgRef}
+            style={{ objectPosition: '50% 35%', transform: `translateY(${parallaxY}px)` }}
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-green-900 via-transparent to-green-900/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-green-900 via-transparent to-green-900/40"></div>
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto text-center">
