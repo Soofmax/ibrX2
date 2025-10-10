@@ -49,7 +49,9 @@ function ensureLinkRel(rel: string, href: string) {
 }
 
 function ensureHrefLangLink(hreflang: string, href: string) {
-  let link = document.querySelector(`link[rel="alternate"][hreflang="${hreflang}"]`) as HTMLLinkElement | null;
+  let link = document.querySelector(
+    `link[rel="alternate"][hreflang="${hreflang}"]`
+  ) as HTMLLinkElement | null;
   if (!link) {
     link = document.createElement('link');
     link.setAttribute('rel', 'alternate');
