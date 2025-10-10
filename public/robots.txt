@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://transcontinental-trek.netlify.app/sitemap.xml
+Sitemap: https://wanderglobers.com/sitemap.xml

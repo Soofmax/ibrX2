@@ -1,5 +1,5 @@
 export const fr = {
-  'header.siteName': 'Transcontinental Trek',
+  'header.siteName': 'WanderGlobers',
   'nav.home': 'Accueil',
   'nav.itinerary': 'Itinéraire',
   'nav.fleet': 'Flotte',
@@ -146,7 +146,7 @@ export type I18nKeys = keyof typeof fr;
 export type Dict = Record<I18nKeys, string>;
 
 export const en: Dict = {
-  'header.siteName': 'Transcontinental Trek',
+  'header.siteName': 'WanderGlobers',
   'nav.home': 'Home',
   'nav.itinerary': 'Itinerary',
   'nav.fleet': 'Fleet',

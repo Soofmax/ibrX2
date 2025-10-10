@@ -47,7 +47,7 @@ export default function SEO({
   path,
   image,
   lang = 'fr',
-  siteName = 'Transcontinental Trek',
+  siteName = 'WanderGlobers',
 }: Props) {
   useEffect(() => {
     const origin =

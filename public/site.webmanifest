@@ -1,10 +1,10 @@
 {
-  "name": "Transcontinental Trek",
-  "short_name": "Trek",
+  "name": "WanderGlobers",
+  "short_name": "WanderGlobers",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFBEB",
-  "theme_color": "#F59E0B",
+  "theme_color": "#14532D",
   "lang": "fr",
   "icons": []
 }
