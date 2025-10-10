@@ -34,7 +34,7 @@ export default function Header() {
     <header className={`fixed top-0 w-full z-50 transition-all duration-500 ${
       scrolled
         ? 'bg-green-900/95 backdrop-blur-md shadow-2xl'
-        : 'bg-gradient-to-b from-stone-900/80 to-transparent'
+        : 'bg-gradient-to-b from-green-900 to-green-950'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
         <div className="flex justify-between items-center">
