@@ -14,6 +14,8 @@ describe('EuropeCarousel component', () => {
         <EuropeCarousel />
       </I18nProvider>
     );
-    expect(screen.getByText(/Paris \(France\)/)).toBeInTheDocument();
+    // Target the visible heading rather than the sr-only live region
+    const cityHeading = screen.getByRole('heading', { name: /Paris \(France\)/ });
+    expect(cityHeading).toBeInTheDocument();
   });
 });
