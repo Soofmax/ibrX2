@@ -66,7 +66,8 @@ export default function SEO({
   image,
   lang = 'fr',
   siteName = 'WanderGlobers',
-  geoops) {
+  geo,
+}: Props) {
   useEffect(() => {
     const origin =
       typeof window !== 'undefined' && window.location
