@@ -152,11 +152,11 @@ const retour: RouteStop[] = [
 
 export const routeStopsByContinent = {
   Europe: europe,
-  'Amériques': americas,
-  'Océanie': oceania,
-  'Asie': asia,
-  'Afrique': africa,
-  'Retour': retour,
+  Amériques: americas,
+  Océanie: oceania,
+  Asie: asia,
+  Afrique: africa,
+  Retour: retour,
 };
 
 export const routeStops: RouteStop[] = [

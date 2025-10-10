@@ -1,6 +1,7 @@
 # Documentation
 
 Sommaire:
+
 - architecture.md — structure, routes, composants
 - i18n.md — traductions FR/EN, bonnes pratiques
 - content.md — contenus (blog, équipe, flotte), schémas

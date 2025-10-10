@@ -54,7 +54,11 @@ export default function SEO({
       typeof window !== 'undefined' && window.location
         ? `${window.location.origin}`
         : 'https://example.com';
-    const canonical = path ? `${origin}${path}` : (typeof window !== 'undefined' ? window.location.href : origin);
+    const canonical = path
+      ? `${origin}${path}`
+      : typeof window !== 'undefined'
+        ? window.location.href
+        : origin;
     const ogLocale = lang === 'en' ? 'en_US' : 'fr_FR';
     const fallbackImage =
       image ||
@@ -100,8 +104,9 @@ export default function SEO({
       description: description || '',
     };
     ld.text = JSON.stringify(ldPayload);
-  // Optional analytics: Plausible / Umami / Google Analytics (configurable via Vite env)
-    const { VITE_PLAUSIBLE_DOMAIN, VITE_UMAMI_SRC, VITE_UMAMI_WEBSITE_ID, VITE_GA_ID } = import.meta.env;
+    // Optional analytics: Plausible / Umami / Google Analytics (configurable via Vite env)
+    const { VITE_PLAUSIBLE_DOMAIN, VITE_UMAMI_SRC, VITE_UMAMI_WEBSITE_ID, VITE_GA_ID } = import.meta
+      .env;
 
     if (VITE_PLAUSIBLE_DOMAIN && !document.getElementById('plausible-script')) {
       const s = document.createElement('script');

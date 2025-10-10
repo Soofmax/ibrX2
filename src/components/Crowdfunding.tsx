@@ -5,7 +5,10 @@ export default function Crowdfunding() {
   const { t } = useI18n();
 
   return (
-    <section id="support" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-900 to-stone-800 relative overflow-hidden scroll-mt-24">
+    <section
+      id="support"
+      className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-900 to-stone-800 relative overflow-hidden scroll-mt-24"
+    >
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-10 w-96 h-96 bg-green-600 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-600 rounded-full blur-3xl"></div>
@@ -56,14 +59,19 @@ export default function Crowdfunding() {
               </li>
             </ul>
 
-            <button type="button" className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white font-serif px-6 py-4 rounded-full transition-all hover:scale-105 shadow-lg text-lg focus-ring">
+            <button
+              type="button"
+              className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white font-serif px-6 py-4 rounded-full transition-all hover:scale-105 shadow-lg text-lg focus-ring"
+            >
               {t('support.paypal')}
             </button>
           </div>
 
           <div className="group bg-gradient-to-br from-stone-900 to-stone-800 rounded-3xl shadow-2xl p-8 border-4 border-green-500 hover:shadow-green-500/30 transition-all duration-500 hover:-translate-y-2 hover:scale-105 relative overflow-hidden">
             <div className="absolute top-4 right-4">
-              <span className="bg-green-500 text-white text-sm font-serif px-4 py-1 rounded-full shadow-lg">Populaire</span>
+              <span className="bg-green-500 text-white text-sm font-serif px-4 py-1 rounded-full shadow-lg">
+                Populaire
+              </span>
             </div>
 
             <div className="flex justify-center mb-6">
@@ -82,7 +90,9 @@ export default function Crowdfunding() {
 
             <div className="bg-stone-800/50 rounded-2xl p-4 mb-6 border border-green-500/30">
               <p className="text-center font-serif text-green-200 mb-2">Dès</p>
-              <p className="text-center text-4xl font-handwritten text-green-400">10€<span className="text-xl">{t('support.perMonth')}</span></p>
+              <p className="text-center text-4xl font-handwritten text-green-400">
+                10€<span className="text-xl">{t('support.perMonth')}</span>
+              </p>
             </div>
 
             <ul className="space-y-2 mb-6">
@@ -104,7 +114,10 @@ export default function Crowdfunding() {
               </li>
             </ul>
 
-            <button type="button" className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white font-serif px-6 py-4 rounded-full transition-all hover:scale-105 shadow-xl text-lg focus-ring">
+            <button
+              type="button"
+              className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white font-serif px-6 py-4 rounded-full transition-all hover:scale-105 shadow-xl text-lg focus-ring"
+            >
               {t('support.rewards')}
             </button>
           </div>
@@ -126,7 +139,9 @@ export default function Crowdfunding() {
 
             <div className="bg-white rounded-2xl p-4 mb-6 border border-rose-200">
               <p className="text-center font-serif text-stone-600 mb-2">{t('support.flex')}</p>
-              <p className="text-center text-4xl font-handwritten text-rose-600">{t('support.free')}</p>
+              <p className="text-center text-4xl font-handwritten text-rose-600">
+                {t('support.free')}
+              </p>
             </div>
 
             <ul className="space-y-2 mb-6">
@@ -144,7 +159,10 @@ export default function Crowdfunding() {
               </li>
             </ul>
 
-            <button type="button" className="w-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-rose-50 font-serif px-6 py-4 rounded-full transition-all hover:scale-105 shadow-lg text-lg focus-ring">
+            <button
+              type="button"
+              className="w-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-rose-50 font-serif px-6 py-4 rounded-full transition-all hover:scale-105 shadow-lg text-lg focus-ring"
+            >
               {t('support.visit')}
             </button>
           </div>
@@ -155,10 +173,38 @@ export default function Crowdfunding() {
             <p className="text-green-100/90 font-serif">{t('support.availableSoon')}</p>
           </div>
           <div className="flex flex-wrap justify-center gap-3">
-            <a href="https://paypal.me/TranscontinentalTrek" target="_blank" rel="noopener noreferrer" className="bg-green-600 hover:bg-green-500 text-white font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring">PayPal</a>
-            <a href="https://patreon.com/TranscontinentalTrek" target="_blank" rel="noopener noreferrer" className="bg-stone-800 hover:bg-stone-700 text-white font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring">Patreon</a>
-            <a href="https://tipeee.com/transcontinental-trek" target="_blank" rel="noopener noreferrer" className="bg-rose-600 hover:bg-rose-500 text-rose-50 font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring">Tipeee</a>
-            <a href="https://ulule.com/transcontinental-trek" target="_blank" rel="noopener noreferrer" className="bg-orange-600 hover:bg-orange-500 text-white font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring">Ulule</a>
+            <a
+              href="https://paypal.me/TranscontinentalTrek"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green-600 hover:bg-green-500 text-white font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring"
+            >
+              PayPal
+            </a>
+            <a
+              href="https://patreon.com/TranscontinentalTrek"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-stone-800 hover:bg-stone-700 text-white font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring"
+            >
+              Patreon
+            </a>
+            <a
+              href="https://tipeee.com/transcontinental-trek"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-rose-600 hover:bg-rose-500 text-rose-50 font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring"
+            >
+              Tipeee
+            </a>
+            <a
+              href="https://ulule.com/transcontinental-trek"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-orange-600 hover:bg-orange-500 text-white font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring"
+            >
+              Ulule
+            </a>
           </div>
         </div>
       </div>

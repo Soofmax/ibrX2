@@ -26,7 +26,10 @@ export default function Hero() {
 
   // Very light parallax on the hero image (disabled if reduced motion)
   useEffect(() => {
-    const reduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduce =
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) return;
 
     let ticking = false;
@@ -46,7 +49,10 @@ export default function Hero() {
   }, []);
 
   useEffect(() => {
-    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
       setTypedTitle(titleFull);
       setShowCaret(false);
@@ -78,7 +84,10 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="home" className="relative min-h-[90vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden scroll-mt-24">
+    <section
+      id="home"
+      className="relative min-h-[90vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden scroll-mt-24"
+    >
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-green-900 via-green-800 to-amber-900"></div>
         <div className="absolute inset-0 opacity-20">
@@ -111,22 +120,28 @@ export default function Hero() {
           aria-label={titleFull}
         >
           {typedTitle}
-          <span aria-hidden="true" className="text-amber-400">{showCaret ? '|' : ' '}</span>
+          <span aria-hidden="true" className="text-amber-400">
+            {showCaret ? '|' : ' '}
+          </span>
         </h1>
 
         <h2 className="text-2xl sm:text-3xl text-amber-100/90 font-serif max-w-4xl mx-auto mb-8 leading-relaxed animate-fade-in drop-shadow-lg">
-          Suivez notre périple à travers les routes, à travers les villes, à travers les pays, à travers le monde...
+          Suivez notre périple à travers les routes, à travers les villes, à travers les pays, à
+          travers le monde...
         </h2>
 
         <div className="space-y-4 max-w-3xl mx-auto mb-12 animate-fade-in">
           <p className="text-xl sm:text-2xl text-amber-100/90 font-serif leading-relaxed drop-shadow-lg">
-            En 2032, l'aventure WanderGlobers commencera. Un périple de 60 000 km à travers 5 continents pour relier un maximum de capitales mondiales par la route.
+            En 2032, l'aventure WanderGlobers commencera. Un périple de 60 000 km à travers 5
+            continents pour relier un maximum de capitales mondiales par la route.
           </p>
           <p className="text-xl sm:text-2xl text-amber-100/90 font-serif leading-relaxed drop-shadow-lg">
-            À bord de trois camions Mercedes légendaires, dont deux robustes 1113, notre convoi tracera cette odyssée.
+            À bord de trois camions Mercedes légendaires, dont deux robustes 1113, notre convoi
+            tracera cette odyssée.
           </p>
           <p className="text-xl sm:text-2xl text-amber-100/90 font-serif leading-relaxed drop-shadow-lg">
-            L'aventure commence maintenant. Rejoignez-nous, suivez les préparatifs et soutenez la mission pour 2032.
+            L'aventure commence maintenant. Rejoignez-nous, suivez les préparatifs et soutenez la
+            mission pour 2032.
           </p>
         </div>
 

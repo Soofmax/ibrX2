@@ -66,7 +66,7 @@ export default function AnimatedMap(): JSX.Element {
   const vanAngle = angle + 90;
 
   // Gentle bounce
-  const bounce = Math.sin(angle * Math.PI / 90) * 2;
+  const bounce = Math.sin((angle * Math.PI) / 90) * 2;
 
   const currentStop = stops[currentStopIndex];
   const nextStop = stops[(currentStopIndex + 1) % stops.length];
@@ -160,7 +160,14 @@ export default function AnimatedMap(): JSX.Element {
 
             {/* Globe (ocean) */}
             <g filter="url(#softGlow)">
-              <circle cx={globeCx} cy={globeCy} r="160" fill="url(#oceanGrad)" stroke="#0ea5e9" strokeWidth="4" />
+              <circle
+                cx={globeCx}
+                cy={globeCy}
+                r="160"
+                fill="url(#oceanGrad)"
+                stroke="#0ea5e9"
+                strokeWidth="4"
+              />
             </g>
 
             {/* Simple continents (cartoon blobs) */}
@@ -171,7 +178,16 @@ export default function AnimatedMap(): JSX.Element {
             </g>
 
             {/* Orbit path */}
-            <circle cx={globeCx} cy={globeCy} r={orbitR} fill="none" stroke="#d97706" strokeWidth="3" strokeDasharray="8 6" opacity="0.75" />
+            <circle
+              cx={globeCx}
+              cy={globeCy}
+              r={orbitR}
+              fill="none"
+              stroke="#d97706"
+              strokeWidth="3"
+              strokeDasharray="8 6"
+              opacity="0.75"
+            />
 
             {/* Ferry marker for fun when currentStop.modeToNext === 'ferry' */}
             {currentStop?.modeToNext === 'ferry' && (
@@ -181,7 +197,10 @@ export default function AnimatedMap(): JSX.Element {
             )}
 
             {/* Van */}
-            <g transform={`translate(${vanX}, ${vanY + bounce}) rotate(${vanAngle})`} filter="url(#softGlow)">
+            <g
+              transform={`translate(${vanX}, ${vanY + bounce}) rotate(${vanAngle})`}
+              filter="url(#softGlow)"
+            >
               <rect x="-16" y="-10" width="32" height="18" rx="3" fill="#1C1917" />
               <rect x="0" y="-8" width="14" height="12" rx="2" fill="#F59E0B" />
               <circle cx="-8" cy="10" r="4" fill="#0f172a" />
@@ -189,10 +208,24 @@ export default function AnimatedMap(): JSX.Element {
             </g>
 
             {/* Current + next label, centered below globe */}
-            <text x={globeCx} y={globeCy + 190} fontSize="20" fill="#1C1917" textAnchor="middle" fontFamily="serif">
+            <text
+              x={globeCx}
+              y={globeCy + 190}
+              fontSize="20"
+              fill="#1C1917"
+              textAnchor="middle"
+              fontFamily="serif"
+            >
               {currentStop?.label}
             </text>
-            <text x={globeCx} y={globeCy + 212} fontSize="14" fill="#64748b" textAnchor="middle" fontFamily="serif">
+            <text
+              x={globeCx}
+              y={globeCy + 212}
+              fontSize="14"
+              fill="#64748b"
+              textAnchor="middle"
+              fontFamily="serif"
+            >
               {t('map.nextDestination')}: {nextStop?.label}
             </text>
           </svg>

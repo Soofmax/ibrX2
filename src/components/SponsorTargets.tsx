@@ -10,7 +10,11 @@ export default function SponsorTargets() {
     },
     {
       category: 'Treuils & Accessoires de récupération',
-      why: ['Extraction en terrains difficiles', 'Robustesse & maintenance', 'Sécurité de l’équipe'],
+      why: [
+        'Extraction en terrains difficiles',
+        'Robustesse & maintenance',
+        'Sécurité de l’équipe',
+      ],
       sites: ['https://example.com'],
       openness: 'Ouvert aux solutions équivalentes',
     },
@@ -62,12 +66,17 @@ export default function SponsorTargets() {
           <h2 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-stone-900 mb-4">
             Cibles Sponsors
           </h2>
-          <p className="text-xl text-stone-600 font-serif">Partenaires souhaités, raisons et ouverture aux alternatives</p>
+          <p className="text-xl text-stone-600 font-serif">
+            Partenaires souhaités, raisons et ouverture aux alternatives
+          </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
           {targets.map((t, i) => (
-            <article key={i} className="bg-white rounded-2xl p-8 shadow-lg border border-stone-200 hover:shadow-2xl transition-all">
+            <article
+              key={i}
+              className="bg-white rounded-2xl p-8 shadow-lg border border-stone-200 hover:shadow-2xl transition-all"
+            >
               <h3 className="text-2xl font-handwritten text-stone-900 mb-3">{t.category}</h3>
               <div className="flex items-center gap-2 text-stone-600 font-serif mb-3">
                 <Info size={18} className="text-amber-600" /> Pourquoi ?
@@ -82,13 +91,24 @@ export default function SponsorTargets() {
               </div>
               <div className="flex flex-wrap gap-2 mb-4">
                 {t.sites.map((s, idx) => (
-                  <a key={idx} href={s} target="_blank" rel="noopener noreferrer" className="text-amber-700 hover:underline font-serif">
+                  <a
+                    key={idx}
+                    href={s}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-amber-700 hover:underline font-serif"
+                  >
                     {s}
                   </a>
                 ))}
               </div>
-              <p className="text-stone-600 font-serif mb-4"><strong>Ouverture:</strong> {t.openness}</p>
-              <a href="mailto:sponsors@transcontinentaltrek.com" className="inline-block bg-stone-900 hover:bg-stone-800 text-amber-50 font-serif px-6 py-3 rounded-full transition-all hover:scale-105 shadow-xl focus-ring">
+              <p className="text-stone-600 font-serif mb-4">
+                <strong>Ouverture:</strong> {t.openness}
+              </p>
+              <a
+                href="mailto:sponsors@transcontinentaltrek.com"
+                className="inline-block bg-stone-900 hover:bg-stone-800 text-amber-50 font-serif px-6 py-3 rounded-full transition-all hover:scale-105 shadow-xl focus-ring"
+              >
                 Proposer un partenariat
               </a>
             </article>

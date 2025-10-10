@@ -11,14 +11,19 @@ export default function BlogPosts() {
     return widths
       .map((w) => {
         const hasW = /[?&]w=\d+/.test(url);
-        const u = hasW ? url.replace(/w=\d+/, `w=${w}`) : `${url}${url.includes('?') ? '&' : '?'}w=${w}`;
+        const u = hasW
+          ? url.replace(/w=\d+/, `w=${w}`)
+          : `${url}${url.includes('?') ? '&' : '?'}w=${w}`;
         return `${u} ${w}w`;
       })
       .join(', ');
   };
 
   return (
-    <section id="blog" className="py-24 px-4 sm:px-6 lg:px-8 bg-amber-50 relative overflow-hidden scroll-mt-24">
+    <section
+      id="blog"
+      className="py-24 px-4 sm:px-6 lg:px-8 bg-amber-50 relative overflow-hidden scroll-mt-24"
+    >
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-40 right-20 w-96 h-96 bg-amber-600 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 left-20 w-80 h-80 bg-orange-600 rounded-full blur-3xl"></div>
@@ -70,13 +75,17 @@ export default function BlogPosts() {
                   {post.title}
                 </h3>
 
-                <p className="text-stone-600 font-serif leading-relaxed mb-4">
-                  {post.excerpt}
-                </p>
+                <p className="text-stone-600 font-serif leading-relaxed mb-4">{post.excerpt}</p>
 
-                <button type="button" className="flex items-center gap-2 text-amber-600 font-serif hover:gap-3 transition-all group focus-ring">
+                <button
+                  type="button"
+                  className="flex items-center gap-2 text-amber-600 font-serif hover:gap-3 transition-all group focus-ring"
+                >
                   <span>{t('blog.readMore')}</span>
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight
+                    size={18}
+                    className="group-hover:translate-x-1 transition-transform"
+                  />
                 </button>
               </div>
             </article>
@@ -84,7 +93,10 @@ export default function BlogPosts() {
         </div>
 
         <div className="text-center mt-12">
-          <button type="button" className="bg-stone-900 hover:bg-stone-800 text-amber-50 font-serif px-10 py-4 rounded-full text-lg transition-all hover:scale-105 shadow-xl focus-ring">
+          <button
+            type="button"
+            className="bg-stone-900 hover:bg-stone-800 text-amber-50 font-serif px-10 py-4 rounded-full text-lg transition-all hover:scale-105 shadow-xl focus-ring"
+          >
             {t('blog.viewAll')}
           </button>
         </div>

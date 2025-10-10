@@ -39,7 +39,10 @@ export default function SimpleCurrentLocation(): JSX.Element {
   const next = () => setIdx((i) => (i + 1) % stops.length);
 
   return (
-    <section id="map" className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-100 to-amber-50 scroll-mt-24">
+    <section
+      id="map"
+      className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-100 to-amber-50 scroll-mt-24"
+    >
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-10">
           <div className="inline-block mb-3">
@@ -84,7 +87,10 @@ export default function SimpleCurrentLocation(): JSX.Element {
         </div>
 
         {/* Carrousel simplifié */}
-        <div className="relative mx-auto overflow-hidden rounded-2xl bg-white shadow-xl border border-stone-200" style={{ width: containerWidth }}>
+        <div
+          className="relative mx-auto overflow-hidden rounded-2xl bg-white shadow-xl border border-stone-200"
+          style={{ width: containerWidth }}
+        >
           <div
             className="flex transition-transform duration-700 ease-out will-change-transform"
             style={{ transform: `translateX(${translateX}px)` }}
@@ -100,10 +106,17 @@ export default function SimpleCurrentLocation(): JSX.Element {
                 >
                   <div className="flex items-start gap-3">
                     <div className={`p-2 rounded-full ${active ? 'bg-amber-200' : 'bg-stone-200'}`}>
-                      <MapPin className={`${active ? 'text-amber-700' : 'text-stone-700'}`} size={22} />
+                      <MapPin
+                        className={`${active ? 'text-amber-700' : 'text-stone-700'}`}
+                        size={22}
+                      />
                     </div>
                     <div>
-                      <h3 className={`text-lg font-handwritten ${active ? 'text-stone-900' : 'text-stone-800'}`}>{s.name}</h3>
+                      <h3
+                        className={`text-lg font-handwritten ${active ? 'text-stone-900' : 'text-stone-800'}`}
+                      >
+                        {s.name}
+                      </h3>
                       <p className="text-sm text-stone-600 font-serif">{s.continent}</p>
                     </div>
                   </div>
@@ -115,7 +128,8 @@ export default function SimpleCurrentLocation(): JSX.Element {
 
         {/* État accessible */}
         <div aria-live="polite" className="sr-only">
-          {t('map.lastStep')}: {stops[(idx - 1 + stops.length) % stops.length].name}. {t('map.nextDestination')}: {stops[idx].name}.
+          {t('map.lastStep')}: {stops[(idx - 1 + stops.length) % stops.length].name}.{' '}
+          {t('map.nextDestination')}: {stops[idx].name}.
         </div>
       </div>
     </section>

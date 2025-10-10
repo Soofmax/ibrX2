@@ -20,13 +20,14 @@ export const fr = {
   'hero.pretitle': 'Aventure Transcontinentale',
   'hero.title1': 'Épopée transcontinentale',
   'hero.title2': '5 continents',
-  'hero.paragraph': "Pars avec nous à bord de deux camions restaurés et d’un camion logistique, des Alpes au Sahara, sur 18–36 mois. Découvre des paysages époustouflants, soutiens notre quête, et rejoins l’histoire !",
-  'hero.ctaSupport': "Soutenez l’aventure",
+  'hero.paragraph':
+    'Pars avec nous à bord de deux camions restaurés et d’un camion logistique, des Alpes au Sahara, sur 18–36 mois. Découvre des paysages époustouflants, soutiens notre quête, et rejoins l’histoire !',
+  'hero.ctaSupport': 'Soutenez l’aventure',
   'hero.ctaExplore': 'Découvrez l’itinéraire',
 
   'current.heading': 'Où suis-je maintenant ?',
   'current.subtitle': 'Suivre le vent, une destination à la fois',
-  'current.svgTitle': "Carte de l’itinéraire (animation de van)",
+  'current.svgTitle': 'Carte de l’itinéraire (animation de van)',
   'current.svgSubtitle': 'Suivi en direct à venir',
   'current.lastStop': 'Dernière étape',
   'current.nextDestination': 'Prochaine destination',
@@ -39,7 +40,8 @@ export const fr = {
   'current.nextFerrySegment': 'Segment suivant: ferry',
   'current.etaSimulated': 'ETA simulée — à valider avec le client',
   'current.etaSimulatedShort': 'Estimation simulée.',
-  'current.svgAriaLabel': "Carte de l’itinéraire. Utilisez la touche Tab pour naviguer entre les villes, Entrée pour simuler un arrêt.",
+  'current.svgAriaLabel':
+    'Carte de l’itinéraire. Utilisez la touche Tab pour naviguer entre les villes, Entrée pour simuler un arrêt.',
   'current.cityAriaSuffix': 'Appuyez sur Entrée pour simuler un arrêt.',
   'map.lastStep': 'Dernière étape',
   'map.lastStepText': '—',
@@ -55,22 +57,24 @@ export const fr = {
   'current.etaNext': 'ETA prochaine étape:',
   'current.prevStep': 'Étape précédente',
   'current.nextStep': 'Étape suivante',
-  'current.help': 'Cliquez sur une ville sur la carte ou utilisez les boutons pour simuler un arrêt. Barre d’espace : pause/lecture.',
+  'current.help':
+    'Cliquez sur une ville sur la carte ou utilisez les boutons pour simuler un arrêt. Barre d’espace : pause/lecture.',
 
   'itinerary.heading': 'Itinéraire Détaillé',
   'itinerary.tagline': 'Un parcours transcontinental, étape par étape',
   'itinerary.routeTitle': 'Trajet Global',
   'itinerary.calendarTitle': 'Calendrier indicatif',
-  'itinerary.points': 'Points forts: Alpes, Salar de Uyuni, Outback, Route de la Soie, Serengeti. Les dates restent flexibles selon conditions locales, visas et logistique.',
+  'itinerary.points':
+    'Points forts: Alpes, Salar de Uyuni, Outback, Route de la Soie, Serengeti. Les dates restent flexibles selon conditions locales, visas et logistique.',
 
   'fleet.heading': 'La Flotte',
   'fleet.tagline': '2–3 véhicules restaurés, optimisés pour l’overlanding',
   'fleet.viewMore': 'Voir plus',
 
-  'team.heading': "L’Équipe",
+  'team.heading': 'L’Équipe',
   'team.tagline': 'Conducteurs, navigateurs, mécaniciens — 4 à 8 personnes',
   'team.join': 'Rejoindre le convoi',
-  'team.role.lead': "Chef d’expédition",
+  'team.role.lead': 'Chef d’expédition',
   'team.role.nav': 'Cartographie & visas',
   'team.role.mech': 'Maintenance & réparations',
   'team.role.log': 'Budget, ferrys, assurances',
@@ -100,7 +104,8 @@ export const fr = {
   'sponsors.shopText': 'T-shirts, stickers et cartes postales pour soutenir l’expédition.',
 
   'support.heading': 'Soutenir l’expédition',
-  'support.tagline': 'Votre soutien rend ce projet possible. Don ponctuel ou contribution régulière, chaque geste compte — merci d’être de l’aventure !',
+  'support.tagline':
+    'Votre soutien rend ce projet possible. Don ponctuel ou contribution régulière, chaque geste compte — merci d’être de l’aventure !',
   'support.spontaneous': 'Don spontané',
   'support.from': 'À partir de',
   'support.oneTime': 'Don unique',
@@ -168,7 +173,8 @@ export const en: Dict = {
   'hero.pretitle': 'Transcontinental Adventure',
   'hero.title1': 'Transcontinental Odyssey',
   'hero.title2': '5 Continents',
-  'hero.paragraph': 'Travel the world with our convoy of two restored trucks and a logistics vehicle, from the Alps to the Sahara. Join our odyssey to discover epic landscapes and unique cultures. Support us to write history!',
+  'hero.paragraph':
+    'Travel the world with our convoy of two restored trucks and a logistics vehicle, from the Alps to the Sahara. Join our odyssey to discover epic landscapes and unique cultures. Support us to write history!',
   'hero.ctaSupport': 'Support the Adventure',
   'hero.ctaExplore': 'Discover the Itinerary',
 
@@ -187,7 +193,8 @@ export const en: Dict = {
   'current.nextFerrySegment': 'Next segment: ferry',
   'current.etaSimulated': 'Simulated ETA — to be validated with the client',
   'current.etaSimulatedShort': 'Simulated estimation.',
-  'current.svgAriaLabel': 'Route map. Use Tab to navigate between cities. Press Enter to simulate a stop.',
+  'current.svgAriaLabel':
+    'Route map. Use Tab to navigate between cities. Press Enter to simulate a stop.',
   'map.lastStep': 'Last stop',
   'map.lastStepText': '—',
   'map.nextDestination': 'Next Destination',
@@ -203,13 +210,15 @@ export const en: Dict = {
   'current.etaNext': 'ETA next stop:',
   'current.prevStep': 'Previous step',
   'current.nextStep': 'Next step',
-  'current.help': 'Click a city on the map or use the buttons to simulate a stop. Spacebar: play/pause.',
+  'current.help':
+    'Click a city on the map or use the buttons to simulate a stop. Spacebar: play/pause.',
 
   'itinerary.heading': 'Detailed Itinerary',
   'itinerary.tagline': 'A transcontinental route, step by step',
   'itinerary.routeTitle': 'Global Route',
   'itinerary.calendarTitle': 'Indicative timeline',
-  'itinerary.points': 'Highlights: Alps, Salar de Uyuni, Outback, Silk Road, Serengeti, Namib remain flexible depending on local conditions, visas, and logistics.',
+  'itinerary.points':
+    'Highlights: Alps, Salar de Uyuni, Outback, Silk Road, Serengeti, Namib remain flexible depending on local conditions, visas, and logistics.',
 
   'fleet.heading': 'The Fleet',
   'fleet.tagline': '2–3 restored vehicles, optimized for overlanding',
@@ -248,7 +257,8 @@ export const en: Dict = {
   'sponsors.shopText': 'T-shirts, stickers and postcards to support the expedition.',
 
   'support.heading': 'Support the expedition',
-  'support.tagline': 'Your support makes this project possible. One-off or recurring contributions, every gesture counts — thank you for being part of the adventure!',
+  'support.tagline':
+    'Your support makes this project possible. One-off or recurring contributions, every gesture counts — thank you for being part of the adventure!',
   'support.spontaneous': 'Spontaneous donation',
   'support.from': 'Starting from',
   'support.oneTime': 'One-time support',

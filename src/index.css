@@ -84,7 +84,8 @@
   }
 
   @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0px);
     }
     50% {
@@ -108,20 +109,27 @@
     right: 1rem;
     bottom: -2px;
     height: 2px;
-    background: linear-gradient(to right, #22C55E, #16A34A);
+    background: linear-gradient(to right, #22c55e, #16a34a);
     opacity: 0.9;
     animation: underlinePulse 2s ease-in-out infinite;
     transform-origin: center;
   }
   @keyframes underlinePulse {
-    0%, 100% { transform: scaleX(0.9); }
-    50% { transform: scaleX(1.05); }
+    0%,
+    100% {
+      transform: scaleX(0.9);
+    }
+    50% {
+      transform: scaleX(1.05);
+    }
   }
 }
 
 /* Respect users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation: none !important;
     transition: none !important;
   }

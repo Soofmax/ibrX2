@@ -5,6 +5,7 @@ Guide pour éditer les contenus sans casser le design.
 ## Blog (src/data/blogPosts.ts)
 
 Schéma actuel (exemple):
+
 - id: string
 - title: string
 - excerpt: string
@@ -13,12 +14,14 @@ Schéma actuel (exemple):
 - category: string
 
 Recommandation pour bilingue:
+
 - title, excerpt, category en objets localisés:
   title: { fr: string, en: string }
   excerpt: { fr: string, en: string }
   category: { fr: string, en: string }
 
 Utilisation:
+
 - Dans BlogPosts.tsx:
   const pick = (x) =&gt; (typeof x === 'string' ? x : (x[lang] ?? x.fr))
   const title = pick(post.title)
@@ -26,18 +29,21 @@ Utilisation:
   const category = pick(post.category)
 
 Images:
+
 - Utiliser images hébergées (pexels…) avec compression et paramètre w= pour srcSet
 - Alt: utiliser title (ou un alt spécifique si besoin)
 
 ## Équipe (src/components/Team.tsx)
 
 Schéma interne (extrait):
+
 - name: string
 - role: t('team.role.…')
 - bio: string
 - icon: React Icon
 
 Recommandation:
+
 - Déporter dans src/data/team.ts si vous préférez “tout data”
 - Bilingue pour bio:
   bio: { fr: string, en: string }
@@ -46,21 +52,23 @@ Recommandation:
 ## Flotte (src/components/Fleet.tsx)
 
 Recommandation:
+
 - Déporter dans src/data/fleet.ts pour éviter de dupliquer les cartes
 - Schéma:
   {
-    id: 'nomad-1',
-    name: { fr: 'Camion restauré — Nomad', en: 'Restored Truck — Nomad' },
-    summary: { fr: 'Texte FR…', en: 'EN text…' },
-    image: 'https://…',
-    specs: [
-      { label: { fr: 'Moteur', en: 'Engine' }, value: '6 cyl.' },
-      { label: { fr: 'Suspension', en: 'Suspension' }, value: 'Renforcée' },
-      …
-    ]
+  id: 'nomad-1',
+  name: { fr: 'Camion restauré — Nomad', en: 'Restored Truck — Nomad' },
+  summary: { fr: 'Texte FR…', en: 'EN text…' },
+  image: 'https://…',
+  specs: [
+  { label: { fr: 'Moteur', en: 'Engine' }, value: '6 cyl.' },
+  { label: { fr: 'Suspension', en: 'Suspension' }, value: 'Renforcée' },
+  …
+  ]
   }
 
 Utilisation:
+
 - pick(lang) sur name/summary/label
 
 ## Itinéraire et carte

@@ -3,10 +3,10 @@
 
 export type ContinentPlan = {
   continent: string;
-  covered: string;      // Countries and capitals (ordered, concise string)
-  notCovered: string;   // Countries not covered or impractical
-  months: number;       // Estimated driving months
-  distanceKm: number;   // Estimated distance in km
+  covered: string; // Countries and capitals (ordered, concise string)
+  notCovered: string; // Countries not covered or impractical
+  months: number; // Estimated driving months
+  distanceKm: number; // Estimated distance in km
 };
 
 export const expeditionPlan: ContinentPlan[] = [

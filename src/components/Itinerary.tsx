@@ -7,7 +7,10 @@ export default function Itinerary() {
   const { t } = useI18n();
 
   return (
-    <section id="itinerary" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-100 to-amber-50 relative overflow-hidden scroll-mt-24">
+    <section
+      id="itinerary"
+      className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-100 to-amber-50 relative overflow-hidden scroll-mt-24"
+    >
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-24 left-10 w-72 h-72 bg-amber-600 rounded-full blur-3xl"></div>
         <div className="absolute bottom-24 right-10 w-96 h-96 bg-stone-600 rounded-full blur-3xl"></div>
@@ -29,10 +32,13 @@ export default function Itinerary() {
             <div className="p-8">
               <div className="flex items-center gap-3 mb-4">
                 <Map className="text-amber-600" size={24} />
-                <h3 className="text-2xl font-handwritten text-stone-900">{t('itinerary.routeTitle')}</h3>
+                <h3 className="text-2xl font-handwritten text-stone-900">
+                  {t('itinerary.routeTitle')}
+                </h3>
               </div>
               <p className="text-stone-700 font-serif leading-relaxed">
-                Europe → Amériques → Océanie → Asie → Afrique → Retour Europe. {t('itinerary.tagline')}
+                Europe → Amériques → Océanie → Asie → Afrique → Retour Europe.{' '}
+                {t('itinerary.tagline')}
               </p>
             </div>
             <div className="relative aspect-video bg-gradient-to-br from-stone-200 to-amber-100">
@@ -47,39 +53,51 @@ export default function Itinerary() {
           <div className="bg-white rounded-3xl shadow-2xl border border-stone-200 p-8">
             <div className="flex items-center gap-3 mb-4">
               <CalendarDays className="text-amber-600" size={24} />
-              <h3 className="text-2xl font-handwritten text-stone-900">{t('itinerary.calendarTitle')}</h3>
+              <h3 className="text-2xl font-handwritten text-stone-900">
+                {t('itinerary.calendarTitle')}
+              </h3>
             </div>
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-stone-700 font-serif">
-                <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Europe</span>
+                <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">
+                  Europe
+                </span>
                 <span>~3 mois • ~9 000 km</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
-                <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Amériques</span>
+                <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">
+                  Amériques
+                </span>
                 <span>~8 mois • ~28 000 km</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
-                <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Océanie</span>
+                <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">
+                  Océanie
+                </span>
                 <span>~1 mois • ~4 000 km</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
-                <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Asie</span>
+                <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">
+                  Asie
+                </span>
                 <span>~6 mois • ~23 000 km</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
-                <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Afrique</span>
+                <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">
+                  Afrique
+                </span>
                 <span>~8 mois • ~32 000 km</span>
               </li>
               <li className="flex items-center gap-2 text-stone-700 font-serif">
-                <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">Retour</span>
+                <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">
+                  Retour
+                </span>
                 <span>~0,5 mois • ~1 500 km</span>
               </li>
             </ul>
 
             <div className="mt-6">
-              <p className="text-stone-600 font-serif">
-                {t('itinerary.points')}
-              </p>
+              <p className="text-stone-600 font-serif">{t('itinerary.points')}</p>
             </div>
           </div>
         </div>
@@ -87,7 +105,9 @@ export default function Itinerary() {
         {/* Optimized roadmap table */}
         <div className="mt-12 bg-white rounded-3xl shadow-2xl border border-amber-200 p-8">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-3xl font-handwritten text-stone-900">Roadmap de l’expédition (optimisée)</h3>
+            <h3 className="text-3xl font-handwritten text-stone-900">
+              Roadmap de l’expédition (optimisée)
+            </h3>
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -125,7 +145,9 @@ export default function Itinerary() {
                     <td className="py-3 pr-4 text-stone-700">{row.covered}</td>
                     <td className="py-3 pr-4 text-stone-700">{row.notCovered}</td>
                     <td className="py-3 pr-4 text-stone-800">{row.months}</td>
-                    <td className="py-3 pr-4 text-stone-800">{row.distanceKm.toLocaleString('fr-FR')}</td>
+                    <td className="py-3 pr-4 text-stone-800">
+                      {row.distanceKm.toLocaleString('fr-FR')}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -133,8 +155,11 @@ export default function Itinerary() {
           </div>
           <div className="mt-6 text-stone-700">
             <p>
-              Total Global : <span className="font-semibold">{expeditionTotals.distanceKm.toLocaleString('fr-FR')} km</span>,
-              <span className="font-semibold"> {expeditionTotals.months} mois</span>.
+              Total Global :{' '}
+              <span className="font-semibold">
+                {expeditionTotals.distanceKm.toLocaleString('fr-FR')} km
+              </span>
+              ,<span className="font-semibold"> {expeditionTotals.months} mois</span>.
             </p>
           </div>
         </div>

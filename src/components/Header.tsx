@@ -35,31 +35,59 @@ export default function Header() {
     }`;
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-      scrolled
-        ? 'bg-green-900/95 backdrop-blur-md shadow-2xl'
-        : 'bg-gradient-to-b from-green-800 to-green-900'
-    }`}>
+    <header
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+        scrolled
+          ? 'bg-green-900/95 backdrop-blur-md shadow-2xl'
+          : 'bg-gradient-to-b from-green-800 to-green-900'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3 group cursor-pointer" onClick={() => go('/')}>
-            <Compass className="text-green-500 group-hover:rotate-180 transition-transform duration-700" size={32} />
+            <Compass
+              className="text-green-500 group-hover:rotate-180 transition-transform duration-700"
+              size={32}
+            />
             <h1 className="text-2xl sm:text-3xl font-handwritten text-white drop-shadow-lg">
               {t('header.siteName')}
             </h1>
           </div>
 
-          <nav className="hidden md:flex space-x-1 bg-green-800/40 rounded-full px-2 py-2 backdrop-blur-sm" aria-label="Primary">
-            <button type="button" aria-current={location.pathname === '/' ? 'page' : undefined} onClick={() => go('/')} className={navClass('/')}>
+          <nav
+            className="hidden md:flex space-x-1 bg-green-800/40 rounded-full px-2 py-2 backdrop-blur-sm"
+            aria-label="Primary"
+          >
+            <button
+              type="button"
+              aria-current={location.pathname === '/' ? 'page' : undefined}
+              onClick={() => go('/')}
+              className={navClass('/')}
+            >
               {t('nav.home')}
             </button>
-            <button type="button" aria-current={location.pathname === '/itinerary' ? 'page' : undefined} onClick={() => go('/itinerary')} className={navClass('/itinerary')}>
+            <button
+              type="button"
+              aria-current={location.pathname === '/itinerary' ? 'page' : undefined}
+              onClick={() => go('/itinerary')}
+              className={navClass('/itinerary')}
+            >
               {t('nav.itinerary')}
             </button>
-            <button type="button" aria-current={location.pathname === '/sponsors' ? 'page' : undefined} onClick={() => go('/sponsors')} className={navClass('/sponsors')}>
+            <button
+              type="button"
+              aria-current={location.pathname === '/sponsors' ? 'page' : undefined}
+              onClick={() => go('/sponsors')}
+              className={navClass('/sponsors')}
+            >
               {t('nav.sponsors')}
             </button>
-            <button type="button" aria-current={location.pathname === '/contact' ? 'page' : undefined} onClick={() => go('/contact')} className={navClass('/contact')}>
+            <button
+              type="button"
+              aria-current={location.pathname === '/contact' ? 'page' : undefined}
+              onClick={() => go('/contact')}
+              className={navClass('/contact')}
+            >
               {t('nav.contact')}
             </button>
             <div className="relative">
@@ -73,26 +101,57 @@ export default function Header() {
                 {t('nav.more')}
               </button>
               {moreOpen && (
-                <div role="menu" className="absolute right-0 top-full mt-2 w-56 bg-green-900/90 rounded-xl shadow-lg backdrop-blur-sm p-2 border border-green-700">
-                  <button type="button" onClick={() => go('/fleet')} className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring">
+                <div
+                  role="menu"
+                  className="absolute right-0 top-full mt-2 w-56 bg-green-900/90 rounded-xl shadow-lg backdrop-blur-sm p-2 border border-green-700"
+                >
+                  <button
+                    type="button"
+                    onClick={() => go('/fleet')}
+                    className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring"
+                  >
                     {t('nav.fleet')}
                   </button>
-                  <button type="button" onClick={() => go('/team')} className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring">
+                  <button
+                    type="button"
+                    onClick={() => go('/team')}
+                    className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring"
+                  >
                     {t('nav.team')}
                   </button>
-                  <button type="button" onClick={() => go('/logistics')} className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring">
+                  <button
+                    type="button"
+                    onClick={() => go('/logistics')}
+                    className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring"
+                  >
                     {t('nav.logistics')}
                   </button>
-                  <button type="button" onClick={() => go('/practical')} className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring">
+                  <button
+                    type="button"
+                    onClick={() => go('/practical')}
+                    className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring"
+                  >
                     {t('nav.practical')}
                   </button>
-                  <button type="button" onClick={() => go('/blog')} className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring">
+                  <button
+                    type="button"
+                    onClick={() => go('/blog')}
+                    className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring"
+                  >
                     {t('nav.blog')}
                   </button>
-                  <button type="button" onClick={() => go('/sponsor-targets')} className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring">
+                  <button
+                    type="button"
+                    onClick={() => go('/sponsor-targets')}
+                    className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring"
+                  >
                     {t('nav.targets')}
                   </button>
-                  <button type="button" onClick={() => go('/support')} className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring">
+                  <button
+                    type="button"
+                    onClick={() => go('/support')}
+                    className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring"
+                  >
                     {t('nav.support')}
                   </button>
                 </div>
@@ -124,44 +183,107 @@ export default function Header() {
         </div>
 
         {mobileMenuOpen && (
-          <nav id="mobile-menu" className="md:hidden mt-4 pb-4 flex flex-col space-y-2 bg-green-800/40 rounded-xl p-4 backdrop-blur-sm animate-fade-in" aria-label="Mobile">
+          <nav
+            id="mobile-menu"
+            className="md:hidden mt-4 pb-4 flex flex-col space-y-2 bg-green-800/40 rounded-xl p-4 backdrop-blur-sm animate-fade-in"
+            aria-label="Mobile"
+          >
             <div className="flex items-center justify-between mb-2">
               <span className="text-white font-serif">Langue</span>
-              <button type="button" onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} className="text-white bg-green-700 px-3 py-1 rounded-full focus-ring">
+              <button
+                type="button"
+                onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
+                className="text-white bg-green-700 px-3 py-1 rounded-full focus-ring"
+              >
                 {lang === 'fr' ? 'FR' : 'EN'}
               </button>
             </div>
-            <button type="button" aria-current={location.pathname === '/' ? 'page' : undefined} onClick={() => go('/')} className={navClass('/')}>
+            <button
+              type="button"
+              aria-current={location.pathname === '/' ? 'page' : undefined}
+              onClick={() => go('/')}
+              className={navClass('/')}
+            >
               {t('nav.home')}
             </button>
-            <button type="button" aria-current={location.pathname === '/itinerary' ? 'page' : undefined} onClick={() => go('/itinerary')} className={navClass('/itinerary')}>
+            <button
+              type="button"
+              aria-current={location.pathname === '/itinerary' ? 'page' : undefined}
+              onClick={() => go('/itinerary')}
+              className={navClass('/itinerary')}
+            >
               {t('nav.itinerary')}
             </button>
-            <button type="button" aria-current={location.pathname === '/fleet' ? 'page' : undefined} onClick={() => go('/fleet')} className={navClass('/fleet')}>
+            <button
+              type="button"
+              aria-current={location.pathname === '/fleet' ? 'page' : undefined}
+              onClick={() => go('/fleet')}
+              className={navClass('/fleet')}
+            >
               {t('nav.fleet')}
             </button>
-            <button type="button" aria-current={location.pathname === '/team' ? 'page' : undefined} onClick={() => go('/team')} className={navClass('/team')}>
+            <button
+              type="button"
+              aria-current={location.pathname === '/team' ? 'page' : undefined}
+              onClick={() => go('/team')}
+              className={navClass('/team')}
+            >
               {t('nav.team')}
             </button>
-            <button type="button" aria-current={location.pathname === '/logistics' ? 'page' : undefined} onClick={() => go('/logistics')} className={navClass('/logistics')}>
+            <button
+              type="button"
+              aria-current={location.pathname === '/logistics' ? 'page' : undefined}
+              onClick={() => go('/logistics')}
+              className={navClass('/logistics')}
+            >
               {t('nav.logistics')}
             </button>
-            <button type="button" aria-current={location.pathname === '/practical' ? 'page' : undefined} onClick={() => go('/practical')} className={navClass('/practical')}>
+            <button
+              type="button"
+              aria-current={location.pathname === '/practical' ? 'page' : undefined}
+              onClick={() => go('/practical')}
+              className={navClass('/practical')}
+            >
               {t('nav.practical')}
             </button>
-            <button type="button" aria-current={location.pathname === '/blog' ? 'page' : undefined} onClick={() => go('/blog')} className={navClass('/blog')}>
+            <button
+              type="button"
+              aria-current={location.pathname === '/blog' ? 'page' : undefined}
+              onClick={() => go('/blog')}
+              className={navClass('/blog')}
+            >
               {t('nav.blog')}
             </button>
-            <button type="button" aria-current={location.pathname === '/sponsors' ? 'page' : undefined} onClick={() => go('/sponsors')} className={navClass('/sponsors')}>
+            <button
+              type="button"
+              aria-current={location.pathname === '/sponsors' ? 'page' : undefined}
+              onClick={() => go('/sponsors')}
+              className={navClass('/sponsors')}
+            >
               {t('nav.sponsors')}
             </button>
-            <button type="button" aria-current={location.pathname === '/sponsor-targets' ? 'page' : undefined} onClick={() => go('/sponsor-targets')} className={navClass('/sponsor-targets')}>
+            <button
+              type="button"
+              aria-current={location.pathname === '/sponsor-targets' ? 'page' : undefined}
+              onClick={() => go('/sponsor-targets')}
+              className={navClass('/sponsor-targets')}
+            >
               {t('nav.targets')}
             </button>
-            <button type="button" aria-current={location.pathname === '/support' ? 'page' : undefined} onClick={() => go('/support')} className={navClass('/support')}>
+            <button
+              type="button"
+              aria-current={location.pathname === '/support' ? 'page' : undefined}
+              onClick={() => go('/support')}
+              className={navClass('/support')}
+            >
               {t('nav.support')}
             </button>
-            <button type="button" aria-current={location.pathname === '/contact' ? 'page' : undefined} onClick={() => go('/contact')} className={navClass('/contact')}>
+            <button
+              type="button"
+              aria-current={location.pathname === '/contact' ? 'page' : undefined}
+              onClick={() => go('/contact')}
+              className={navClass('/contact')}
+            >
               {t('nav.contact')}
             </button>
           </nav>

@@ -96,7 +96,13 @@ export default function EuropeCarousel(): JSX.Element {
 
         {/* Scène cartoon minimale derrière le carrousel */}
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-stone-200 mb-8">
-          <svg className="w-full h-[240px]" viewBox="0 0 1000 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scène météo">
+          <svg
+            className="w-full h-[240px]"
+            viewBox="0 0 1000 240"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-label="Scène météo"
+          >
             <defs>
               <linearGradient id="skyGradEU" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#fde68a" />
@@ -113,7 +119,12 @@ export default function EuropeCarousel(): JSX.Element {
 
         {/* Contrôles */}
         <div className="flex items-center justify-center gap-3 mb-6 font-serif">
-          <button type="button" className="btn btn-secondary px-4 py-2" onClick={() => setPlaying((p) => !p)} aria-pressed={playing}>
+          <button
+            type="button"
+            className="btn btn-secondary px-4 py-2"
+            onClick={() => setPlaying((p) => !p)}
+            aria-pressed={playing}
+          >
             {playing ? t('current.pause') : t('current.play')}
           </button>
           <div className="flex items-center gap-1">
@@ -139,8 +150,14 @@ export default function EuropeCarousel(): JSX.Element {
         </div>
 
         {/* Carrousel lisible */}
-        <div className="relative mx-auto overflow-hidden rounded-2xl bg-white shadow-xl border border-stone-200" style={{ width: containerWidth }}>
-          <div className="flex transition-transform duration-700 ease-out will-change-transform" style={{ transform: `translateX(${translateX}px)` }}>
+        <div
+          className="relative mx-auto overflow-hidden rounded-2xl bg-white shadow-xl border border-stone-200"
+          style={{ width: containerWidth }}
+        >
+          <div
+            className="flex transition-transform duration-700 ease-out will-change-transform"
+            style={{ transform: `translateX(${translateX}px)` }}
+          >
             {cities.map((s, i) => {
               const active = i === idx;
               return (
@@ -152,10 +169,17 @@ export default function EuropeCarousel(): JSX.Element {
                 >
                   <div className="flex items-start gap-3">
                     <div className={`p-2 rounded-full ${active ? 'bg-amber-200' : 'bg-stone-200'}`}>
-                      <MapPin className={`${active ? 'text-amber-700' : 'text-stone-700'}`} size={22} />
+                      <MapPin
+                        className={`${active ? 'text-amber-700' : 'text-stone-700'}`}
+                        size={22}
+                      />
                     </div>
                     <div>
-                      <h3 className={`text-lg font-handwritten ${active ? 'text-stone-900' : 'text-stone-800'}`}>{s.name}</h3>
+                      <h3
+                        className={`text-lg font-handwritten ${active ? 'text-stone-900' : 'text-stone-800'}`}
+                      >
+                        {s.name}
+                      </h3>
                       <p className="text-sm text-stone-600 font-serif">Région: {s.region}</p>
                     </div>
                   </div>

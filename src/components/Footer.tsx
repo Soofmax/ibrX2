@@ -29,7 +29,8 @@ export default function Footer() {
               <h3 className="text-3xl font-handwritten text-amber-400">{t('header.siteName')}</h3>
             </div>
             <p className="text-white/80 font-serif leading-relaxed mb-6">
-              Following the wind, collecting stories, and sharing adventures from every corner of the globe.
+              Following the wind, collecting stories, and sharing adventures from every corner of
+              the globe.
             </p>
             <div className="flex gap-3">
               <a
@@ -75,22 +76,38 @@ export default function Footer() {
             <h3 className="text-2xl font-handwritten mb-6 text-amber-400">{t('footer.quick')}</h3>
             <ul className="space-y-3">
               <li>
-                <button type="button" onClick={() => navigate('/')} className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button
+                  type="button"
+                  onClick={() => navigate('/')}
+                  className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring"
+                >
                   {t('footer.about')}
                 </button>
               </li>
               <li>
-                <button type="button" onClick={() => navigate('/blog')} className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button
+                  type="button"
+                  onClick={() => navigate('/blog')}
+                  className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring"
+                >
                   {t('footer.tips')}
                 </button>
               </li>
               <li>
-                <button type="button" onClick={() => navigate('/blog')} className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button
+                  type="button"
+                  onClick={() => navigate('/blog')}
+                  className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring"
+                >
                   {t('footer.gallery')}
                 </button>
               </li>
               <li>
-                <button type="button" onClick={() => navigate('/contact')} className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button
+                  type="button"
+                  onClick={() => navigate('/contact')}
+                  className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring"
+                >
                   {t('nav.contact')}
                 </button>
               </li>
@@ -98,13 +115,19 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-2xl font-handwritten mb-4 text-amber-400">{t('footer.dontMiss')}</h3>
+            <h3 className="text-2xl font-handwritten mb-4 text-amber-400">
+              {t('footer.dontMiss')}
+            </h3>
             <p className="text-white/80 font-serif mb-4 text-sm leading-relaxed">
-              Get weekly updates with new stories, travel tips, and exclusive content delivered to your inbox.
+              Get weekly updates with new stories, travel tips, and exclusive content delivered to
+              your inbox.
             </p>
             <form onSubmit={handleSubscribe} className="space-y-3">
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" size={20} />
+                <Mail
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400"
+                  size={20}
+                />
                 <input
                   type="email"
                   value={email}
@@ -131,10 +154,18 @@ export default function Footer() {
               © 2025 Your Name. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
-              <button type="button" onClick={() => navigate('/privacy')} className="text-white/70 hover:text-amber-400 transition-colors font-serif focus-ring">
+              <button
+                type="button"
+                onClick={() => navigate('/privacy')}
+                className="text-white/70 hover:text-amber-400 transition-colors font-serif focus-ring"
+              >
                 {t('footer.privacy')}
               </button>
-              <button type="button" onClick={() => navigate('/terms')} className="text-white/70 hover:text-amber-400 transition-colors font-serif focus-ring">
+              <button
+                type="button"
+                onClick={() => navigate('/terms')}
+                className="text-white/70 hover:text-amber-400 transition-colors font-serif focus-ring"
+              >
                 {t('footer.terms')}
               </button>
             </div>
