@@ -24,13 +24,18 @@ export const fr = {
     'Pars avec nous à bord de deux camions restaurés et d’un camion logistique, des Alpes au Sahara, sur 18–36 mois. Découvre des paysages époustouflants, soutiens notre quête, et rejoins l’histoire !',
   'hero.ctaSupport': 'Soutenez l’aventure',
   'hero.ctaExplore': 'Découvrez l’itinéraire',
-  'hero.subtitle': 'Suivez notre périple à travers les routes, à travers les villes, à travers les pays, à travers le monde...',
-  'hero.p1': "En 2032, l'aventure WanderGlobers commencera. Un périple de 60 000 km à travers 5 continents pour relier un maximum de capitales mondiales par la route.",
-  'hero.p2': 'À bord de trois camions Mercedes légendaires, dont deux robustes 1113, notre convoi tracera cette odyssée.',
-  'hero.p3': "L'aventure commence maintenant. Rejoignez-nous, suivez les préparatifs et soutenez la mission pour 2032.",
+  'hero.subtitle':
+    'Suivez notre périple à travers les routes, à travers les villes, à travers les pays, à travers le monde...',
+  'hero.p1':
+    "En 2032, l'aventure WanderGlobers commencera. Un périple de 60 000 km à travers 5 continents pour relier un maximum de capitales mondiales par la route.",
+  'hero.p2':
+    'À bord de trois camions Mercedes légendaires, dont deux robustes 1113, notre convoi tracera cette odyssée.',
+  'hero.p3':
+    "L'aventure commence maintenant. Rejoignez-nous, suivez les préparatifs et soutenez la mission pour 2032.",
   'hero.chevronAria': 'Voir l’itinéraire',
   'seo.homeTitle': 'WanderGlobers — Périple Mondial des Capitales',
-  'seo.homeDesc': 'Un périple de 60 000 km à travers 5 continents pour relier un maximum de capitales par la route. Rejoignez l’aventure.',
+  'seo.homeDesc':
+    'Un périple de 60 000 km à travers 5 continents pour relier un maximum de capitales par la route. Rejoignez l’aventure.',
 
   'current.heading': 'Où suis-je maintenant ?',
   'current.subtitle': 'Suivre le vent, une destination à la fois',
@@ -185,12 +190,16 @@ export const en: Dict = {
   'hero.ctaSupport': 'Support the Adventure',
   'hero.ctaExplore': 'Discover the Itinerary',
   'hero.subtitle': 'Follow our journey across roads, cities, countries, and the world...',
-  'hero.p1': 'In 2032, the WanderGlobers adventure begins. A 60,000 km journey across 5 continents to connect as many world capitals by road as possible.',
-  'hero.p2': 'A convoy of three legendary Mercedes trucks, including two robust 1113s, will carry this odyssey.',
-  'hero.p3': 'The adventure starts now. Join us, follow the preparations, and support the mission for 2032.',
+  'hero.p1':
+    'In 2032, the WanderGlobers adventure begins. A 60,000 km journey across 5 continents to connect as many world capitals by road as possible.',
+  'hero.p2':
+    'A convoy of three legendary Mercedes trucks, including two robust 1113s, will carry this odyssey.',
+  'hero.p3':
+    'The adventure starts now. Join us, follow the preparations, and support the mission for 2032.',
   'hero.chevronAria': 'View the itinerary',
   'seo.homeTitle': 'WanderGlobers — World Capitals Journey',
-  'seo.homeDesc': 'A 60,000 km journey across 5 continents connecting as many capitals by road. Join the adventure.',
+  'seo.homeDesc':
+    'A 60,000 km journey across 5 continents connecting as many capitals by road. Join the adventure.',
 
   'current.heading': 'Where am I now?',
   'current.subtitle': 'Following the wind, one destination at a time',
