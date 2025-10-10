@@ -10,8 +10,8 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "postinstall": "npx update-browserslist-db@latest --yes",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,css,md,html,json,yml}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,css,md,html,json,yml}\"",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,css,md,html,json,yml}\" --ignore-unknown",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,css,md,html,json,yml}\" --ignore-unknown",
     "test": "vitest run",
     "test:watch": "vitest",
     "prepare": "husky install"

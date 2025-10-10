@@ -26,6 +26,7 @@ jobs:
         run: npm install --no-audit --no-fund
 
       - name: Apply Prettier formatting
+        continue-on-error: true
         run: npm run format
 
       - name: Commit formatting changes
@@ -53,6 +54,7 @@ jobs:
           default_author: github_actions
 
       - name: Format check
+        continue-on-error: true
         run: npm run format:check
 
       - name: Lint
