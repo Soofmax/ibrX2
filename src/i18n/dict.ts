@@ -159,6 +159,7 @@ export const en: Dict = {
   'nav.support': 'Support',
   'nav.targets': 'Sponsor Targets',
   'nav.contact': 'Contact',
+  'nav.more': 'More',
 
   'notfound.title': 'Page not found',
   'notfound.text': 'Sorry, the page you are looking for does not exist or has been moved.',
