@@ -1,5 +1,11 @@
 import { useEffect } from 'react';
 
+type GeoProps = {
+  region?: string;
+  placename?: string;
+  position?: { lat: number; lon: number };
+};
+
 type Props = {
   title: string;
   description?: string;
@@ -7,6 +13,7 @@ type Props = {
   image?: string;
   lang?: 'fr' | 'en';
   siteName?: string;
+  geo?: GeoProps;
 };
 
 function ensureMetaByName(name: string, content?: string) {
@@ -41,6 +48,17 @@ function ensureLinkRel(rel: string, href: string) {
   link.setAttribute('href', href);
 }
 
+function ensureHrefLangLink(hreflang: string, href: string) {
+  let link = document.querySelector(`link[rel="alternate"][hreflang="${hreflang}"]`) as HTMLLinkElement | null;
+  if (!link) {
+    link = document.createElement('link');
+    link.setAttribute('rel', 'alternate');
+    link.setAttribute('hreflang', hreflang);
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', href);
+}
+
 export default function SEO({
   title,
   description,
@@ -48,7 +66,7 @@ export default function SEO({
   image,
   lang = 'fr',
   siteName = 'WanderGlobers',
-}: Props) {
+  geoops) {
   useEffect(() => {
     const origin =
       typeof window !== 'undefined' && window.location
@@ -70,6 +88,11 @@ export default function SEO({
 
     // Canonical
     ensureLinkRel('canonical', canonical);
+    // hreflang alternates
+    ensureHrefLangLink(lang, canonical);
+    ensureHrefLangLink(lang === 'en' ? 'fr' : 'en', canonical);
+    // Basic robots
+    ensureMetaByName('robots', 'index,follow');
 
     // Open Graph
     ensureMetaByProperty('og:type', 'website');
@@ -79,7 +102,7 @@ export default function SEO({
     ensureMetaByProperty('og:url', canonical);
     ensureMetaByProperty('og:image', fallbackImage);
     ensureMetaByProperty('og:locale', ogLocale);
-
+    ensureMetaByProperty('og:locale:alternate', lang === 'en' ? 'fr_FR'
     // Twitter
     ensureMetaByName('twitter:card', 'summary_large_image');
     ensureMetaByName('twitter:title', title);
@@ -104,6 +127,42 @@ export default function SEO({
       description: description || '',
     };
     ld.text = JSON.stringify(ldPayload);
+
+    // Geo meta tags and Place JSON-LD (optional)
+    if (geo) {
+      const { region, placename, position } = geo;
+      ensureMetaByName('geo.region', region);
+      ensureMetaByName('geo.placename', placename);
+      if (position) {
+        const { lat, lon } = position;
+        const posStr = `${lat};${lon}`;
+        ensureMetaByName('geo.position', posStr);
+        ensureMetaByName('ICBM', `${lat}, ${lon}`);
+
+        // JSON-LD Place with coordinates
+        const ldPlaceId = 'ld-place';
+        let ldPlace = document.getElementById(ldPlaceId) as HTMLScriptElement | null;
+        if (!ldPlace) {
+          ldPlace = document.createElement('script');
+          ldPlace.type = 'application/ld+json';
+          ldPlace.id = ldPlaceId;
+          document.head.appendChild(ldPlace);
+        }
+        const placePayload = {
+          '@context': 'https://schema.org',
+          '@type': 'Place',
+          name: siteName,
+          url: canonical,
+          geo: {
+            '@type': 'GeoCoordinates',
+            latitude: lat,
+            longitude: lon,
+          },
+        };
+        ldPlace.text = JSON.stringify(placePayload);
+      }
+    }
+
     // Optional analytics: Plausible / Umami / Google Analytics (configurable via Vite env)
     const { VITE_PLAUSIBLE_DOMAIN, VITE_UMAMI_SRC, VITE_UMAMI_WEBSITE_ID, VITE_GA_ID } = import.meta
       .env;

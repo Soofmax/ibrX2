@@ -13,6 +13,11 @@ export default function Home() {
         path="/"
         lang={lang}
         siteName={t('header.siteName')}
+        geo={{
+          region: 'FR-IDF',
+          placename: lang === 'fr' ? 'Paris, France' : 'Paris, France',
+          position: { lat: 48.8566, lon: 2.3522 },
+        }}
       />
       <Hero />
     </div>
