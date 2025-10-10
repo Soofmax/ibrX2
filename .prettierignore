@@ -1,0 +1,4 @@
+# Ignore files not supported by Prettier parsers to prevent CI exit code 2
+public/sitemap.xml
+public/robots.txt
+netlify.toml
