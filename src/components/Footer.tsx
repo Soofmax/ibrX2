@@ -29,8 +29,7 @@ export default function Footer() {
               <h3 className="text-3xl font-handwritten text-amber-400">{t('header.siteName')}</h3>
             </div>
             <p className="text-white/80 font-serif leading-relaxed mb-6">
-              Following the wind, collecting stories, and sharing adventures from every corner of
-              the globe.
+              {t('footer.aboutText')}
             </p>
             <div className="flex gap-3">
               <a
@@ -119,8 +118,7 @@ export default function Footer() {
               {t('footer.dontMiss')}
             </h3>
             <p className="text-white/80 font-serif mb-4 text-sm leading-relaxed">
-              Get weekly updates with new stories, travel tips, and exclusive content delivered to
-              your inbox.
+              {t('footer.newsletterIntro')}
             </p>
             <form onSubmit={handleSubscribe} className="space-y-3">
               <div className="relative">
@@ -132,7 +130,7 @@ export default function Footer() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your email address"
+                  placeholder={t('footer.emailPlaceholder')}
                   className="w-full pl-12 pr-4 py-4 rounded-full text-stone-900 font-serif focus:outline-none focus:ring-2 focus:ring-green-500 bg-white shadow-lg"
                   required
                 />
@@ -151,7 +149,7 @@ export default function Footer() {
         <div className="border-t border-stone-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="font-serif text-white/70 text-center md:text-left">
-              © 2025 Your Name. All rights reserved.
+              {t('footer.copyright')}
             </p>
             <div className="flex gap-6 text-sm">
               <button

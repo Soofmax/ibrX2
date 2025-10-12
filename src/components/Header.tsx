@@ -164,7 +164,7 @@ export default function Header() {
               type="button"
               onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
               className="text-white bg-stone-800/50 px-3 py-2 rounded-full backdrop-blur-sm focus-ring"
-              aria-label="Toggle language"
+              aria-label={t('header.toggleLanguageAria')}
             >
               {lang === 'fr' ? 'FR' : 'EN'}
             </button>
@@ -189,7 +189,7 @@ export default function Header() {
             aria-label="Mobile"
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="text-white font-serif">Langue</span>
+              <span className="text-white font-serif">{t('header.language')}</span>
               <button
                 type="button"
                 onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
