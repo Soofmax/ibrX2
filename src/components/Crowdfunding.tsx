@@ -1,8 +1,27 @@
 import { Coffee, Gift, Heart, Sparkles, Check } from 'lucide-react';
 import { useI18n } from '../i18n/useI18n';
+import { useState } from 'react';
 
 export default function Crowdfunding() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+
+  // Jerrican donation state (local, for visualization)
+  const [selected, setSelected] = useState<number>(5);
+  const [total, setTotal] = useState<number>(0);
+  const goal = 50; // € to fill one jerrican (visual goal)
+  const fillPercent = Math.min(Math.round((total / goal) * 100), 100);
+
+  const donateWithPaypal = () => {
+    // Open PayPal.me with the selected amount; integration can be replaced later
+    window.open(`https://paypal.me/TranscontinentalTrek/${selected}`, '_blank', 'noopener,noreferrer');
+    setTotal((v) => v + selected);
+  };
+
+  const donateWithStripe = () => {
+    // Placeholder for Stripe Checkout integration
+    alert(lang === 'fr' ? 'Paiement Stripe bientôt disponible.' : 'Stripe payment will be available soon.');
+    setTotal((v) => v + selected);
+  };
 
   return (
     <section
@@ -26,6 +45,106 @@ export default function Crowdfunding() {
             {t('support.tagline')}
           </p>
         </div>
+
+        {/* Jerrican pay-per-km donation section */}
+        <section className="mb-16 bg-stone-800/60 rounded-3xl border border-green-700 p-6 sm:p-8 shadow-xl">
+          <div className="grid md:grid-cols-[1fr_1fr] gap-8 items-center">
+            <div>
+              <h3 className="text-3xl font-handwritten text-green-50 mb-2">{t('support.jerry.title')}</h3>
+              <p className="text-green-100/90 font-serif mb-4">{t('support.jerry.subtitle')}</p>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="inline-flex items-center gap-2 bg-stone-900/60 border border-green-700 text-green-100 font-serif px-3 py-2 rounded-full">
+                  <span className="font-semibold">{t('support.jerry.goal')}</span>
+                  <span className="font-handwritten text-green-400">{goal}€</span>
+                </span>
+                <span className="inline-flex items-center gap-2 bg-stone-900/60 border border-green-700 text-green-100 font-serif px-3 py-2 rounded-full">
+                  <span className="font-semibold">{t('support.jerry.filled')}</span>
+                  <span className="font-handwritten text-green-400">{fillPercent}%</span>
+                </span>
+                <span className="inline-flex items-center gap-2 bg-stone-900/60 border border-green-700 text-green-100 font-serif px-3 py-2 rounded-full">
+                  <span className="font-semibold">{t('support.jerry.total')}</span>
+                  <span className="font-handwritten text-green-400">{total}€</span>
+                </span>
+              </div>
+
+              <div className="flex flex-wrap gap-3 mb-6">
+                {[1, 5, 10].map((amt) => (
+                  <button
+                    key={amt}
+                    type="button"
+                    onClick={() => setSelected(amt)}
+                    aria-pressed={selected === amt}
+                    className={`px-4 py-2 rounded-full font-serif transition-all focus-ring ${
+                      selected === amt
+                        ? 'bg-green-600 text-white shadow-lg'
+                        : 'bg-stone-900 text-green-100 border border-green-700 hover:bg-stone-700'
+                    }`}
+                  >
+                    {amt}€
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={donateWithPaypal}
+                  className="bg-green-600 hover:bg-green-500 text-white font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg focus-ring"
+                >
+                  {t('support.jerry.payPaypal')} ({selected}€)
+                </button>
+                <button
+                  type="button"
+                  onClick={donateWithStripe}
+                  className="bg-stone-900 hover:bg-stone-800 text-green-100 font-serif px-5 py-3 rounded-full transition-all hover:scale-105 shadow-lg border border-green-700 focus-ring"
+                >
+                  {t('support.jerry.payStripe')} ({selected}€)
+                </button>
+              </div>
+            </div>
+
+            <div className="flex justify-center">
+              <div className="relative w-56 h-64 sm:w-64 sm:h-72">
+                {/* Simple SVG jerrican */}
+                <svg viewBox="0 0 120 140" className="w-full h-full">
+                  {/* Body */}
+                  <path
+                    d="M20 30 L85 30 L100 45 L100 125 L20 125 Z"
+                    fill="#0f172a"
+                    stroke="#16a34a"
+                    strokeWidth="2"
+                  />
+                  {/* Handle */}
+                  <path d="M60 15 L85 15 L95 25 L70 25 Z" fill="#0f172a" stroke="#16a34a" strokeWidth="2" />
+                  {/* X pattern */}
+                  <path d="M28 55 L92 115 M92 55 L28 115" stroke="#1e293b" strokeWidth="4" opacity="0.7" />
+                  {/* Fill (clip to body area) */}
+                  <clipPath id="jerry-clip">
+                    <path d="M20 30 L85 30 L100 45 L100 125 L20 125 Z" />
+                  </clipPath>
+                  <g clipPath="url(#jerry-clip)">
+                    <rect x="20" y="125" width="80" height="95" fill="#22c55e" />
+                    <rect
+                      x="20"
+                      width="80"
+                      fill="#22c55e"
+                      // Height based on fillPercent
+                      y={125 - (95 * fillPercent) / 100}
+                      height={(95 * fillPercent) / 100}
+                    />
+                  </g>
+                  {/* Label */}
+                  <text x="60" y="135" textAnchor="middle" fill="#86efac" fontSize="10" fontFamily="serif">
+                    {fillPercent}% {t('support.jerry.filledShort')}
+                  </text>
+                </svg>
+              </div>
+            </div>
+            <div className="text-center mt-3 text-green-100 font-serif">
+              ≈ {total} {t('support.jerry.kmEq')}
+            </div>
+          </div>
+        </section>
 
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="group bg-gradient-to-br from-green-50 to-lime-50 rounded-3xl shadow-2xl p-8 border-2 border-green-200 hover:shadow-green-500/20 transition-all duration-500 hover:-translate-y-2 hover:scale-105">
