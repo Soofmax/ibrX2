@@ -140,13 +140,7 @@ export default function Header() {
                   >
                     {t('nav.blog')}
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => go('/sponsor-targets')}
-                    className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring"
-                  >
-                    {t('nav.targets')}
-                  </button>
+                  
                   <button
                     type="button"
                     onClick={() => go('/support')}

@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -17,6 +18,7 @@ import SponsorTargetsPage from './pages/SponsorTargetsPage';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
 import NotFound from './pages/NotFound';
+import LegalPage from './pages/LegalPage';
 
 function App() {
   return (
@@ -45,8 +47,9 @@ function App() {
             <Route path="/sponsor-targets" element={<SponsorTargetsPage />} />
             <Route path="/support" element={<SupportPage />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/terms" element={<Terms />} />
+            <Route path="/legal" element={<LegalPage />} />
+            <Route path="/privacy" element={<Navigate to="/legal" replace />} />
+            <Route path="/terms" element={<Navigate to="/legal" replace />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ErrorBoundary>
