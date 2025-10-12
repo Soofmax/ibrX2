@@ -32,7 +32,9 @@ export default function Crowdfunding() {
       if (data && data.url) {
         window.location.href = data.url as string;
       } else {
-        alert(lang === 'fr' ? 'Erreur de paiement. Réessayez.' : 'Payment error. Please try again.');
+        alert(
+          lang === 'fr' ? 'Erreur de paiement. Réessayez.' : 'Payment error. Please try again.'
+        );
       }
     } catch {
       alert(lang === 'fr' ? 'Erreur de paiement. Réessayez.' : 'Payment error. Please try again.');
