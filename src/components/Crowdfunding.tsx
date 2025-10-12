@@ -13,13 +13,21 @@ export default function Crowdfunding() {
 
   const donateWithPaypal = () => {
     // Open PayPal.me with the selected amount; integration can be replaced later
-    window.open(`https://paypal.me/TranscontinentalTrek/${selected}`, '_blank', 'noopener,noreferrer');
+    window.open(
+      `https://paypal.me/TranscontinentalTrek/${selected}`,
+      '_blank',
+      'noopener,noreferrer'
+    );
     setTotal((v) => v + selected);
   };
 
   const donateWithStripe = () => {
     // Placeholder for Stripe Checkout integration
-    alert(lang === 'fr' ? 'Paiement Stripe bientôt disponible.' : 'Stripe payment will be available soon.');
+    alert(
+      lang === 'fr'
+        ? 'Paiement Stripe bientôt disponible.'
+        : 'Stripe payment will be available soon.'
+    );
     setTotal((v) => v + selected);
   };
 
@@ -50,7 +58,9 @@ export default function Crowdfunding() {
         <section className="mb-16 bg-stone-800/60 rounded-3xl border border-green-700 p-6 sm:p-8 shadow-xl">
           <div className="grid md:grid-cols-[1fr_1fr] gap-8 items-center">
             <div>
-              <h3 className="text-3xl font-handwritten text-green-50 mb-2">{t('support.jerry.title')}</h3>
+              <h3 className="text-3xl font-handwritten text-green-50 mb-2">
+                {t('support.jerry.title')}
+              </h3>
               <p className="text-green-100/90 font-serif mb-4">{t('support.jerry.subtitle')}</p>
               <div className="flex items-center gap-3 mb-6">
                 <span className="inline-flex items-center gap-2 bg-stone-900/60 border border-green-700 text-green-100 font-serif px-3 py-2 rounded-full">
@@ -115,9 +125,19 @@ export default function Crowdfunding() {
                     strokeWidth="2"
                   />
                   {/* Handle */}
-                  <path d="M60 15 L85 15 L95 25 L70 25 Z" fill="#0f172a" stroke="#16a34a" strokeWidth="2" />
+                  <path
+                    d="M60 15 L85 15 L95 25 L70 25 Z"
+                    fill="#0f172a"
+                    stroke="#16a34a"
+                    strokeWidth="2"
+                  />
                   {/* X pattern */}
-                  <path d="M28 55 L92 115 M92 55 L28 115" stroke="#1e293b" strokeWidth="4" opacity="0.7" />
+                  <path
+                    d="M28 55 L92 115 M92 55 L28 115"
+                    stroke="#1e293b"
+                    strokeWidth="4"
+                    opacity="0.7"
+                  />
                   {/* Fill (clip to body area) */}
                   <clipPath id="jerry-clip">
                     <path d="M20 30 L85 30 L100 45 L100 125 L20 125 Z" />
@@ -134,7 +154,14 @@ export default function Crowdfunding() {
                     />
                   </g>
                   {/* Label */}
-                  <text x="60" y="135" textAnchor="middle" fill="#86efac" fontSize="10" fontFamily="serif">
+                  <text
+                    x="60"
+                    y="135"
+                    textAnchor="middle"
+                    fill="#86efac"
+                    fontSize="10"
+                    fontFamily="serif"
+                  >
                     {fillPercent}% {t('support.jerry.filledShort')}
                   </text>
                 </svg>
