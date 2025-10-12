@@ -140,7 +140,7 @@ export default function Header() {
                   >
                     {t('nav.blog')}
                   </button>
-                  
+
                   <button
                     type="button"
                     onClick={() => go('/support')}
