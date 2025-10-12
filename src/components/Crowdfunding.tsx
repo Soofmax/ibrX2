@@ -21,14 +21,22 @@ export default function Crowdfunding() {
     setTotal((v) => v + selected);
   };
 
-  const donateWithStripe = () => {
-    // Placeholder for Stripe Checkout integration
-    alert(
-      lang === 'fr'
-        ? 'Paiement Stripe bientôt disponible.'
-        : 'Stripe payment will be available soon.'
-    );
-    setTotal((v) => v + selected);
+  const donateWithStripe = async () => {
+    try {
+      const res = await fetch('/.netlify/functions/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: selected, lang }),
+      });
+      const data = await res.json();
+      if (data && data.url) {
+        window.location.href = data.url as string;
+      } else {
+        alert(lang === 'fr' ? 'Erreur de paiement. Réessayez.' : 'Payment error. Please try again.');
+      }
+    } catch {
+      alert(lang === 'fr' ? 'Erreur de paiement. Réessayez.' : 'Payment error. Please try again.');
+    }
   };
 
   return (

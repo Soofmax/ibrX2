@@ -8,3 +8,4 @@
 # Optional: retain node_modules cache between builds
 [functions]
   node_bundler = "esbuild"
+  directory = "netlify/functions"
