@@ -10,8 +10,8 @@ export default function Hero() {
   const goSupport = () => navigate('/support');
   const goItinerary = () => navigate('/itinerary');
 
-  // Typing effect for H1 (no CSS changes)
-  const titleFull = 'Périple Mondial des Capitales.';
+  // Typing effect for H1 (no CSS changes, now i18n)
+  const titleFull = t('hero.titleAnimated');
   const [typedTitle, setTypedTitle] = useState('');
   const [showCaret, setShowCaret] = useState(true);
   const imgRef = useRef<HTMLImageElement | null>(null);
@@ -53,6 +53,11 @@ export default function Hero() {
       typeof window !== 'undefined' &&
       window.matchMedia &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Reset state on title change
+    setTypedTitle('');
+    setShowCaret(true);
+
     if (prefersReducedMotion) {
       setTypedTitle(titleFull);
       setShowCaret(false);
@@ -66,7 +71,7 @@ export default function Hero() {
         setTypedTitle(titleFull.slice(0, i));
       } else {
         clearInterval(typing);
-        // Petite pause avant d'afficher le point final
+        // Petite pause avant d'afficher le dernier caractère
         setTimeout(() => {
           i = titleFull.length;
           setTypedTitle(titleFull.slice(0, i));
@@ -81,7 +86,7 @@ export default function Hero() {
       clearInterval(typing);
       clearInterval(blink);
     };
-  }, []);
+  }, [titleFull]);
 
   return (
     <section
@@ -168,22 +173,22 @@ export default function Hero() {
           <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3">
             <Globe className="text-green-700" size={24} />
             <div>
-              <p className="text-stone-900 font-handwritten text-xl">60 000 km</p>
-              <p className="text-stone-700 font-serif text-sm">à parcourir</p>
+              <p className="text-stone-900 font-handwritten text-xl">{t('hero.kpi.distance')}</p>
+              <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.distanceDesc')}</p>
             </div>
           </div>
           <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3">
             <Route className="text-green-700" size={24} />
             <div>
-              <p className="text-stone-900 font-handwritten text-xl">5 continents</p>
-              <p className="text-stone-700 font-serif text-sm">sur l’itinéraire</p>
+              <p className="text-stone-900 font-handwritten text-xl">{t('hero.kpi.continents')}</p>
+              <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.continentsDesc')}</p>
             </div>
           </div>
           <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3">
             <Truck className="text-green-700" size={24} />
             <div>
-              <p className="text-stone-900 font-handwritten text-xl">3 camions</p>
-              <p className="text-stone-700 font-serif text-sm">Mercedes (2 × 1113)</p>
+              <p className="text-stone-900 font-handwritten text-xl">{t('hero.kpi.trucks')}</p>
+              <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.trucksDesc')}</p>
             </div>
           </div>
         </div>

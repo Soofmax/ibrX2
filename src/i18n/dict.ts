@@ -33,6 +33,13 @@ export const fr = {
   'hero.p3':
     "L'aventure commence maintenant. Rejoignez-nous, suivez les préparatifs et soutenez la mission pour 2032.",
   'hero.chevronAria': 'Voir l’itinéraire',
+  'hero.titleAnimated': 'Périple Mondial des Capitales.',
+  'hero.kpi.distance': '60 000 km',
+  'hero.kpi.distanceDesc': 'à parcourir',
+  'hero.kpi.continents': '5 continents',
+  'hero.kpi.continentsDesc': 'sur l’itinéraire',
+  'hero.kpi.trucks': '3 camions',
+  'hero.kpi.trucksDesc': 'Mercedes (2 × 1113)',
   'seo.homeTitle': 'WanderGlobers — Périple Mondial des Capitales',
   'seo.homeDesc':
     'Un périple de 60 000 km à travers 5 continents pour relier un maximum de capitales par la route. Rejoignez l’aventure.',
@@ -197,6 +204,13 @@ export const en: Dict = {
   'hero.p3':
     'The adventure starts now. Join us, follow the preparations, and support the mission for 2032.',
   'hero.chevronAria': 'View the itinerary',
+  'hero.titleAnimated': 'World Capitals Journey.',
+  'hero.kpi.distance': '60,000 km',
+  'hero.kpi.distanceDesc': 'to travel',
+  'hero.kpi.continents': '5 continents',
+  'hero.kpi.continentsDesc': 'on the route',
+  'hero.kpi.trucks': '3 trucks',
+  'hero.kpi.trucksDesc': 'Mercedes (2 × 1113)',
   'seo.homeTitle': 'WanderGlobers — World Capitals Journey',
   'seo.homeDesc':
     'A 60,000 km journey across 5 continents connecting as many capitals by road. Join the adventure.',
