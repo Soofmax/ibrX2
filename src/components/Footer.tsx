@@ -28,9 +28,7 @@ export default function Footer() {
               <Compass className="text-amber-400" size={36} />
               <h3 className="text-3xl font-handwritten text-amber-400">{t('header.siteName')}</h3>
             </div>
-            <p className="text-white/80 font-serif leading-relaxed mb-6">
-              {t('footer.aboutText')}
-            </p>
+            <p className="text-white/80 font-serif leading-relaxed mb-6">{t('footer.aboutText')}</p>
             <div className="flex gap-3">
               <a
                 href="https://youtube.com/@TranscontinentalTrek"

@@ -165,8 +165,10 @@ export const fr = {
   'footer.about': 'À propos',
   'footer.tips': 'Conseils',
   'footer.gallery': 'Galerie',
-  'footer.aboutText': 'Suivre le vent, collecter des histoires et partager des aventures aux quatre coins du globe.',
-  'footer.newsletterIntro': 'Recevez chaque semaine des histoires, des conseils de voyage et du contenu exclusif directement dans votre boîte mail.',
+  'footer.aboutText':
+    'Suivre le vent, collecter des histoires et partager des aventures aux quatre coins du globe.',
+  'footer.newsletterIntro':
+    'Recevez chaque semaine des histoires, des conseils de voyage et du contenu exclusif directement dans votre boîte mail.',
   'footer.emailPlaceholder': 'Votre adresse e-mail',
   'footer.copyright': '© 2025 WanderGlobers. Tous droits réservés.',
   'header.language': 'Langue',
@@ -342,8 +344,10 @@ export const en: Dict = {
   'footer.about': 'About',
   'footer.tips': 'Travel Tips',
   'footer.gallery': 'Photo Gallery',
-  'footer.aboutText': 'Following the wind, collecting stories, and sharing adventures from every corner of the globe.',
-  'footer.newsletterIntro': 'Get weekly updates with new stories, travel tips, and exclusive content delivered to your inbox.',
+  'footer.aboutText':
+    'Following the wind, collecting stories, and sharing adventures from every corner of the globe.',
+  'footer.newsletterIntro':
+    'Get weekly updates with new stories, travel tips, and exclusive content delivered to your inbox.',
   'footer.emailPlaceholder': 'Your email address',
   'footer.copyright': '© 2025 WanderGlobers. All rights reserved.',
   'header.language': 'Language',
