@@ -365,6 +365,7 @@ export const en: Dict = {
   'support.jerry.total': 'Total',
   'support.jerry.payPaypal': 'Donate {n}€ via PayPal',
   'support.jerry.payStripe': 'Donate {n}€ via Stripe',
+  'support.jerry.kmEq': 'km',
 
   'contact.heading': 'Contact & FAQ',
   'contact.tagline': 'Sponsors, press, co-adventurers — let’s talk',

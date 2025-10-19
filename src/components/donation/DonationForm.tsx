@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useI18n } from '../../i18n/useI18n';
+import type { I18nKeys } from '../../i18n/dict';
 import type { DonationFormData } from '../../types/donation';
 
 type Props = {
@@ -15,6 +16,7 @@ export default function DonationForm({ onSubmit }: Props) {
   });
 
   const predefinedAmounts = [2.5, 5, 10, 25];
+  const vehicleKeys: I18nKeys[] = ['donation.vehicle1', 'donation.vehicle2', 'donation.vehicle3'];
 
   const handleAmountSelect = (amount: number) => {
     setFormData((prev) => ({
@@ -117,7 +119,7 @@ export default function DonationForm({ onSubmit }: Props) {
               }`}
               aria-pressed={formData.selectedVehicle === vehicleId}
             >
-              {t(`donation.vehicle${vehicleId}` as const)}
+              {t(vehicleKeys[vehicleId - 1])}
             </button>
           ))}
         </div>
