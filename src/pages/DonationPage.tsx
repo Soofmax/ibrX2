@@ -7,7 +7,12 @@ export default function DonationPage() {
 
   return (
     <>
-      <SEO title={t('donation.title')} description={t('donation.description')} path="/donation" lang={lang} />
+      <SEO
+        title={t('donation.title')}
+        description={t('donation.description')}
+        path="/donation"
+        lang={lang}
+      />
       <main>
         <DonationSection />
       </main>

@@ -18,7 +18,11 @@ export default function DonationSection() {
       prev.map((v) => ({
         ...v,
         name:
-          v.id === 1 ? t('donation.vehicle1') : v.id === 2 ? t('donation.vehicle2') : t('donation.vehicle3'),
+          v.id === 1
+            ? t('donation.vehicle1')
+            : v.id === 2
+              ? t('donation.vehicle2')
+              : t('donation.vehicle3'),
       }))
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,7 +62,9 @@ export default function DonationSection() {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-5xl font-handwritten text-stone-900 mb-4">{t('donation.title')}</h2>
-          <p className="text-lg text-stone-700 font-serif max-w-3xl mx-auto">{t('donation.description')}</p>
+          <p className="text-lg text-stone-700 font-serif max-w-3xl mx-auto">
+            {t('donation.description')}
+          </p>
         </div>
 
         <div className="flex flex-col md:flex-row justify-around items-center gap-8 mb-16">

@@ -48,7 +48,9 @@ export default function Jerrican({ vehicle }: Props) {
 
       <p className="text-stone-600 font-serif text-sm">
         {vehicle.contributors}{' '}
-        {vehicle.contributors === 1 ? t('donation.contributorsSing') : t('donation.contributorsPlur')}
+        {vehicle.contributors === 1
+          ? t('donation.contributorsSing')
+          : t('donation.contributorsPlur')}
       </p>
     </div>
   );
