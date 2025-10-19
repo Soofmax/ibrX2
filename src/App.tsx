@@ -17,7 +17,6 @@ import ContactPage from './pages/ContactPage';
 import SponsorTargetsPage from './pages/SponsorTargetsPage';
 import NotFound from './pages/NotFound';
 import LegalPage from './pages/LegalPage';
-import DonationPage from './pages/DonationPage';
 
 function App() {
   return (
@@ -45,7 +44,7 @@ function App() {
             <Route path="/sponsors" element={<SponsorsPage />} />
             <Route path="/sponsor-targets" element={<SponsorTargetsPage />} />
             <Route path="/support" element={<SupportPage />} />
-            <Route path="/donation" element={<DonationPage />} />
+            <Route path="/donation" element={<Navigate to="/support" replace />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/legal" element={<LegalPage />} />
             <Route path="/privacy" element={<Navigate to="/legal" replace />} />

@@ -1,7 +1,10 @@
 import { Coffee, Gift, Heart, Sparkles, Check } from 'lucide-react';
 import { useI18n } from '../i18n/useI18n';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import JerricanIcon from './icons/JerricanIcon';
+import DonationForm from './donation/DonationForm';
+import Jerrican from './donation/Jerrican';
+import type { Vehicle, DonationFormData } from '../types/donation';
 
 export default function Crowdfunding() {
   const { t, lang } = useI18n();
@@ -11,6 +14,53 @@ export default function Crowdfunding() {
   const [total, setTotal] = useState<number>(50); // start with a full jerrycan (simulation)
   const goal = 50; // € to fill one jerrican (visual goal)
   const fillPercent = Math.min(Math.round((total / goal) * 100), 100);
+
+  // Vehicles status (from Donation page, merged here)
+  const [vehicles, setVehicles] = useState<Vehicle[]>([
+    { id: 1, name: t('donation.vehicle1'), percentage: 100, contributors: 1, state: 'full' },
+    { id: 2, name: t('donation.vehicle2'), percentage: 65, contributors: 13, state: 'in-progress' },
+    { id: 3, name: t('donation.vehicle3'), percentage: 0, contributors: 0, state: 'empty' },
+  ]);
+
+  // Update vehicle names on language change
+  useEffect(() => {
+    setVehicles((prev) =>
+      prev.map((v) => ({
+        ...v,
+        name:
+          v.id === 1
+            ? t('donation.vehicle1')
+            : v.id === 2
+            ? t('donation.vehicle2')
+            : t('donation.vehicle3'),
+      }))
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
+
+  const handleDonationSubmit = (donationData: DonationFormData) => {
+    // Simulate donation process (payment integration can plug here later)
+    alert(
+      `${t('donation.thankYou')} ${donationData.amount}€ ${t('donation.forVehicle')} ${donationData.selectedVehicle}!`
+    );
+
+    // Update vehicle state similarly to DonationSection
+    setVehicles((prev) => {
+      const updated = [...prev];
+      const idx = updated.findIndex((v) => v.id === donationData.selectedVehicle);
+      if (idx !== -1) {
+        const donationPercentage = (donationData.amount / 25000) * 100;
+        updated[idx].percentage = Math.min(100, updated[idx].percentage + donationPercentage);
+        updated[idx].contributors += 1;
+        if (updated[idx].percentage === 100) {
+          updated[idx].state = 'full';
+        } else if (updated[idx].percentage > 0) {
+          updated[idx].state = 'in-progress';
+        }
+      }
+      return updated;
+    });
+  };
 
   const donateWithPaypal = () => {
     // Simulation uniquement: pas de redirection externe
@@ -47,7 +97,16 @@ export default function Crowdfunding() {
           <div className="inline-block mb-4">
             <Sparkles className="text-green-400 mx-auto" size={48} />
           </div>
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-green-50 mb-6">
+
+          {/* New H1 and impact paragraph */}
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-green-50 mb-4">
+            {t('support.h1')}
+          </h1>
+          <p className="text-lg sm:text-xl text-green-100/90 font-serif max-w-3xl mx-auto leading-relaxed mb-6">
+            {t('support.h1Desc')}
+          </p>
+
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-handwritten text-green-50 mb-4">
             {t('support.heading')}
           </h2>
           <p className="text-xl text-green-100/90 font-serif max-w-3xl mx-auto leading-relaxed">
@@ -115,7 +174,7 @@ export default function Crowdfunding() {
             </div>
 
             <div className="flex justify-center gap-6 flex-wrap">
-              {/* Slot 1: Full jerrycan with avatar */}
+              {/* Slot 1: Full jerrican with avatar */}
               <div className="relative w-40 h-60 sm:w-48 sm:h-72 mx-auto mb-4">
                 <JerricanIcon
                   fillPercentage={100}
@@ -132,12 +191,12 @@ export default function Crowdfunding() {
                 </div>
               </div>
 
-              {/* Slot 2: In-progress jerrycan */}
+              {/* Slot 2: In-progress jerrican */}
               <div className="relative w-40 h-60 sm:w-48 sm:h-72 mx-auto mb-4">
                 <JerricanIcon
                   fillPercentage={fillPercent}
                   className="w-full h-full"
-                  ariaLabel={lang === 'fr' ? 'Jerrican en cours' : 'In-progress jerrycan'}
+                  ariaLabel={lang === 'fr' ? 'Jerrican en cours' : 'In-progress jerrican'}
                 />
                 <div className="absolute bottom-3 left-0 w-full text-center font-serif font-bold text-green-100 text-sm select-none">
                   {fillPercent}% {t('support.jerry.filledShort')}
@@ -150,10 +209,25 @@ export default function Crowdfunding() {
           </div>
         </section>
 
+        {/* Vehicles status (from /donation) */}
+        <div className="mb-16">
+          <div className="text-center mb-6">
+            <h3 className="text-2xl font-handwritten text-green-50">Statut des véhicules</h3>
+          </div>
+          <div className="flex flex-col md:flex-row justify-around items-center gap-8">
+            {vehicles.map((vehicle) => (
+              <Jerrican key={vehicle.id} vehicle={vehicle} />
+            ))}
+          </div>
+          <div className="mt-8">
+            <DonationForm onSubmit={handleDonationSubmit} />
+          </div>
+        </div>
+
         <div className="grid lg:grid-cols-3 gap-8">
-          <div className="group bg-gradient-to-br from-green-50 to-lime-50 rounded-3xl shadow-2xl p-8 border-2 border-green-200 hover:shadow-green-500/20 transition-all duration-500 hover:-translate-y-2 hover:scale-105">
+          <div className="group bg-gradient-to-br from-green-50 to-lime-50 rounded-3xl shadow-2xl p-8 border-2 border-green-200 hover:shadow-2xl transition-all duration-300 hover:scale-[1.03]">
             <div className="flex justify-center mb-6">
-              <div className="bg-gradient-to-br from-green-600 to-green-700 rounded-full p-5 group-hover:scale-110 transition-transform duration-500 shadow-xl">
+              <div className="bg-gradient-to-br from-green-600 to-green-700 rounded-full p-5 group-hover:scale-105 transition-transform duration-300 shadow-xl">
                 <Coffee className="text-white" size={36} />
               </div>
             </div>
@@ -190,7 +264,7 @@ export default function Crowdfunding() {
             </button>
           </div>
 
-          <div className="group bg-gradient-to-br from-stone-900 to-stone-800 rounded-3xl shadow-2xl p-8 border-4 border-green-500 hover:shadow-green-500/30 transition-all duration-500 hover:-translate-y-2 hover:scale-105 relative overflow-hidden">
+          <div className="group bg-gradient-to-br from-stone-900 to-stone-800 rounded-3xl shadow-2xl p-8 border-4 border-green-500 hover:shadow-2xl transition-all duration-300 hover:scale-[1.03] relative overflow-hidden">
             <div className="absolute top-4 right-4">
               <span className="bg-green-500 text-white text-sm font-serif px-4 py-1 rounded-full shadow-lg">
                 Populaire
@@ -198,7 +272,7 @@ export default function Crowdfunding() {
             </div>
 
             <div className="flex justify-center mb-6">
-              <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-full p-5 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
+              <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-full p-5 group-hover:scale-105 transition-transform duration-300 shadow-2xl">
                 <Gift className="text-white" size={36} />
               </div>
             </div>
@@ -245,9 +319,9 @@ export default function Crowdfunding() {
             </button>
           </div>
 
-          <div className="group bg-gradient-to-br from-rose-50 to-pink-50 rounded-3xl shadow-2xl p-8 border-2 border-rose-200 hover:shadow-rose-500/20 transition-all duration-500 hover:-translate-y-2 hover:scale-105">
+          <div className="group bg-gradient-to-br from-rose-50 to-pink-50 rounded-3xl shadow-2xl p-8 border-2 border-rose-200 hover:shadow-2xl transition-all duration-300 hover:scale-[1.03]">
             <div className="flex justify-center mb-6">
-              <div className="bg-gradient-to-br from-rose-600 to-pink-600 rounded-full p-5 group-hover:scale-110 transition-transform duration-500 shadow-xl">
+              <div className="bg-gradient-to-br from-rose-600 to-pink-600 rounded-full p-5 group-hover:scale-105 transition-transform duration-300 shadow-xl">
                 <Heart className="text-rose-50" size={36} />
               </div>
             </div>

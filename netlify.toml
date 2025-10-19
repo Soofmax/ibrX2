@@ -9,3 +9,10 @@
 [functions]
   node_bundler = "esbuild"
   directory = "netlify/functions"
+
+# Redirect legacy donation URL to support (permanent)
+[[redirects]]
+  from = "/donation"
+  to = "/support"
+  status = 301
+  force = true

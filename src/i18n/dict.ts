@@ -136,6 +136,9 @@ export const fr = {
   'donation.forVehicle': 'pour le Véhicule',
   'donation.invalidAmount': 'Veuillez sélectionner ou saisir un montant valide.',
 
+  'support.h1': 'Soutenez l’expédition, chaque kilomètre compte !',
+  'support.h1Desc':
+    'Votre soutien nous aide à financer le carburant, l’entretien des véhicules et les visas nécessaires pour traverser les 5 continents. Devenez un acteur de cette aventure !',
   'support.heading': 'Soutenir l’expédition',
   'support.tagline':
     'Votre soutien rend ce projet possible. Don ponctuel ou contribution régulière, chaque geste compte — merci d’être de l’aventure !',
@@ -338,6 +341,9 @@ export const en: Dict = {
   'donation.forVehicle': 'for Vehicle',
   'donation.invalidAmount': 'Please select or enter a valid amount.',
 
+  'support.h1': 'Support the expedition, every kilometer counts!',
+  'support.h1Desc':
+    'Your support helps fund fuel, vehicle maintenance, and visas required to cross 5 continents. Become part of this adventure!',
   'support.heading': 'Support the expedition',
   'support.tagline':
     'Your support makes this project possible. One-off or recurring contributions, every gesture counts — thank you for being part of the adventure!',
