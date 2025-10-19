@@ -121,6 +121,20 @@ export const fr = {
   'sponsors.mediaKit': 'Demander le media kit',
   'sponsors.shopTitle': 'Boutique (optionnel)',
   'sponsors.shopText': 'T-shirts, stickers et cartes postales pour soutenir l’expédition.',
+  'donation.title': "Carburant pour l'expédition",
+  'donation.description':
+    'Notre expédition dépend de trois véhicules pour réussir. Chaque jerrican de carburant coûte 25 000 €. Aidez-nous à les remplir pour que notre aventure puisse continuer !',
+  'donation.vehicle1': 'Véhicule 1',
+  'donation.vehicle2': 'Véhicule 2',
+  'donation.vehicle3': 'Véhicule 3',
+  'donation.contributorsSing': 'contributeur',
+  'donation.contributorsPlur': 'contributeurs',
+  'donation.formTitle': 'Faire un don',
+  'donation.customAmount': 'Montant personnalisé',
+  'donation.donateButtonPrefix': 'Faire un don de',
+  'donation.thankYou': 'Merci pour votre don de',
+  'donation.forVehicle': 'pour le Véhicule',
+  'donation.invalidAmount': 'Veuillez sélectionner ou saisir un montant valide.',
 
   'support.heading': 'Soutenir l’expédition',
   'support.tagline':
@@ -309,6 +323,20 @@ export const en: Dict = {
   'sponsors.mediaKit': 'Request media kit',
   'sponsors.shopTitle': 'Shop (optional)',
   'sponsors.shopText': 'T-shirts, stickers and postcards to support the expedition.',
+  'donation.title': 'Fuel for the Expedition',
+  'donation.description':
+    'Our expedition relies on three vehicles to succeed. Each fuel jerrycan costs €25,000. Help us fill them so our adventure can continue!',
+  'donation.vehicle1': 'Vehicle 1',
+  'donation.vehicle2': 'Vehicle 2',
+  'donation.vehicle3': 'Vehicle 3',
+  'donation.contributorsSing': 'contributor',
+  'donation.contributorsPlur': 'contributors',
+  'donation.formTitle': 'Make a Donation',
+  'donation.customAmount': 'Custom amount',
+  'donation.donateButtonPrefix': 'Donate',
+  'donation.thankYou': 'Thank you for your donation of',
+  'donation.forVehicle': 'for Vehicle',
+  'donation.invalidAmount': 'Please select or enter a valid amount.',
 
   'support.heading': 'Support the expedition',
   'support.tagline':
