@@ -173,13 +173,7 @@ export default function Crowdfunding() {
                   </g>
                   {/* Full badge */}
                   {fillPercent === 100 && (
-                    <text
-                      x="26"
-                      y="44"
-                      fill="#16a34a"
-                      fontSize="12"
-                      fontFamily="serif"
-                    >
+                    <text x="26" y="44" fill="#16a34a" fontSize="12" fontFamily="serif">
                       Plein
                     </text>
                   )}
