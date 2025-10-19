@@ -49,9 +49,9 @@ export default function Header() {
               className="text-green-500 group-hover:rotate-180 transition-transform duration-700"
               size={32}
             />
-            <h1 className="text-2xl sm:text-3xl font-handwritten text-white drop-shadow-lg">
+            <span className="text-2xl sm:text-3xl font-handwritten text-white drop-shadow-lg">
               {t('header.siteName')}
-            </h1>
+            </span>
           </div>
 
           <nav

@@ -21,9 +21,9 @@ export default function Sponsoring() {
           <div className="inline-block mb-4">
             <Handshake className="text-amber-600 mx-auto" size={48} />
           </div>
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-stone-900 mb-4">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-handwritten text-stone-900 mb-4">
             {t('sponsors.heading')}
-          </h2>
+          </h1>
           <p className="text-xl text-stone-600 font-serif">{t('sponsors.tagline')}</p>
         </div>
 

@@ -206,6 +206,7 @@ export const fr = {
   'footer.copyright': '© 2025 WanderGlobers. Tous droits réservés.',
   'header.language': 'Langue',
   'header.toggleLanguageAria': 'Changer la langue',
+  'legal.h1': 'Mentions légales',
 } as const;
 
 export type I18nKeys = keyof typeof fr;
@@ -418,4 +419,5 @@ export const en: Dict = {
   'footer.copyright': '© 2025 WanderGlobers. All rights reserved.',
   'header.language': 'Language',
   'header.toggleLanguageAria': 'Toggle language',
+  'legal.h1': 'Legal',
 };
