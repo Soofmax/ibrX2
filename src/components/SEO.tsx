@@ -207,7 +207,7 @@ export default function SEO({
         document.head.appendChild(init);
       }
     }
-  }, [title, description, path, image, lang, siteName]);
+  }, [title, description, path, image, lang, siteName, geo]);
 
   return null;
 }

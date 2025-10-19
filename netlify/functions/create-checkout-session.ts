@@ -97,11 +97,12 @@ export async function handler(event: Event) {
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
       body: JSON.stringify({ url: session.url }),
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Stripe error';
     return {
       statusCode: 500,
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ error: err?.message || 'Stripe error' }),
+      body: JSON.stringify({ error: msg }),
     };
   }
 }

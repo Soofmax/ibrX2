@@ -15,11 +15,8 @@ import SponsorsPage from './pages/SponsorsPage';
 import SupportPage from './pages/SupportPage';
 import ContactPage from './pages/ContactPage';
 import SponsorTargetsPage from './pages/SponsorTargetsPage';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import Terms from './pages/Terms';
 import NotFound from './pages/NotFound';
 import LegalPage from './pages/LegalPage';
-import DonationPage from './pages/DonationPage';
 
 function App() {
   return (
