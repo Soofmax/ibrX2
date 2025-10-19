@@ -1,5 +1,4 @@
 import Sponsoring from '../components/Sponsoring';
-import SponsorTargets from '../components/SponsorTargets';
 import SEO from '../components/SEO';
 import { useI18n } from '../i18n/useI18n';
 
@@ -15,7 +14,6 @@ export default function SponsorsPage() {
         siteName={t('header.siteName')}
       />
       <Sponsoring />
-      <SponsorTargets />
     </>
   );
 }
