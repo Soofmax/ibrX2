@@ -49,7 +49,14 @@ export default function JerricanIcon({ fillPercentage, className, ariaLabel }: P
         {/* Base background */}
         <rect x="20" y="125" width="80" height="95" fill="#22c55e" />
         {/* Actual fill driven by percentage */}
-        <rect x="20" width="80" fill="#22c55e" y={currentFillY} height={currentFillHeight} />
+        <rect
+          x="20"
+          width="80"
+          fill="#22c55e"
+          y={currentFillY}
+          height={currentFillHeight}
+          style={{ transition: 'height 0.5s ease-in-out' }}
+        />
         {/* Wave shimmer near the surface */}
         <rect x="20" y={waveY} width="80" height="12" fill="rgba(255,255,255,0.25)">
           <animateTransform
