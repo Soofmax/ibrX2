@@ -212,7 +212,9 @@ export default function Crowdfunding() {
         {/* Vehicles status (from /donation) */}
         <div className="mb-16">
           <div className="text-center mb-6">
-            <h3 className="text-2xl font-handwritten text-green-50">{t('support.vehicleStatusTitle')}</h3>
+            <h3 className="text-2xl font-handwritten text-green-50">
+              {t('support.vehicleStatusTitle')}
+            </h3>
           </div>
           <div className="flex flex-col md:flex-row justify-around items-center gap-8">
             {vehicles.map((vehicle) => (
