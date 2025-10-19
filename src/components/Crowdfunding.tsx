@@ -31,8 +31,8 @@ export default function Crowdfunding() {
           v.id === 1
             ? t('donation.vehicle1')
             : v.id === 2
-            ? t('donation.vehicle2')
-            : t('donation.vehicle3'),
+              ? t('donation.vehicle2')
+              : t('donation.vehicle3'),
       }))
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
