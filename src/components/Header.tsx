@@ -76,6 +76,14 @@ export default function Header() {
             </button>
             <button
               type="button"
+              aria-current={location.pathname === '/expedition' ? 'page' : undefined}
+              onClick={() => go('/expedition')}
+              className={navClass('/expedition')}
+            >
+              {t('nav.expedition')}
+            </button>
+            <button
+              type="button"
               aria-current={location.pathname === '/sponsors' ? 'page' : undefined}
               onClick={() => go('/sponsors')}
               className={navClass('/sponsors')}
@@ -105,20 +113,8 @@ export default function Header() {
                   role="menu"
                   className="absolute right-0 top-full mt-2 w-56 bg-green-900/90 rounded-xl shadow-lg backdrop-blur-sm p-2 border border-green-700"
                 >
-                  <button
-                    type="button"
-                    onClick={() => go('/fleet')}
-                    className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring"
-                  >
-                    {t('nav.fleet')}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => go('/team')}
-                    className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring"
-                  >
-                    {t('nav.team')}
-                  </button>
+                  
+                  
                   <button
                     type="button"
                     onClick={() => go('/logistics')}
@@ -216,20 +212,13 @@ export default function Header() {
             </button>
             <button
               type="button"
-              aria-current={location.pathname === '/fleet' ? 'page' : undefined}
-              onClick={() => go('/fleet')}
-              className={navClass('/fleet')}
+              aria-current={location.pathname === '/expedition' ? 'page' : undefined}
+              onClick={() => go('/expedition')}
+              className={navClass('/expedition')}
             >
-              {t('nav.fleet')}
+              {t('nav.expedition')}
             </button>
-            <button
-              type="button"
-              aria-current={location.pathname === '/team' ? 'page' : undefined}
-              onClick={() => go('/team')}
-              className={navClass('/team')}
-            >
-              {t('nav.team')}
-            </button>
+            
             <button
               type="button"
               aria-current={location.pathname === '/logistics' ? 'page' : undefined}

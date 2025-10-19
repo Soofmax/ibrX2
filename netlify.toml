@@ -23,3 +23,16 @@
   to = "/logistics"
   status = 301
   force = true
+
+# Redirect team and fleet to expedition (permanent)
+[[redirects]]
+  from = "/team"
+  to = "/expedition"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/fleet"
+  to = "/expedition"
+  status = 301
+  force = true

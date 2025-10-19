@@ -12,6 +12,7 @@ export const fr = {
   'nav.targets': 'Cibles sponsors',
   'nav.contact': 'Contact',
   'nav.more': 'Plus',
+  'nav.expedition': 'L’Expédition',
 
   'notfound.title': 'Page introuvable',
   'notfound.text': "Désolé, la page que vous cherchez n'existe pas ou a été déplacée.",
@@ -97,6 +98,8 @@ export const fr = {
   'team.role.nav': 'Cartographie & visas',
   'team.role.mech': 'Maintenance & réparations',
   'team.role.log': 'Budget, ferrys, assurances',
+  'expedition.h1': 'L’Équipage et les Machines : Au Cœur de l’Expédition',
+  'expedition.intro': 'Découvrez notre équipe et nos véhicules restaurés, les piliers de cette odyssée transcontinentale. Ensemble, nous affrontons les défis de la route pour relier les capitales du monde.',
 
   'logistics.h1': 'Préparer l’Aventure : Logistique et Infos Pratiques',
   'logistics.heading': 'Logistique & Préparation',
@@ -221,6 +224,7 @@ export const en: Dict = {
   'nav.targets': 'Sponsor Targets',
   'nav.contact': 'Contact',
   'nav.more': 'More',
+  'nav.expedition': 'Expedition',
 
   'notfound.title': 'Page not found',
   'notfound.text': 'Sorry, the page you are looking for does not exist or has been moved.',
@@ -305,6 +309,8 @@ export const en: Dict = {
   'team.role.nav': 'Mapping & visas',
   'team.role.mech': 'Maintenance & repairs',
   'team.role.log': 'Budget, ferries, insurance',
+  'expedition.h1': 'The Crew and the Machines: At the Heart of the Expedition',
+  'expedition.intro': 'Meet our team and our restored vehicles — the pillars of this transcontinental odyssey. Together, we face the road’s challenges to connect the world’s capitals.',
 
   'logistics.h1': 'Prepare the Adventure: Logistics & Practical Info',
   'logistics.heading': 'Logistics & Preparation',

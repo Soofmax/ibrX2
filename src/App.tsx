@@ -6,8 +6,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 import Home from './pages/Home';
 import ItineraryPage from './pages/ItineraryPage';
-import FleetPage from './pages/FleetPage';
-import TeamPage from './pages/TeamPage';
+import ExpeditionPage from './pages/ExpeditionPage';
 import LogisticsPage from './pages/LogisticsPage';
 
 import BlogPage from './pages/BlogPage';
@@ -36,8 +35,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/itinerary" element={<ItineraryPage />} />
-            <Route path="/fleet" element={<FleetPage />} />
-            <Route path="/team" element={<TeamPage />} />
+            <Route path="/expedition" element={<ExpeditionPage />} />
+            <Route path="/fleet" element={<Navigate to="/expedition" replace />} />
+            <Route path="/team" element={<Navigate to="/expedition" replace />} />
             <Route path="/logistics" element={<LogisticsPage />} />
             <Route path="/practical" element={<Navigate to="/logistics" replace />} />
             <Route path="/blog" element={<BlogPage />} />
