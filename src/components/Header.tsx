@@ -112,7 +112,7 @@ export default function Header() {
                   >
                     {t('nav.logistics')}
                   </button>
-                  
+
                   <button
                     type="button"
                     onClick={() => go('/blog')}
@@ -211,7 +211,7 @@ export default function Header() {
             >
               {t('nav.logistics')}
             </button>
-            
+
             <button
               type="button"
               aria-current={location.pathname === '/blog' ? 'page' : undefined}
@@ -220,7 +220,7 @@ export default function Header() {
             >
               {t('nav.blog')}
             </button>
-            
+
             <button
               type="button"
               aria-current={location.pathname === '/sponsor-targets' ? 'page' : undefined}
