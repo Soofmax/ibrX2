@@ -1,6 +1,7 @@
 import { Coffee, Gift, Heart, Sparkles, Check } from 'lucide-react';
 import { useI18n } from '../i18n/useI18n';
 import { useState } from 'react';
+import JerricanIcon from './icons/JerricanIcon';
 
 export default function Crowdfunding() {
   const { t, lang } = useI18n();
@@ -114,82 +115,30 @@ export default function Crowdfunding() {
             </div>
 
             <div className="flex justify-center gap-6 flex-wrap">
-              {/* Scoped keyframes for subtle wave effect */}
-              <style>
-                {`
-                  @keyframes jerryWave {
-                    0% { background-position: 0 0; }
-                    100% { background-position: 200% 0; }
-                  }
-                `}
-              </style>
-
               {/* Slot 1: Full jerrycan with avatar */}
-              <div className="relative w-40 h-60 sm:w-48 sm:h-72 mx-auto mb-4 border-4 border-green-500 rounded-lg bg-stone-900 overflow-hidden">
-                {/* Full fill */}
-                <div
-                  className="absolute bottom-0 w-full"
-                  style={{
-                    height: '100%',
-                    backgroundColor: '#22c55e',
-                    transition: 'height 0.5s ease',
-                  }}
-                >
-                  <div
-                    className="absolute inset-0 opacity-25"
-                    style={{
-                      backgroundImage:
-                        'repeating-linear-gradient(-45deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 4px, transparent 4px, transparent 8px)',
-                      backgroundSize: '200% 200%',
-                      animation: 'jerryWave 4s linear infinite',
-                    }}
-                    aria-hidden="true"
-                  />
-                </div>
-
-                {/* Outline */}
-                <div className="absolute inset-0 border-4 border-stone-800 rounded-md pointer-events-none" />
-
-                {/* Avatar placeholder */}
+              <div className="relative w-40 h-60 sm:w-48 sm:h-72 mx-auto mb-4">
+                <JerricanIcon
+                  fillPercentage={100}
+                  className="w-full h-full"
+                  ariaLabel={lang === 'fr' ? 'Jerrican complet' : 'Full jerrycan'}
+                />
                 <img
                   src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=80&h=80"
-                  alt="Convoyeur"
+                  alt={lang === 'fr' ? 'Convoyeur' : 'Convoyer'}
                   className="absolute -top-4 -right-4 w-12 h-12 rounded-full border-2 border-white shadow-lg object-cover"
                 />
-
-                {/* Label */}
                 <div className="absolute bottom-3 left-0 w-full text-center font-serif font-bold text-green-100 text-sm select-none">
                   100% {t('support.jerry.filledShort')}
                 </div>
               </div>
 
               {/* Slot 2: In-progress jerrycan */}
-              <div className="relative w-40 h-60 sm:w-48 sm:h-72 mx-auto mb-4 border-4 border-green-500 rounded-lg bg-stone-900 overflow-hidden">
-                {/* Progressive fill with 0.5s transition */}
-                <div
-                  className="absolute bottom-0 w-full"
-                  style={{
-                    height: `${fillPercent}%`,
-                    backgroundColor: '#22c55e',
-                    transition: 'height 0.5s ease',
-                  }}
-                >
-                  <div
-                    className="absolute inset-0 opacity-25"
-                    style={{
-                      backgroundImage:
-                        'repeating-linear-gradient(-45deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 4px, transparent 4px, transparent 8px)',
-                      backgroundSize: '200% 200%',
-                      animation: 'jerryWave 4s linear infinite',
-                    }}
-                    aria-hidden="true"
-                  />
-                </div>
-
-                {/* Outline */}
-                <div className="absolute inset-0 border-4 border-stone-800 rounded-md pointer-events-none" />
-
-                {/* Percentage */}
+              <div className="relative w-40 h-60 sm:w-48 sm:h-72 mx-auto mb-4">
+                <JerricanIcon
+                  fillPercentage={fillPercent}
+                  className="w-full h-full"
+                  ariaLabel={lang === 'fr' ? 'Jerrican en cours' : 'In-progress jerrycan'}
+                />
                 <div className="absolute bottom-3 left-0 w-full text-center font-serif font-bold text-green-100 text-sm select-none">
                   {fillPercent}% {t('support.jerry.filledShort')}
                 </div>
