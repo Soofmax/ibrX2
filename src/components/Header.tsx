@@ -113,8 +113,6 @@ export default function Header() {
                   role="menu"
                   className="absolute right-0 top-full mt-2 w-56 bg-green-900/90 rounded-xl shadow-lg backdrop-blur-sm p-2 border border-green-700"
                 >
-                  
-                  
                   <button
                     type="button"
                     onClick={() => go('/logistics')}
@@ -218,7 +216,7 @@ export default function Header() {
             >
               {t('nav.expedition')}
             </button>
-            
+
             <button
               type="button"
               aria-current={location.pathname === '/logistics' ? 'page' : undefined}

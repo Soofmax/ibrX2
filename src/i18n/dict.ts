@@ -99,7 +99,8 @@ export const fr = {
   'team.role.mech': 'Maintenance & réparations',
   'team.role.log': 'Budget, ferrys, assurances',
   'expedition.h1': 'L’Équipage et les Machines : Au Cœur de l’Expédition',
-  'expedition.intro': 'Découvrez notre équipe et nos véhicules restaurés, les piliers de cette odyssée transcontinentale. Ensemble, nous affrontons les défis de la route pour relier les capitales du monde.',
+  'expedition.intro':
+    'Découvrez notre équipe et nos véhicules restaurés, les piliers de cette odyssée transcontinentale. Ensemble, nous affrontons les défis de la route pour relier les capitales du monde.',
 
   'logistics.h1': 'Préparer l’Aventure : Logistique et Infos Pratiques',
   'logistics.heading': 'Logistique & Préparation',
@@ -310,7 +311,8 @@ export const en: Dict = {
   'team.role.mech': 'Maintenance & repairs',
   'team.role.log': 'Budget, ferries, insurance',
   'expedition.h1': 'The Crew and the Machines: At the Heart of the Expedition',
-  'expedition.intro': 'Meet our team and our restored vehicles — the pillars of this transcontinental odyssey. Together, we face the road’s challenges to connect the world’s capitals.',
+  'expedition.intro':
+    'Meet our team and our restored vehicles — the pillars of this transcontinental odyssey. Together, we face the road’s challenges to connect the world’s capitals.',
 
   'logistics.h1': 'Prepare the Adventure: Logistics & Practical Info',
   'logistics.heading': 'Logistics & Preparation',
