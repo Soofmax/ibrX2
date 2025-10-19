@@ -25,8 +25,36 @@ export default function Jerrican({ vehicle }: Props) {
       <h3 className="text-xl font-handwritten mb-4 text-stone-800">{vehicle.name}</h3>
 
       <div className="relative w-48 h-72 mx-auto mb-4 border-4 border-stone-800 rounded-lg bg-white overflow-hidden">
-        {/* Fill */}
-        <div className="absolute bottom-0 w-full" style={getFillStyles()} />
+        {/* Inline keyframes for wave animation (scoped) */}
+        <style>
+          {`
+            @keyframes jerryWave {
+              0% { background-position: 0 0; }
+              100% { background-position: 200% 0; }
+            }
+          `}
+        </style>
+
+        {/* Avatar placeholder when full */}
+        {vehicle.state === 'full' && (
+          <div className="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-green-600 border-2 border-white shadow-lg flex items-center justify-center text-white font-serif">
+            WG
+          </div>
+        )}
+
+        {/* Fill with subtle moving pattern */}
+        <div className="absolute bottom-0 w-full" style={getFillStyles()}>
+          <div
+            className="absolute inset-0 opacity-30"
+            style={{
+              backgroundImage:
+                'repeating-linear-gradient(-45deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 4px, transparent 4px, transparent 8px)',
+              backgroundSize: '200% 200%',
+              animation: 'jerryWave 4s linear infinite',
+            }}
+            aria-hidden="true"
+          />
+        </div>
 
         {/* Outline */}
         <div className="absolute inset-0 border-4 border-stone-800 rounded-md pointer-events-none" />

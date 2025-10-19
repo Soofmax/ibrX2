@@ -7,7 +7,7 @@ export default function Crowdfunding() {
 
   // Jerrican donation state (local, for visualization)
   const [selected, setSelected] = useState<number>(5);
-  const [total, setTotal] = useState<number>(0);
+  const [total, setTotal] = useState<number>(50); // start with a full jerrycan (simulation)
   const goal = 50; // € to fill one jerrican (visual goal)
   const fillPercent = Math.min(Math.round((total / goal) * 100), 100);
 
@@ -143,16 +143,46 @@ export default function Crowdfunding() {
                     <path d="M20 30 L85 30 L100 45 L100 125 L20 125 Z" />
                   </clipPath>
                   <g clipPath="url(#jerry-clip)">
+                    {/* Base background */}
                     <rect x="20" y="125" width="80" height="95" fill="#22c55e" />
+                    {/* Actual fill */}
                     <rect
                       x="20"
                       width="80"
                       fill="#22c55e"
-                      // Height based on fillPercent
                       y={125 - (95 * fillPercent) / 100}
                       height={(95 * fillPercent) / 100}
                     />
+                    {/* Wave shimmer near the surface */}
+                    <rect
+                      x="20"
+                      y={Math.max(30, 125 - (95 * fillPercent) / 100 - 8)}
+                      width="80"
+                      height="12"
+                      fill="rgba(255,255,255,0.25)"
+                    >
+                      <animateTransform
+                        attributeName="transform"
+                        type="translate"
+                        from="0 0"
+                        to="-20 0"
+                        dur="2s"
+                        repeatCount="indefinite"
+                      />
+                    </rect>
                   </g>
+                  {/* Full badge */}
+                  {fillPercent === 100 && (
+                    <text
+                      x="26"
+                      y="44"
+                      fill="#16a34a"
+                      fontSize="12"
+                      fontFamily="serif"
+                    >
+                      Plein
+                    </text>
+                  )}
                   {/* Label */}
                   <text
                     x="60"
