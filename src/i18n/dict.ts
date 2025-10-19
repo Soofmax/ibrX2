@@ -98,6 +98,7 @@ export const fr = {
   'team.role.mech': 'Maintenance & réparations',
   'team.role.log': 'Budget, ferrys, assurances',
 
+  'logistics.h1': 'Préparer l’Aventure : Logistique et Infos Pratiques',
   'logistics.heading': 'Logistique & Préparation',
   'logistics.tagline': 'Budget, défis, équipements — concis et pratique',
   'logistics.budget': 'Budget estimatif',
@@ -305,6 +306,7 @@ export const en: Dict = {
   'team.role.mech': 'Maintenance & repairs',
   'team.role.log': 'Budget, ferries, insurance',
 
+  'logistics.h1': 'Prepare the Adventure: Logistics & Practical Info',
   'logistics.heading': 'Logistics & Preparation',
   'logistics.tagline': 'Budget, challenges, equipment — concise and practical',
   'logistics.budget': 'Estimated budget',

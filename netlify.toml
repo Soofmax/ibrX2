@@ -16,3 +16,10 @@
   to = "/support"
   status = 301
   force = true
+
+# Redirect practical to logistics (permanent)
+[[redirects]]
+  from = "/practical"
+  to = "/logistics"
+  status = 301
+  force = true

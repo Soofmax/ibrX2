@@ -9,7 +9,7 @@ import ItineraryPage from './pages/ItineraryPage';
 import FleetPage from './pages/FleetPage';
 import TeamPage from './pages/TeamPage';
 import LogisticsPage from './pages/LogisticsPage';
-import PracticalPage from './pages/PracticalPage';
+
 import BlogPage from './pages/BlogPage';
 import SponsorsPage from './pages/SponsorsPage';
 import SupportPage from './pages/SupportPage';
@@ -39,7 +39,7 @@ function App() {
             <Route path="/fleet" element={<FleetPage />} />
             <Route path="/team" element={<TeamPage />} />
             <Route path="/logistics" element={<LogisticsPage />} />
-            <Route path="/practical" element={<PracticalPage />} />
+            <Route path="/practical" element={<Navigate to="/logistics" replace />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/sponsors" element={<SponsorsPage />} />
             <Route path="/sponsor-targets" element={<SponsorTargetsPage />} />
