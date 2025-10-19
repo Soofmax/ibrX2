@@ -113,82 +113,86 @@ export default function Crowdfunding() {
               </div>
             </div>
 
-            <div className="flex justify-center">
-              <div className="relative w-56 h-64 sm:w-64 sm:h-72">
-                {/* Simple SVG jerrican */}
-                <svg viewBox="0 0 120 140" className="w-full h-full">
-                  {/* Body */}
-                  <path
-                    d="M20 30 L85 30 L100 45 L100 125 L20 125 Z"
-                    fill="#0f172a"
-                    stroke="#16a34a"
-                    strokeWidth="2"
+            <div className="flex justify-center gap-6 flex-wrap">
+              {/* Scoped keyframes for subtle wave effect */}
+              <style>
+                {`
+                  @keyframes jerryWave {
+                    0% { background-position: 0 0; }
+                    100% { background-position: 200% 0; }
+                  }
+                `}
+              </style>
+
+              {/* Slot 1: Full jerrycan with avatar */}
+              <div className="relative w-40 h-60 sm:w-48 sm:h-72 mx-auto mb-4 border-4 border-green-500 rounded-lg bg-stone-900 overflow-hidden">
+                {/* Full fill */}
+                <div
+                  className="absolute bottom-0 w-full"
+                  style={{
+                    height: '100%',
+                    backgroundColor: '#22c55e',
+                    transition: 'height 0.5s ease',
+                  }}
+                >
+                  <div
+                    className="absolute inset-0 opacity-25"
+                    style={{
+                      backgroundImage:
+                        'repeating-linear-gradient(-45deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 4px, transparent 4px, transparent 8px)',
+                      backgroundSize: '200% 200%',
+                      animation: 'jerryWave 4s linear infinite',
+                    }}
+                    aria-hidden="true"
                   />
-                  {/* Handle */}
-                  <path
-                    d="M60 15 L85 15 L95 25 L70 25 Z"
-                    fill="#0f172a"
-                    stroke="#16a34a"
-                    strokeWidth="2"
+                </div>
+
+                {/* Outline */}
+                <div className="absolute inset-0 border-4 border-stone-800 rounded-md pointer-events-none" />
+
+                {/* Avatar placeholder */}
+                <img
+                  src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=80&h=80"
+                  alt="Convoyeur"
+                  className="absolute -top-4 -right-4 w-12 h-12 rounded-full border-2 border-white shadow-lg object-cover"
+                />
+
+                {/* Label */}
+                <div className="absolute bottom-3 left-0 w-full text-center font-serif font-bold text-green-100 text-sm select-none">
+                  100% {t('support.jerry.filledShort')}
+                </div>
+              </div>
+
+              {/* Slot 2: In-progress jerrycan */}
+              <div className="relative w-40 h-60 sm:w-48 sm:h-72 mx-auto mb-4 border-4 border-green-500 rounded-lg bg-stone-900 overflow-hidden">
+                {/* Progressive fill with 0.5s transition */}
+                <div
+                  className="absolute bottom-0 w-full"
+                  style={{
+                    height: `${fillPercent}%`,
+                    backgroundColor: '#22c55e',
+                    transition: 'height 0.5s ease',
+                  }}
+                >
+                  <div
+                    className="absolute inset-0 opacity-25"
+                    style={{
+                      backgroundImage:
+                        'repeating-linear-gradient(-45deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 4px, transparent 4px, transparent 8px)',
+                      backgroundSize: '200% 200%',
+                      animation: 'jerryWave 4s linear infinite',
+                    }}
+                    aria-hidden="true"
                   />
-                  {/* X pattern */}
-                  <path
-                    d="M28 55 L92 115 M92 55 L28 115"
-                    stroke="#1e293b"
-                    strokeWidth="4"
-                    opacity="0.7"
-                  />
-                  {/* Fill (clip to body area) */}
-                  <clipPath id="jerry-clip">
-                    <path d="M20 30 L85 30 L100 45 L100 125 L20 125 Z" />
-                  </clipPath>
-                  <g clipPath="url(#jerry-clip)">
-                    {/* Base background */}
-                    <rect x="20" y="125" width="80" height="95" fill="#22c55e" />
-                    {/* Actual fill */}
-                    <rect
-                      x="20"
-                      width="80"
-                      fill="#22c55e"
-                      y={125 - (95 * fillPercent) / 100}
-                      height={(95 * fillPercent) / 100}
-                    />
-                    {/* Wave shimmer near the surface */}
-                    <rect
-                      x="20"
-                      y={Math.max(30, 125 - (95 * fillPercent) / 100 - 8)}
-                      width="80"
-                      height="12"
-                      fill="rgba(255,255,255,0.25)"
-                    >
-                      <animateTransform
-                        attributeName="transform"
-                        type="translate"
-                        from="0 0"
-                        to="-20 0"
-                        dur="2s"
-                        repeatCount="indefinite"
-                      />
-                    </rect>
-                  </g>
-                  {/* Full badge */}
-                  {fillPercent === 100 && (
-                    <text x="26" y="44" fill="#16a34a" fontSize="12" fontFamily="serif">
-                      Plein
-                    </text>
-                  )}
-                  {/* Label */}
-                  <text
-                    x="60"
-                    y="135"
-                    textAnchor="middle"
-                    fill="#86efac"
-                    fontSize="10"
-                    fontFamily="serif"
-                  >
-                    {fillPercent}% {t('support.jerry.filledShort')}
-                  </text>
-                </svg>
+                </div>
+
+                {/* Outline */}
+                <div className="absolute inset-0 border-4 border-stone-800 rounded-md pointer-events-none" />
+
+                {/* Percentage */}
+                <div className="absolute bottom-3 left-0 w-full text-center font-serif font-bold text-green-100 text-sm select-none">
+                  {fillPercent}% {t('support.jerry.filledShort')}
+                </div>
               </div>
             </div>
             <div className="text-center mt-3 text-green-100 font-serif">
