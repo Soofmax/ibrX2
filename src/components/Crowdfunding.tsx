@@ -12,33 +12,23 @@ export default function Crowdfunding() {
   const fillPercent = Math.min(Math.round((total / goal) * 100), 100);
 
   const donateWithPaypal = () => {
-    // Open PayPal.me with the selected amount; integration can be replaced later
-    window.open(
-      `https://paypal.me/TranscontinentalTrek/${selected}`,
-      '_blank',
-      'noopener,noreferrer'
+    // Simulation uniquement: pas de redirection externe
+    alert(
+      lang === 'fr'
+        ? `Simulation de don ${selected}€ (PayPal)`
+        : `Simulated donation €${selected} (PayPal)`
     );
     setTotal((v) => v + selected);
   };
 
-  const donateWithStripe = async () => {
-    try {
-      const res = await fetch('/.netlify/functions/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: selected, lang }),
-      });
-      const data = await res.json();
-      if (data && data.url) {
-        window.location.href = data.url as string;
-      } else {
-        alert(
-          lang === 'fr' ? 'Erreur de paiement. Réessayez.' : 'Payment error. Please try again.'
-        );
-      }
-    } catch {
-      alert(lang === 'fr' ? 'Erreur de paiement. Réessayez.' : 'Payment error. Please try again.');
-    }
+  const donateWithStripe = () => {
+    // Simulation uniquement: pas d'appel backend Stripe
+    alert(
+      lang === 'fr'
+        ? `Simulation de don ${selected}€ (Stripe)`
+        : `Simulated donation €${selected} (Stripe)`
+    );
+    setTotal((v) => v + selected);
   };
 
   return (
