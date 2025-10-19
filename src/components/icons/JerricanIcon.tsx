@@ -30,7 +30,12 @@ export default function JerricanIcon({ fillPercentage, className, ariaLabel }: P
   return (
     <svg viewBox="0 0 120 140" className={className} aria-label={ariaLabel}>
       {/* Body */}
-      <path d="M20 30 L85 30 L100 45 L100 125 L20 125 Z" fill="#0f172a" stroke="#16a34a" strokeWidth="2" />
+      <path
+        d="M20 30 L85 30 L100 45 L100 125 L20 125 Z"
+        fill="#0f172a"
+        stroke="#16a34a"
+        strokeWidth="2"
+      />
       {/* Handle */}
       <path d="M60 15 L85 15 L95 25 L70 25 Z" fill="#0f172a" stroke="#16a34a" strokeWidth="2" />
       {/* X pattern */}
@@ -47,7 +52,14 @@ export default function JerricanIcon({ fillPercentage, className, ariaLabel }: P
         <rect x="20" width="80" fill="#22c55e" y={currentFillY} height={currentFillHeight} />
         {/* Wave shimmer near the surface */}
         <rect x="20" y={waveY} width="80" height="12" fill="rgba(255,255,255,0.25)">
-          <animateTransform attributeName="transform" type="translate" from="0 0" to="-20 0" dur="2s" repeatCount="indefinite" />
+          <animateTransform
+            attributeName="transform"
+            type="translate"
+            from="0 0"
+            to="-20 0"
+            dur="2s"
+            repeatCount="indefinite"
+          />
         </rect>
       </g>
     </svg>
