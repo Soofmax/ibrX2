@@ -84,14 +84,6 @@ export default function Header() {
             </button>
             <button
               type="button"
-              aria-current={location.pathname === '/sponsors' ? 'page' : undefined}
-              onClick={() => go('/sponsors')}
-              className={navClass('/sponsors')}
-            >
-              {t('nav.sponsors')}
-            </button>
-            <button
-              type="button"
               aria-current={location.pathname === '/contact' ? 'page' : undefined}
               onClick={() => go('/contact')}
               className={navClass('/contact')}
@@ -120,13 +112,7 @@ export default function Header() {
                   >
                     {t('nav.logistics')}
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => go('/practical')}
-                    className="block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring"
-                  >
-                    {t('nav.practical')}
-                  </button>
+                  
                   <button
                     type="button"
                     onClick={() => go('/blog')}
@@ -225,14 +211,7 @@ export default function Header() {
             >
               {t('nav.logistics')}
             </button>
-            <button
-              type="button"
-              aria-current={location.pathname === '/practical' ? 'page' : undefined}
-              onClick={() => go('/practical')}
-              className={navClass('/practical')}
-            >
-              {t('nav.practical')}
-            </button>
+            
             <button
               type="button"
               aria-current={location.pathname === '/blog' ? 'page' : undefined}
@@ -241,14 +220,7 @@ export default function Header() {
             >
               {t('nav.blog')}
             </button>
-            <button
-              type="button"
-              aria-current={location.pathname === '/sponsors' ? 'page' : undefined}
-              onClick={() => go('/sponsors')}
-              className={navClass('/sponsors')}
-            >
-              {t('nav.sponsors')}
-            </button>
+            
             <button
               type="button"
               aria-current={location.pathname === '/sponsor-targets' ? 'page' : undefined}
