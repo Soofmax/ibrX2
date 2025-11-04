@@ -1,4 +1,4 @@
-import { ChevronDown, ArrowRight, Globe, Route, Truck } from 'lucide-react';
+import { ArrowRight, Globe, Route, Truck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useI18n } from '../i18n/useI18n';
 import { useEffect, useState, useRef, useMemo } from 'react';
@@ -405,14 +405,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={goItinerary}
-        aria-label={t('hero.chevronAria')}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-amber-400 animate-bounce cursor-pointer hover:text-amber-300 transition-colors focus-ring"
-      >
-        <ChevronDown size={40} />
-      </button>
+      
     </section>
   );
 }
