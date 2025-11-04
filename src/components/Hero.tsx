@@ -312,7 +312,7 @@ export default function Hero() {
                 {t(countdown.d === 1 ? 'countdown.day' : 'countdown.days')}
               </div>
             </div>
-            
+
             <div
               className="countdown-card bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all"
               style={{ animationDelay: '1.4s' }}
@@ -324,7 +324,6 @@ export default function Hero() {
                 {t('countdown.minutes')}
               </div>
             </div>
-            
           </div>
         </div>
 
