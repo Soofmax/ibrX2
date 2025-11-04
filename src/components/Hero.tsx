@@ -278,7 +278,7 @@ export default function Hero() {
         {/* Countdown */}
         <div className="max-w-4xl mx-auto mb-6 reveal">
           <p className="text-amber-100/90 font-serif mb-2">{t('countdown.startsIn')}:</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             <div
               className="countdown-card bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all"
               style={{ animationDelay: '0.8s' }}
@@ -312,20 +312,10 @@ export default function Hero() {
                 {t(countdown.d === 1 ? 'countdown.day' : 'countdown.days')}
               </div>
             </div>
+            
             <div
               className="countdown-card bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all"
               style={{ animationDelay: '1.4s' }}
-            >
-              <div className="countdown-number text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
-                {String(countdown.h).padStart(2, '0')}
-              </div>
-              <div className="countdown-label text-xs text-amber-100/80 font-serif uppercase">
-                {t(countdown.h === 1 ? 'countdown.hour' : 'countdown.hours')}
-              </div>
-            </div>
-            <div
-              className="countdown-card bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all"
-              style={{ animationDelay: '1.6s' }}
             >
               <div className="countdown-number text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
                 {String(countdown.m).padStart(2, '0')}
@@ -334,17 +324,7 @@ export default function Hero() {
                 {t('countdown.minutes')}
               </div>
             </div>
-            <div
-              className="countdown-card bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all"
-              style={{ animationDelay: '1.8s' }}
-            >
-              <div className="countdown-number text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
-                {String(countdown.s).padStart(2, '0')}
-              </div>
-              <div className="countdown-label text-xs text-amber-100/80 font-serif uppercase">
-                {t('countdown.seconds')}
-              </div>
-            </div>
+            
           </div>
         </div>
 
