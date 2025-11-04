@@ -1,4 +1,4 @@
-import { Mail, HelpCircle, Handshake } from 'lucide-react';
+import { Handshake } from 'lucide-react';
 import { useI18n } from '../i18n/useI18n';
 import { useMemo, useState } from 'react';
 
@@ -38,14 +38,8 @@ export default function ContactFAQ() {
       { q: t('contact.q1'), a: t('contact.a1') },
       { q: t('contact.q2'), a: t('contact.a2') },
       { q: t('contact.q3'), a: t('contact.a3') },
-      {
-        q: 'Quel permis pour conduire ?',
-        a: 'Permis C (PTAC > 7,5 t) et PCI pour l’international.',
-      },
-      {
-        q: 'Comment suivre l’expédition ?',
-        a: 'Via notre blog, X (#TranscontinentalTrek) et YouTube.',
-      },
+      { q: 'Quel permis pour conduire ?', a: 'Permis C (PTAC > 7,5 t) et PCI pour l’international.' },
+      { q: 'Comment suivre l’expédition ?', a: 'Via notre blog, X (#TranscontinentalTrek) et YouTube.' },
       { q: 'Comment soutenir ?', a: 'Dons via Patreon/PayPal ou sponsoring — contactez-nous.' },
     ],
     [t]

@@ -54,7 +54,7 @@ function percent(j: Jerry) {
 }
 
 export default function DonationsPage() {
-  const { t, lang } = useI18n();
+  const { lang } = useI18n();
   const defaults: Jerry[] = useMemo(
     () => [
       {
@@ -128,6 +128,7 @@ export default function DonationsPage() {
   };
 
   const handleDonation = (via: 'paypal' | 'stripe') => {
+    void via; // mark param used for lint
     const amt = amountToUse;
     if (!amt || amt <= 0) return;
     setJerricans((prev) => {
