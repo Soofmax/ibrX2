@@ -83,6 +83,106 @@
     }
   }
 
+  /* Animated gradient background for hero */
+  .animated-gradient {
+    background: linear-gradient(-45deg, #1a4d2e, #2d5f3f, #1e5a3a, #2a6f47);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+  }
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Subtle floating particles for hero */
+  .particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.2);
+    filter: blur(0.3px);
+    animation: float2 10s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+  @keyframes float2 {
+    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+    25% { transform: translateY(-10px) translateX(6px); opacity: 0.35; }
+    50% { transform: translateY(-6px) translateX(-6px); opacity: 0.4; }
+    75% { transform: translateY(-14px) translateX(3px); opacity: 0.35; }
+  }
+
+  /* Title reveal animation */
+  .animate-title-reveal {
+    animation: titleReveal 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes titleReveal {
+    from { opacity: 0; transform: translateY(50px); filter: blur(10px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  /* Scroll reveal utility */
+  .reveal { opacity: 0; transform: translateY(40px); }
+  .reveal.visible { animation: fadeInUp 0.8s ease-out forwards; }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Countdown card and numbers */
+  .countdown-card { position: relative; overflow: hidden; }
+  .countdown-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    transition: transform 0.6s ease;
+  }
+  .countdown-card:hover::before {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+  .countdown-number {
+    animation: numberPulse 2s ease-in-out infinite;
+    will-change: transform, filter;
+  }
+  @keyframes numberPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  .countdown-label { letter-spacing: 0.2em; }
+
+  /* CTA shimmer and ripple effects */
+  .btn-shimmer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+    pointer-events: none;
+  }
+  .btn-shimmer:hover::before { transform: translateX(100%); }
+  .btn-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0; height: 0;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.35);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .btn-ripple:active::after {
+    width: 90px; height: 90px;
+    animation: ripple 0.6s ease-out;
+  }
+  @keyframes ripple { to { transform: translate(-50%, -50%) scale(3); opacity: 0; } }
+
   @keyframes fadeIn {
     from {
       opacity: 0;

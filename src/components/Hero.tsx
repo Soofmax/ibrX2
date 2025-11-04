@@ -1,7 +1,7 @@
 import { ChevronDown, ArrowRight, Globe, Route, Truck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useI18n } from '../i18n/useI18n';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 
 export default function Hero() {
   const navigate = useNavigate();
@@ -66,6 +66,19 @@ export default function Hero() {
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
+  }, []);
+
+  // Particles positions for subtle animated dots
+  const particles = useMemo(() => {
+    const count = 24;
+    return Array.from({ length: count }).map(() => {
+      const top = `${Math.floor(Math.random() * 90) + 5}%`;
+      const left = `${Math.floor(Math.random() * 90) + 5}%`;
+      const size = `${Math.floor(Math.random() * 6) + 3}px`;
+      const dur = `${(Math.random() * 6 + 8).toFixed(1)}s`;
+      const delay = `${(Math.random() * 2).toFixed(1)}s`;
+      return { top, left, size, dur, delay };
+    });
   }, []);
 
   // Set fetchpriority attribute (lowercase) to avoid React warning while preserving behavior
@@ -139,6 +152,26 @@ export default function Hero() {
     };
   }, [titleFull]);
 
+  // Scroll reveal for elements with .reveal
+  useEffect(() => {
+    const root = document.getElementById('home');
+    if (!root) return;
+    const nodes = root.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            (e.target as HTMLElement).classList.add('visible');
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    nodes.forEach((n) => io.observe(n));
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section
       id="home"
@@ -146,6 +179,7 @@ export default function Hero() {
     >
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-green-900 via-green-800 to-amber-900"></div>
+        <div className="absolute inset-0 animated-gradient opacity-30 pointer-events-none"></div>
         <div className="absolute inset-0 opacity-20">
           <img
             src="https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&w=1920"
@@ -164,15 +198,28 @@ export default function Hero() {
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-green-900 via-transparent to-green-900/40"></div>
+        <div className="absolute inset-0 pointer-events-none">
+          {particles.map((p, idx) => (
+            <span
+              key={idx}
+              className="particle"
+              style={{
+                top: p.top,
+                left: p.left,
+                ['--size' as any]: p.size,
+                ['--dur' as any]: p.dur,
+                ['--delay' as any]: p.delay,
+              }}
+            />
+          ))}
+        </div>
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto text-center">
-        <div className="inline-block mb-6 px-6 py-2 bg-amber-600/20 backdrop-blur-sm rounded-full border border-amber-500/30 animate-fade-in">
-          <p className="text-amber-300 font-serif text-sm tracking-wider">{t('hero.pretitle')}</p>
-        </div>
+        
 
         <h1
-          className="text-5xl sm:text-6xl lg:text-8xl font-handwritten text-amber-50 mb-6 animate-fade-in drop-shadow-2xl leading-tight"
+          className="text-5xl sm:text-6xl lg:text-8xl font-handwritten text-amber-50 mb-6 animate-title-reveal drop-shadow-2xl leading-tight"
           aria-label={titleFull}
         >
           {typedTitle}
@@ -182,49 +229,61 @@ export default function Hero() {
         </h1>
 
         {/* Countdown */}
-        <div className="max-w-4xl mx-auto mb-6 animate-fade-in">
+        <div className="max-w-4xl mx-auto mb-6 reveal">
           <p className="text-amber-100/90 font-serif mb-2">{t('countdown.startsIn')}:</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all">
-              <div className="text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
+            <div
+              className="countdown-card bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all"
+              style={{ animationDelay: '0.8s' }}
+            >
+              <div className="countdown-number text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
                 {String(countdown.y).padStart(2, '0')}
               </div>
-              <div className="text-xs text-amber-100/80 font-serif uppercase">
+              <div className="countdown-label text-xs text-amber-100/80 font-serif uppercase">
                 {t(countdown.y === 1 ? 'countdown.year' : 'countdown.years')}
               </div>
             </div>
-            <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all">
-              <div className="text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
+            <div
+              className="countdown-card bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all"
+              style={{ animationDelay: '1s' }}
+            >
+              <div className="countdown-number text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
                 {String(countdown.mo).padStart(2, '0')}
               </div>
-              <div className="text-xs text-amber-100/80 font-serif uppercase">
+              <div className="countdown-label text-xs text-amber-100/80 font-serif uppercase">
                 {t(countdown.mo === 1 ? 'countdown.month' : 'countdown.months')}
               </div>
             </div>
-            <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all">
-              <div className="text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
+            <div
+              className="countdown-card bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all"
+              style={{ animationDelay: '1.2s' }}
+            >
+              <div className="countdown-number text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
                 {String(countdown.d).padStart(2, '0')}
               </div>
-              <div className="text-xs text-amber-100/80 font-serif uppercase">
+              <div className="countdown-label text-xs text-amber-100/80 font-serif uppercase">
                 {t(countdown.d === 1 ? 'countdown.day' : 'countdown.days')}
               </div>
             </div>
-            <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all">
-              <div className="text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
+            <div
+              className="countdown-card bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all"
+              style={{ animationDelay: '1.4s' }}
+            >
+              <div className="countdown-number text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
                 {String(countdown.h).padStart(2, '0')}
               </div>
-              <div className="text-xs text-amber-100/80 font-serif uppercase">
+              <div className="countdown-label text-xs text-amber-100/80 font-serif uppercase">
                 {t(countdown.h === 1 ? 'countdown.hour' : 'countdown.hours')}
               </div>
             </div>
           </div>
         </div>
 
-        <h2 className="text-2xl sm:text-3xl text-amber-100/90 font-serif max-w-4xl mx-auto mb-8 leading-relaxed animate-fade-in drop-shadow-lg">
+        <h2 className="text-2xl sm:text-3xl text-amber-100/90 font-serif max-w-4xl mx-auto mb-8 leading-relaxed reveal drop-shadow-lg">
           {t('hero.subtitle')}
         </h2>
 
-        <div className="space-y-4 max-w-3xl mx-auto mb-12 animate-fade-in">
+        <div className="space-y-4 max-w-3xl mx-auto mb-12 reveal">
           <p className="text-xl sm:text-2xl text-amber-100/90 font-serif leading-relaxed drop-shadow-lg">
             {t('hero.p1')}
           </p>
@@ -240,7 +299,7 @@ export default function Hero() {
           <button
             type="button"
             onClick={goSupport}
-            className="group relative bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-amber-50 font-serif px-10 py-5 rounded-full text-lg transition-all hover:scale-105 shadow-2xl hover:shadow-green-500/50 overflow-hidden focus-ring"
+            className="group relative bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-amber-50 font-serif px-10 py-5 rounded-full text-lg transition-all hover:scale-105 shadow-2xl hover:shadow-green-500/50 overflow-hidden focus-ring btn-shimmer btn-ripple"
           >
             <span className="relative z-10 inline-flex items-center gap-2">
               {t('hero.ctaSupport')}
@@ -259,7 +318,7 @@ export default function Hero() {
         </div>
 
         {/* KPI strip under CTAs */}
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto animate-fade-in">
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto reveal">
           <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:rotate-[1deg] hover:shadow-2xl">
             <Globe className="text-green-700" size={24} />
             <div>
