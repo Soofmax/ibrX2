@@ -51,7 +51,9 @@ export default function Header() {
           : 'bg-[rgba(45,95,63,0.9)] backdrop-blur-lg shadow-[0_2px_12px_rgba(0,0,0,0.08)] border-b border-white/10'
       } ${compact ? 'h-[50px]' : 'h-[60px] sm:h-[65px] md:h-[70px]'}`}
     >
-      <div className={`max-w-7xl mx-auto px-5 sm:px-6 lg:px-10 ${compact ? 'py-1' : 'py-2 sm:py-3'}`}>
+      <div
+        className={`max-w-7xl mx-auto px-5 sm:px-6 lg:px-10 ${compact ? 'py-1' : 'py-2 sm:py-3'}`}
+      >
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3 group cursor-pointer" onClick={() => go('/')}>
             <Compass
@@ -225,7 +227,7 @@ export default function Header() {
               >
                 {t('nav.logistics')}
               </button>
-              
+
               <button
                 type="button"
                 aria-current={location.pathname === '/blog' ? 'page' : undefined}
@@ -234,7 +236,7 @@ export default function Header() {
               >
                 {t('nav.blog')}
               </button>
-              
+
               <button
                 type="button"
                 aria-current={location.pathname === '/sponsor-targets' ? 'page' : undefined}
