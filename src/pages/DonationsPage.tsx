@@ -57,13 +57,33 @@ export default function DonationsPage() {
   const { t, lang } = useI18n();
   const defaults: Jerry[] = useMemo(
     () => [
-      { id: 'fuel', name: lang === 'fr' ? 'Carburant' : 'Fuel', target: 50, current: 35, status: computeStatus(35, 50) },
-      { id: 'maint', name: lang === 'fr' ? 'Entretien' : 'Maintenance', target: 80, current: 15, status: computeStatus(15, 80) },
-      { id: 'visas', name: lang === 'fr' ? 'Visas' : 'Visas', target: 100, current: 64, status: computeStatus(64, 100) },
+      {
+        id: 'fuel',
+        name: lang === 'fr' ? 'Carburant' : 'Fuel',
+        target: 50,
+        current: 35,
+        status: computeStatus(35, 50),
+      },
+      {
+        id: 'maint',
+        name: lang === 'fr' ? 'Entretien' : 'Maintenance',
+        target: 80,
+        current: 15,
+        status: computeStatus(15, 80),
+      },
+      {
+        id: 'visas',
+        name: lang === 'fr' ? 'Visas' : 'Visas',
+        target: 100,
+        current: 64,
+        status: computeStatus(64, 100),
+      },
     ],
     [lang]
   );
-  const [jerricans, setJerricans] = useState<Jerry[]>(() => loadJerricansFromLocalStorage(defaults));
+  const [jerricans, setJerricans] = useState<Jerry[]>(() =>
+    loadJerricansFromLocalStorage(defaults)
+  );
   const [selectedAmount, setSelectedAmount] = useState<number | null>(5);
   const [customAmount, setCustomAmount] = useState<string>('');
   const [selectedJerryId, setSelectedJerryId] = useState<string>(() => {
@@ -123,8 +143,10 @@ export default function DonationsPage() {
 
     const selectedJerry = jerricans.find((j) => j.id === selectedJerryId);
     const newVal = (selectedJerry?.current || 0) + amt;
-    const willComplete =
-      selectedJerry ? computeStatus(newVal, selectedJerry.target) === 'completed' && selectedJerry.status !== 'completed' : false;
+    const willComplete = selectedJerry
+      ? computeStatus(newVal, selectedJerry.target) === 'completed' &&
+        selectedJerry.status !== 'completed'
+      : false;
 
     // Show thanks overlay
     setShowThanks(
@@ -161,14 +183,25 @@ export default function DonationsPage() {
   return (
     <section id="donations" className="relative min-h-screen px-4 sm:px-6 lg:px-8 py-10 text-white">
       <SEO
-        title={lang === 'fr' ? 'Soutenir l’expédition — WanderGlobers' : 'Support the Expedition — WanderGlobers'}
-        description={lang === 'fr' ? 'Chaque kilomètre compte — visualisez la progression des objectifs via des jerricans animés.' : 'Every kilometer counts — visualize goal progress via animated jerrycans.'}
+        title={
+          lang === 'fr'
+            ? 'Soutenir l’expédition — WanderGlobers'
+            : 'Support the Expedition — WanderGlobers'
+        }
+        description={
+          lang === 'fr'
+            ? 'Chaque kilomètre compte — visualisez la progression des objectifs via des jerricans animés.'
+            : 'Every kilometer counts — visualize goal progress via animated jerrycans.'
+        }
         path="/donations"
       />
 
       {/* Simulation banner */}
       <div className="simulation-banner">
-        <AlertTriangle /> {lang === 'fr' ? 'Mode Simulation : les paiements ne sont pas réels pour le moment.' : 'Simulation Mode: payments are not real for now.'}
+        <AlertTriangle />{' '}
+        {lang === 'fr'
+          ? 'Mode Simulation : les paiements ne sont pas réels pour le moment.'
+          : 'Simulation Mode: payments are not real for now.'}
         <button type="button" className="ml-4 underline" onClick={resetAll}>
           {lang === 'fr' ? 'Reset' : 'Reset'}
         </button>
@@ -180,7 +213,9 @@ export default function DonationsPage() {
           <Star /> <Star /> <Star />
         </div>
         <h1 className="font-handwritten text-4xl md:text-[3.5rem] mt-2">
-          {lang === 'fr' ? 'Soutenez l’expédition, chaque kilomètre compte !' : 'Support the expedition, every kilometer counts!'}
+          {lang === 'fr'
+            ? 'Soutenez l’expédition, chaque kilomètre compte !'
+            : 'Support the expedition, every kilometer counts!'}
         </h1>
         <p className="font-serif text-base md:text-lg text-white/90 leading-relaxed mt-3 mx-auto max-w-[600px]">
           {lang === 'fr'
@@ -206,7 +241,9 @@ export default function DonationsPage() {
             : `${Math.floor(totalCurrent)}€ raised of ${Math.floor(totalTarget)}€ goal`}
         </div>
         <div className="mt-1 text-center font-serif text-white/80">
-          {lang === 'fr' ? `Jerricans nécessaires: ${totalJerryCount}` : `Required jerrycans: ${totalJerryCount}`}
+          {lang === 'fr'
+            ? `Jerricans nécessaires: ${totalJerryCount}`
+            : `Required jerrycans: ${totalJerryCount}`}
         </div>
       </div>
 
@@ -300,9 +337,18 @@ export default function DonationsPage() {
               {/* Tooltip/overlay */}
               {hoverJerryId === j.id && (
                 <div className="tooltip left-1/2 -translate-x-1/2 mt-2">
-                  {j.id === 'fuel' && (lang === 'fr' ? 'Carburant pour traverser des continents' : 'Fuel to cross continents')}
-                  {j.id === 'maint' && (lang === 'fr' ? 'Entretien mécanique et pièces' : 'Mechanical maintenance and parts')}
-                  {j.id === 'visas' && (lang === 'fr' ? 'Visas et traversées de frontières' : 'Visas and border crossings')}
+                  {j.id === 'fuel' &&
+                    (lang === 'fr'
+                      ? 'Carburant pour traverser des continents'
+                      : 'Fuel to cross continents')}
+                  {j.id === 'maint' &&
+                    (lang === 'fr'
+                      ? 'Entretien mécanique et pièces'
+                      : 'Mechanical maintenance and parts')}
+                  {j.id === 'visas' &&
+                    (lang === 'fr'
+                      ? 'Visas et traversées de frontières'
+                      : 'Visas and border crossings')}
                 </div>
               )}
             </div>
@@ -333,13 +379,19 @@ export default function DonationsPage() {
         {[
           { amt: 5, title: lang === 'fr' ? '50 km de carburant' : '50 km of fuel', icon: '⛽' },
           { amt: 10, title: lang === 'fr' ? "1 repas pour l'équipe" : '1 team meal', icon: '🍲' },
-          { amt: 25, title: lang === 'fr' ? "Entretien significatif" : 'Significant maintenance', icon: '🛠️' },
+          {
+            amt: 25,
+            title: lang === 'fr' ? 'Entretien significatif' : 'Significant maintenance',
+            icon: '🛠️',
+          },
         ].map((c, i) => (
           <div key={i} className="bg-white/90 rounded-2xl p-6 shadow-md text-center">
             <div className="w-12 h-12 mx-auto rounded-full bg-green-100 flex items-center justify-center text-2xl">
               {c.icon}
             </div>
-            <h3 className="font-handwritten text-stone-900 mt-3">{lang === 'fr' ? `${c.amt}€` : `${c.amt}€`}</h3>
+            <h3 className="font-handwritten text-stone-900 mt-3">
+              {lang === 'fr' ? `${c.amt}€` : `${c.amt}€`}
+            </h3>
             <p className="font-serif text-stone-700">{c.title}</p>
           </div>
         ))}
