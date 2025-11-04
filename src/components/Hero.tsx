@@ -318,10 +318,10 @@ export default function Hero() {
               style={{ animationDelay: '1.4s' }}
             >
               <div className="countdown-number text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
-                {String(countdown.m).padStart(2, '0')}
+                {String(countdown.h).padStart(2, '0')}
               </div>
               <div className="countdown-label text-xs text-amber-100/80 font-serif uppercase">
-                {t('countdown.minutes')}
+                {t(countdown.h === 1 ? 'countdown.hour' : 'countdown.hours')}
               </div>
             </div>
           </div>
