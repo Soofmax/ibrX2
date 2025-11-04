@@ -18,20 +18,50 @@ export default function Hero() {
   const [parallaxY, setParallaxY] = useState(0);
 
   // Countdown to Jan 1, 2032
-  const [countdown, setCountdown] = useState({ d: 0, h: 0, m: 0, s: 0 });
+  const [countdown, setCountdown] = useState({ y: 0, mo: 0, d: 0, h: 0 });
   useEffect(() => {
-    const target = new Date('2032-01-01T00:00:00').getTime();
+    const targetDate = new Date('2032-01-01T00:00:00');
     const tick = () => {
-      const now = Date.now();
-      let diff = Math.max(0, target - now);
-      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      diff -= d * (1000 * 60 * 60 * 24);
-      const h = Math.floor(diff / (1000 * 60 * 60));
-      diff -= h * (1000 * 60 * 60);
-      const m = Math.floor(diff / (1000 * 60));
-      diff -= m * (1000 * 60);
-      const s = Math.floor(diff / 1000);
-      setCountdown({ d, h, m, s });
+      const now = new Date();
+      if (now >= targetDate) {
+        setCountdown({ y: 0, mo: 0, d: 0, h: 0 });
+        return;
+      }
+      let years = targetDate.getFullYear() - now.getFullYear();
+      let months = targetDate.getMonth() - now.getMonth();
+      if (months < 0) {
+        years -= 1;
+        months += 12;
+      }
+      // Build anchor date (now + years + months)
+      let anchor = new Date(
+        now.getFullYear() + years,
+        now.getMonth() + months,
+        now.getDate(),
+        now.getHours(),
+        now.getMinutes(),
+        now.getSeconds()
+      );
+      // Adjust if we overshot due to month length differences
+      if (anchor > targetDate) {
+        months -= 1;
+        if (months < 0) {
+          years -= 1;
+          months += 12;
+        }
+        anchor = new Date(
+          now.getFullYear() + years,
+          now.getMonth() + months,
+          now.getDate(),
+          now.getHours(),
+          now.getMinutes(),
+          now.getSeconds()
+        );
+      }
+      const diffMs = targetDate.getTime() - anchor.getTime();
+      const d = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      setCountdown({ y: years, mo: months, d, h });
     };
     tick();
     const id = setInterval(tick, 1000);
@@ -153,8 +183,26 @@ export default function Hero() {
 
         {/* Countdown */}
         <div className="max-w-4xl mx-auto mb-6 animate-fade-in">
-          <p className="text-amber-100/90 font-serif mb-2">{t('countdown.startsIn')}:</p>
+          <p className="text-amber-100/90 font-serif mb-2">
+            {t('countdown.startsIn')}:
+          </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all">
+              <div className="text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
+                {String(countdown.y).padStart(2, '0')}
+              </div>
+              <div className="text-xs text-amber-100/80 font-serif uppercase">
+                {t('countdown.years')}
+              </div>
+            </div>
+            <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all">
+              <div className="text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
+                {String(countdown.mo).padStart(2, '0')}
+              </div>
+              <div className="text-xs text-amber-100/80 font-serif uppercase">
+                {t('countdown.months')}
+              </div>
+            </div>
             <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all">
               <div className="text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
                 {String(countdown.d).padStart(2, '0')}
@@ -169,22 +217,6 @@ export default function Hero() {
               </div>
               <div className="text-xs text-amber-100/80 font-serif uppercase">
                 {t('countdown.hours')}
-              </div>
-            </div>
-            <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all">
-              <div className="text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
-                {String(countdown.m).padStart(2, '0')}
-              </div>
-              <div className="text-xs text-amber-100/80 font-serif uppercase">
-                {t('countdown.minutes')}
-              </div>
-            </div>
-            <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all">
-              <div className="text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
-                {String(countdown.s).padStart(2, '0')}
-              </div>
-              <div className="text-xs text-amber-100/80 font-serif uppercase">
-                {t('countdown.seconds')}
               </div>
             </div>
           </div>

@@ -45,6 +45,8 @@ export const fr = {
   'seo.homeDesc':
     'Un périple de 60 000 km à travers 5 continents pour relier un maximum de capitales par la route. Rejoignez l’aventure.',
   'countdown.startsIn': 'L’aventure commence dans',
+  'countdown.years': 'années',
+  'countdown.months': 'mois',
   'countdown.days': 'jours',
   'countdown.hours': 'heures',
   'countdown.minutes': 'minutes',
@@ -263,6 +265,8 @@ export const en: Dict = {
   'seo.homeDesc':
     'A 60,000 km journey across 5 continents connecting as many capitals by road. Join the adventure.',
   'countdown.startsIn': 'The adventure begins in',
+  'countdown.years': 'years',
+  'countdown.months': 'months',
   'countdown.days': 'days',
   'countdown.hours': 'hours',
   'countdown.minutes': 'minutes',
