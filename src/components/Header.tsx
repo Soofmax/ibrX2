@@ -51,16 +51,7 @@ export default function Header() {
           : 'bg-[rgba(45,95,63,0.9)] backdrop-blur-lg shadow-[0_2px_12px_rgba(0,0,0,0.08)] border-b border-white/10'
       } ${compact ? 'h-[50px]' : 'h-[60px] sm:h-[65px] md:h-[70px]'}`}
     >
-      <div className={`max-w-7xl mx-auto px-5 sm:px-6 lg:px-10 ${compact ? 'py-1' : 'py-2 sm:py-3'}`}>eader
-      className={`fixed top-0 w-full z-[1000] transition-all duration-300 ease-in-out ${
-        scrolled
-          ? 'bg-[rgba(45,95,63,0.9)] backdrop-blur-lg shadow-lg border-b border-white/10'
-          : 'bg-[rgba(45,95,63,0.9)] backdrop-blur-lg shadow-md border-b border-white/10'
-      } ${compact ? 'h-[50px]' : 'h-[60px] sm:h-[65px] md:h-[70px]'}`}
-    >
-      <div
-        className={`max-w-7xl mx-auto px-5 sm:px-6 lg:px-10 ${compact ? 'py-1' : 'py-2 sm:py-3'}`}
-      >
+      <div className={`max-w-7xl mx-auto px-5 sm:px-6 lg:px-10 ${compact ? 'py-1' : 'py-2 sm:py-3'}`}>
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3 group cursor-pointer" onClick={() => go('/')}>
             <Compass

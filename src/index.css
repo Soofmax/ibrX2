@@ -104,12 +104,13 @@
   /* Subtle floating particles for hero */
   .particle {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: var(--size);
+    height: var(--size);
     border-radius: 9999px;
     background: rgba(255, 255, 255, 0.2);
     filter: blur(0.3px);
-    animation: float2 10s ease-in-out infinite;
+    animation: float2 var(--dur) ease-in-out infinite;
+    animation-delay: var(--delay);
     will-change: transform, opacity;
   }
   @keyframes float2 {

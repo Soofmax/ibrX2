@@ -2,6 +2,7 @@ import { ChevronDown, ArrowRight, Globe, Route, Truck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useI18n } from '../i18n/useI18n';
 import { useEffect, useState, useRef, useMemo } from 'react';
+import type { CSSProperties } from 'react';
 
 export default function Hero() {
   const navigate = useNavigate();
@@ -250,19 +251,16 @@ export default function Hero() {
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-green-900 via-transparent to-green-900/40"></div>
         <div className="absolute inset-0 pointer-events-none">
-          {particles.map((p, idx) => (
-            <span
-              key={idx}
-              className="particle"
-              style={{
-                top: p.top,
-                left: p.left,
-                ['--size' as any]: p.size,
-                ['--dur' as any]: p.dur,
-                ['--delay' as any]: p.delay,
-              }}
-            />
-          ))}
+          {particles.map((p, idx) => {
+            const style: CSSProperties & Record<'--size' | '--dur' | '--delay', string> = {
+              top: p.top,
+              left: p.left,
+              '--size': p.size,
+              '--dur': p.dur,
+              '--delay': p.delay,
+            };
+            return <span key={idx} className="particle" style={style} />;
+          })}
         </div>
       </div>
 
