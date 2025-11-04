@@ -254,6 +254,7 @@ export default function Hero() {
               </div>
             </div>
           </div>
+        </div>
 
       <button
         type="button"

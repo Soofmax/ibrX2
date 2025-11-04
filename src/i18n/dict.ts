@@ -264,7 +264,9 @@ export const en: Dict = {
     'A 60,000 km journey across 5 continents connecting as many capitals by road. Join the adventure.',
   'countdown.startsIn': 'The adventure begins in',
   'countdown.days': 'days',
-  'count
+  'countdown.hours': 'hours',
+  'countdown.minutes': 'minutes',
+  'countdown.seconds': 'seconds',
   'current.heading': 'Where am I now?',
   'current.subtitle': 'Following the wind, one destination at a time',
   'current.svgTitle': 'Route map (van animation)',
