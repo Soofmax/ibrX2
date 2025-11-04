@@ -190,7 +190,7 @@ export default function Hero() {
                 {String(countdown.y).padStart(2, '0')}
               </div>
               <div className="text-xs text-amber-100/80 font-serif uppercase">
-                {t('countdown.years')}
+                {t(countdown.y === 1 ? 'countdown.year' : 'countdown.years')}
               </div>
             </div>
             <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all">
@@ -198,7 +198,7 @@ export default function Hero() {
                 {String(countdown.mo).padStart(2, '0')}
               </div>
               <div className="text-xs text-amber-100/80 font-serif uppercase">
-                {t('countdown.months')}
+                {t(countdown.mo === 1 ? 'countdown.month' : 'countdown.months')}
               </div>
             </div>
             <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all">
@@ -206,7 +206,7 @@ export default function Hero() {
                 {String(countdown.d).padStart(2, '0')}
               </div>
               <div className="text-xs text-amber-100/80 font-serif uppercase">
-                {t('countdown.days')}
+                {t(countdown.d === 1 ? 'countdown.day' : 'countdown.days')}
               </div>
             </div>
             <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all">
@@ -214,7 +214,7 @@ export default function Hero() {
                 {String(countdown.h).padStart(2, '0')}
               </div>
               <div className="text-xs text-amber-100/80 font-serif uppercase">
-                {t('countdown.hours')}
+                {t(countdown.h === 1 ? 'countdown.hour' : 'countdown.hours')}
               </div>
             </div>
           </div>
