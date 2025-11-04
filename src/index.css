@@ -55,7 +55,7 @@
 
   .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #00A86B, #16a34a, #7FE5B5);
+    background: linear-gradient(90deg, #00a86b, #16a34a, #7fe5b5);
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(127, 229, 181, 0.35);
     will-change: width;
