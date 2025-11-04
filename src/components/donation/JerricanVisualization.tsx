@@ -72,9 +72,27 @@ function JerricanVisualizationBase({
         {/* Outer jerrican container */}
         <g>
           {/* body */}
-          <rect x={12} y={24} width={96} height={120} rx={12} fill="transparent" stroke="#14532D" strokeWidth={3} />
+          <rect
+            x={12}
+            y={24}
+            width={96}
+            height={120}
+            rx={12}
+            fill="transparent"
+            stroke="#14532D"
+            strokeWidth={3}
+          />
           {/* handle */}
-          <rect x={26} y={10} width={40} height={16} rx={6} fill="transparent" stroke="#14532D" strokeWidth={3} />
+          <rect
+            x={26}
+            y={10}
+            width={40}
+            height={16}
+            rx={6}
+            fill="transparent"
+            stroke="#14532D"
+            strokeWidth={3}
+          />
         </g>
 
         {/* Liquid fill (animated) */}
@@ -104,7 +122,9 @@ function JerricanVisualizationBase({
         {isCompleted && (
           <g>
             <circle cx={96} cy={18} r={12} fill="#16a34a" />
-            <text x={96} y={22} textAnchor="middle" fontSize="12" fill="#fff">✓</text>
+            <text x={96} y={22} textAnchor="middle" fontSize="12" fill="#fff">
+              ✓
+            </text>
           </g>
         )}
       </svg>
