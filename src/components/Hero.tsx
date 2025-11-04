@@ -183,9 +183,7 @@ export default function Hero() {
 
         {/* Countdown */}
         <div className="max-w-4xl mx-auto mb-6 animate-fade-in">
-          <p className="text-amber-100/90 font-serif mb-2">
-            {t('countdown.startsIn')}:
-          </p>
+          <p className="text-amber-100/90 font-serif mb-2">{t('countdown.startsIn')}:</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all">
               <div className="text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
