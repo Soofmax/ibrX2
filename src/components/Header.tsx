@@ -145,6 +145,13 @@ export default function Header() {
                   >
                     {t('nav.support')}
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => go('/donations')}
+                    className="mt-1 block w-full text-left px-4 py-2 rounded-lg text-white font-serif hover:bg-green-700 focus-ring"
+                  >
+                    {t('nav.donations')}
+                  </button>
                 </div>
               )}
             </div>
@@ -252,6 +259,14 @@ export default function Header() {
                 className={navClass('/support')}
               >
                 {t('nav.support')}
+              </button>
+              <button
+                type="button"
+                aria-current={location.pathname === '/donations' ? 'page' : undefined}
+                onClick={() => go('/donations')}
+                className={navClass('/donations')}
+              >
+                {t('nav.donations')}
               </button>
               <button
                 type="button"
