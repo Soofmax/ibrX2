@@ -13,7 +13,9 @@ if (!('IntersectionObserver' in globalThis)) {
     observe(_target: Element) {}
     unobserve(_target: Element) {}
     disconnect() {}
-    takeRecords(): IntersectionObserverEntry[] { return []; }
+    takeRecords(): IntersectionObserverEntry[] {
+      return [];
+    }
   }
 
   Object.defineProperty(globalThis, 'IntersectionObserver', {
