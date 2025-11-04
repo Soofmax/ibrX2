@@ -5,7 +5,7 @@ import { useEffect, useState, useRef, useMemo } from 'react';
 
 export default function Hero() {
   const navigate = useNavigate();
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
 
   const goSupport = () => navigate('/support');
   const goItinerary = () => navigate('/itinerary');
@@ -177,6 +177,51 @@ export default function Hero() {
     nodes.forEach((n) => io.observe(n));
     return () => io.disconnect();
   }, []);
+
+  // KPI counters animation effect
+  useEffect(() => {
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const nf = new Intl.NumberFormat(lang === 'fr' ? 'fr-FR' : 'en-US');
+
+    const animateCounter = (el: HTMLElement, target: number, duration = 1500) => {
+      if (prefersReducedMotion) {
+        el.textContent = nf.format(target);
+        return;
+      }
+      const start = performance.now();
+      const from = 0;
+      const step = (ts: number) => {
+        const p = Math.min((ts - start) / duration, 1);
+        const val = Math.floor(from + (target - from) * p);
+        el.textContent = nf.format(val);
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+
+    const nums = document.querySelectorAll<HTMLElement>('.info-card .info-number[data-count]');
+    nums.forEach((el) => {
+      const parent = el.closest('.info-card');
+      if (!parent) return;
+      const target = Number(el.dataset.count || '0');
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              animateCounter(el, target);
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+      io.observe(parent);
+    });
+  }, [lang]);
 
   return (
     <section
@@ -354,19 +399,25 @@ export default function Hero() {
               <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.distanceDesc')}</p>
             </div>
           </div>
-          <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:rotate-[1deg] hover:shadow-2xl">
-            <Route className="text-green-700" size={24} />
+          <div className="info-card reveal px-5 py-4 flex items-center gap-3">
+            <span className="info-icon">
+              <Route size={20} />
+            </span>
             <div>
-              <p className="text-stone-900 font-handwritten text-xl">{t('hero.kpi.continents')}</p>
+              <div className="flex items-baseline gap-2">
+                <span className="info-number" data-count="5">0</span>
+              </div>
               <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.continentsDesc')}</p>
             </div>
           </div>
-          <div className="info-card reveal flex items-center gap-3">
+          <div className="info-card reveal px-5 py-4 flex items-center gap-3">
             <span className="info-icon">
               <Truck size={20} />
             </span>
             <div>
-              <p className="text-stone-900 font-handwritten text-xl">{t('hero.kpi.trucks')}</p>
+              <div className="flex items-baseline gap-2">
+                <span className="info-number" data-count="3">0</span>
+              </div>
               <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.trucksDesc')}</p>
             </div>
           </div>
