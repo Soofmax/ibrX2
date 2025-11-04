@@ -92,12 +92,10 @@ function JerricanVisualizationBase({
             left: innerLeft,
             width: innerWidth,
             borderRadius: 10,
-            background:
-              'linear-gradient(180deg, #00A86B 0%, #16a34a 50%, #7FE5B5 100%)',
+            background: 'linear-gradient(180deg, #00A86B 0%, #16a34a 50%, #7FE5B5 100%)',
             willChange: 'height, top',
             // Clip the fill to the jerrican cavity (approximation)
-            clipPath:
-              'polygon(6% 6%, 96% 4%, 98% 100%, 4% 100%)',
+            clipPath: 'polygon(6% 6%, 96% 4%, 98% 100%, 4% 100%)',
           }}
           onAnimationComplete={() => {
             if (fillRef.current) fillRef.current.style.willChange = 'auto';
