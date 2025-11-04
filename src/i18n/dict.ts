@@ -44,6 +44,11 @@ export const fr = {
   'seo.homeTitle': 'WanderGlobers — Périple Mondial des Capitales',
   'seo.homeDesc':
     'Un périple de 60 000 km à travers 5 continents pour relier un maximum de capitales par la route. Rejoignez l’aventure.',
+  'countdown.startsIn': "L’aventure commence dans",
+  'countdown.days': 'jours',
+  'countdown.hours': 'heures',
+  'countdown.minutes': 'minutes',
+  'countdown.seconds': 'secondes',
 
   'current.heading': 'Où suis-je maintenant ?',
   'current.subtitle': 'Suivre le vent, une destination à la fois',
@@ -257,7 +262,9 @@ export const en: Dict = {
   'seo.homeTitle': 'WanderGlobers — World Capitals Journey',
   'seo.homeDesc':
     'A 60,000 km journey across 5 continents connecting as many capitals by road. Join the adventure.',
-
+  'countdown.startsIn': 'The adventure begins in',
+  'countdown.days': 'days',
+  'count
   'current.heading': 'Where am I now?',
   'current.subtitle': 'Following the wind, one destination at a time',
   'current.svgTitle': 'Route map (van animation)',
