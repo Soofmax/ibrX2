@@ -27,5 +27,4 @@ if (!('IntersectionObserver' in globalThis)) {
     configurable: true,
     value: MockIntersectionObserver,
   });
-});
 }
