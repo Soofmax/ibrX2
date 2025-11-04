@@ -18,13 +18,17 @@ export default function Hero() {
   const [parallaxY, setParallaxY] = useState(0);
 
   // Countdown to Jan 1, 2032
-  const [countdown, setCountdown] = useState({ y: 0, mo: 0, d: 0, h: 0 });
+  const [countdown, setCountdown] = useState({ y: 0, mo: 0, d: 0, h: 0, m: 0, s: 0 });
   useEffect(() => {
     const targetDate = new Date('2032-01-01T00:00:00');
+    const dayMs = 1000 * 60 * 60 * 24;
+    const hourMs = 1000 * 60 * 60;
+    const minuteMs = 1000 * 60;
+
     const tick = () => {
       const now = new Date();
       if (now >= targetDate) {
-        setCountdown({ y: 0, mo: 0, d: 0, h: 0 });
+        setCountdown({ y: 0, mo: 0, d: 0, h: 0, m: 0, s: 0 });
         return;
       }
       let years = targetDate.getFullYear() - now.getFullYear();
@@ -59,9 +63,11 @@ export default function Hero() {
         );
       }
       const diffMs = targetDate.getTime() - anchor.getTime();
-      const d = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-      const h = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      setCountdown({ y: years, mo: months, d, h });
+      const d = Math.floor(diffMs / dayMs);
+      const h = Math.floor((diffMs % dayMs) / hourMs);
+      const m = Math.floor((diffMs % hourMs) / minuteMs);
+      const s = Math.floor((diffMs % minuteMs) / 1000);
+      setCountdown({ y: years, mo: months, d, h, m, s });
     };
     tick();
     const id = setInterval(tick, 1000);
@@ -229,7 +235,7 @@ export default function Hero() {
         {/* Countdown */}
         <div className="max-w-4xl mx-auto mb-6 reveal">
           <p className="text-amber-100/90 font-serif mb-2">{t('countdown.startsIn')}:</p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             <div
               className="countdown-card bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all"
               style={{ animationDelay: '0.8s' }}
@@ -272,6 +278,28 @@ export default function Hero() {
               </div>
               <div className="countdown-label text-xs text-amber-100/80 font-serif uppercase">
                 {t(countdown.h === 1 ? 'countdown.hour' : 'countdown.hours')}
+              </div>
+            </div>
+            <div
+              className="countdown-card bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all"
+              style={{ animationDelay: '1.6s' }}
+            >
+              <div className="countdown-number text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
+                {String(countdown.m).padStart(2, '0')}
+              </div>
+              <div className="countdown-label text-xs text-amber-100/80 font-serif uppercase">
+                {t('countdown.minutes')}
+              </div>
+            </div>
+            <div
+              className="countdown-card bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all"
+              style={{ animationDelay: '1.8s' }}
+            >
+              <div className="countdown-number text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
+                {String(countdown.s).padStart(2, '0')}
+              </div>
+              <div className="countdown-label text-xs text-amber-100/80 font-serif uppercase">
+                {t('countdown.seconds')}
               </div>
             </div>
           </div>

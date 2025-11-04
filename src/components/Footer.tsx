@@ -146,25 +146,25 @@ export default function Footer() {
 
         <div className="border-t border-stone-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="font-serif text-white/70 text-center md:text-left">
+            <p className="footer-copyright font-serif text-white/70 text-center md:text-left">
               {t('footer.copyright')}
             </p>
-            <div className="flex gap-6 text-sm">
+            <nav className="footer-links" aria-label="Legal links">
               <button
                 type="button"
                 onClick={() => navigate('/privacy')}
-                className="text-white/70 hover:text-amber-400 transition-colors font-serif focus-ring"
+                className="footer-link font-serif focus-ring"
               >
                 {t('footer.privacy')}
               </button>
               <button
                 type="button"
                 onClick={() => navigate('/terms')}
-                className="text-white/70 hover:text-amber-400 transition-colors font-serif focus-ring"
+                className="footer-link font-serif focus-ring"
               >
                 {t('footer.terms')}
               </button>
-            </div>
+            </nav>
           </div>
         </div>
       </div>
