@@ -67,7 +67,7 @@ function JerricanVisualizationBase({
       >
         {/* Decorative jerrican image from /public */}
         <img
-          src="/Design sans titre_20251104_230832_0000.svg"
+          src="/jerrican.svg"
           alt={ariaLabel || label}
           width={boxW}
           height={boxH}
@@ -95,7 +95,8 @@ function JerricanVisualizationBase({
             background: 'linear-gradient(180deg, #00A86B 0%, #16a34a 50%, #7FE5B5 100%)',
             willChange: 'height, top',
             // Clip the fill to the jerrican cavity (approximation)
-            clipPath: 'polygon(6% 6%, 96% 4%, 98% 100%, 4% 100%)',
+            clipPath:
+              'polygon(10% 18%, 30% 8%, 92% 6%, 96% 100%, 4% 100%)',
           }}
           onAnimationComplete={() => {
             if (fillRef.current) fillRef.current.style.willChange = 'auto';
