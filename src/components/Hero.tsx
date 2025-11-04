@@ -405,7 +405,9 @@ export default function Hero() {
             </span>
             <div>
               <div className="flex items-baseline gap-2">
-                <span className="info-number" data-count="5">0</span>
+                <span className="info-number" data-count="5">
+                  0
+                </span>
               </div>
               <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.continentsDesc')}</p>
             </div>
@@ -416,7 +418,9 @@ export default function Hero() {
             </span>
             <div>
               <div className="flex items-baseline gap-2">
-                <span className="info-number" data-count="3">0</span>
+                <span className="info-number" data-count="3">
+                  0
+                </span>
               </div>
               <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.trucksDesc')}</p>
             </div>
