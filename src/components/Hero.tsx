@@ -216,8 +216,6 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto text-center">
-        
-
         <h1
           className="text-5xl sm:text-6xl lg:text-8xl font-handwritten text-amber-50 mb-6 animate-title-reveal drop-shadow-2xl leading-tight"
           aria-label={titleFull}
@@ -295,7 +293,7 @@ export default function Hero() {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center reveal">
           <button
             type="button"
             onClick={goSupport}
@@ -319,8 +317,10 @@ export default function Hero() {
 
         {/* KPI strip under CTAs */}
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto reveal">
-          <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:rotate-[1deg] hover:shadow-2xl">
-            <Globe className="text-green-700" size={24} />
+          <div className="info-card reveal flex items-center gap-3">
+            <span className="info-icon">
+              <Globe size={20} />
+            </span>
             <div>
               <p className="text-stone-900 font-handwritten text-xl">{t('hero.kpi.distance')}</p>
               <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.distanceDesc')}</p>
@@ -333,8 +333,10 @@ export default function Hero() {
               <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.continentsDesc')}</p>
             </div>
           </div>
-          <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:rotate-[1deg] hover:shadow-2xl">
-            <Truck className="text-green-700" size={24} />
+          <div className="info-card reveal flex items-center gap-3">
+            <span className="info-icon">
+              <Truck size={20} />
+            </span>
             <div>
               <p className="text-stone-900 font-handwritten text-xl">{t('hero.kpi.trucks')}</p>
               <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.trucksDesc')}</p>

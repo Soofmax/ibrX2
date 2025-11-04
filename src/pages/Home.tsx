@@ -1,6 +1,8 @@
 import Hero from '../components/Hero';
 import SEO from '../components/SEO';
 import { useI18n } from '../i18n/useI18n';
+import SocialSection from '../components/SocialSection';
+import NewsletterSection from '../components/NewsletterSection';
 
 export default function Home() {
   const { lang, t } = useI18n();
@@ -20,6 +22,8 @@ export default function Home() {
         }}
       />
       <Hero />
+      <SocialSection />
+      <NewsletterSection />
     </div>
   );
 }
