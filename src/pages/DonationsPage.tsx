@@ -1,32 +1,41 @@
 import { useEffect, useMemo, useState } from 'react';
+import type { CSSProperties } from 'react';
 import { motion } from 'framer-motion';
 import JerricanVisualization from '../components/donation/JerricanVisualization';
 import { useI18n } from '../i18n/useI18n';
 import SEO from '../components/SEO';
 import { AlertTriangle, Star } from 'lucide-react';
 
+type JerryStatus = 'in-progress' | 'completed';
 type Jerry = {
   id: string;
   name: string;
   target: number;
   current: number;
+  status: JerryStatus;
 };
 
 const LS_KEY = 'wg_jerricans_v1';
+
+function computeStatus(current: number, target: number): JerryStatus {
+  return current >= target ? 'completed' : 'in-progress';
+}
 
 function loadJerricansFromLocalStorage(defaults: Jerry[]): Jerry[] {
   try {
     const raw = localStorage.getItem(LS_KEY);
     if (!raw) return defaults;
-    const parsed = JSON.parse(raw) as Jerry[];
-    // Validate shape minimally
+    const parsed = JSON.parse(raw) as Partial<Jerry>[];
     if (!Array.isArray(parsed)) return defaults;
-    return parsed.map((j, i) => ({
-      id: j.id || defaults[i]?.id || `j${i + 1}`,
-      name: j.name || defaults[i]?.name || `Véhicule ${i + 1}`,
-      target: typeof j.target === 'number' ? j.target : defaults[i]?.target || 50,
-      current: typeof j.current === 'number' ? j.current : defaults[i]?.current || 0,
-    }));
+    return parsed.map((j, i) => {
+      const def = defaults[i];
+      const id = j.id || def?.id || `j${i + 1}`;
+      const name = j.name || def?.name || `Véhicule ${i + 1}`;
+      const target = typeof j.target === 'number' ? j.target : def?.target || 50;
+      const current = typeof j.current === 'number' ? j.current : def?.current || 0;
+      const status = (j.status as JerryStatus) || computeStatus(current, target);
+      return { id, name, target, current, status };
+    });
   } catch {
     return defaults;
   }
@@ -48,15 +57,13 @@ export default function DonationsPage() {
   const { t, lang } = useI18n();
   const defaults: Jerry[] = useMemo(
     () => [
-      { id: 'veh1', name: lang === 'fr' ? 'Véhicule 1' : 'Vehicle 1', target: 50, current: 35 },
-      { id: 'veh2', name: lang === 'fr' ? 'Véhicule 2' : 'Vehicle 2', target: 80, current: 15 },
-      { id: 'veh3', name: lang === 'fr' ? 'Véhicule 3' : 'Vehicle 3', target: 100, current: 64 },
+      { id: 'fuel', name: lang === 'fr' ? 'Carburant' : 'Fuel', target: 50, current: 35, status: computeStatus(35, 50) },
+      { id: 'maint', name: lang === 'fr' ? 'Entretien' : 'Maintenance', target: 80, current: 15, status: computeStatus(15, 80) },
+      { id: 'visas', name: lang === 'fr' ? 'Visas' : 'Visas', target: 100, current: 64, status: computeStatus(64, 100) },
     ],
     [lang]
   );
-  const [jerricans, setJerricans] = useState<Jerry[]>(() =>
-    loadJerricansFromLocalStorage(defaults)
-  );
+  const [jerricans, setJerricans] = useState<Jerry[]>(() => loadJerricansFromLocalStorage(defaults));
   const [selectedAmount, setSelectedAmount] = useState<number | null>(5);
   const [customAmount, setCustomAmount] = useState<string>('');
   const [selectedJerryId, setSelectedJerryId] = useState<string>(() => {
@@ -64,6 +71,8 @@ export default function DonationsPage() {
     const least = [...js].sort((a, b) => percent(a) - percent(b))[0];
     return least.id;
   });
+  const [hoverJerryId, setHoverJerryId] = useState<string | null>(null);
+  const [pulseJerryId, setPulseJerryId] = useState<string | null>(null);
   const [showThanks, setShowThanks] = useState<string | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -72,7 +81,7 @@ export default function DonationsPage() {
   }, [jerricans]);
 
   useEffect(() => {
-    // When language changes, sync names but keep amounts
+    // Sync names on language change while keeping amounts/status
     setJerricans((prev) =>
       prev.map((j) => {
         const def = defaults.find((d) => d.id === j.id);
@@ -84,6 +93,7 @@ export default function DonationsPage() {
   const totalTarget = jerricans.reduce((sum, j) => sum + j.target, 0);
   const totalCurrent = jerricans.reduce((sum, j) => sum + j.current, 0);
   const totalPercent = Math.min(100, Math.floor((totalCurrent / Math.max(1, totalTarget)) * 100));
+  const totalJerryCount = jerricans.length;
 
   const amountToUse = selectedAmount ?? (customAmount ? Math.max(0, Number(customAmount)) : 0);
 
@@ -102,15 +112,19 @@ export default function DonationsPage() {
     if (!amt || amt <= 0) return;
     setJerricans((prev) => {
       const next = prev.map((j) =>
-        j.id === selectedJerryId ? { ...j, current: j.current + amt } : j
+        j.id === selectedJerryId
+          ? { ...j, current: j.current + amt, status: computeStatus(j.current + amt, j.target) }
+          : j
       );
       return next;
     });
+    setPulseJerryId(selectedJerryId);
+    setTimeout(() => setPulseJerryId(null), 700);
+
     const selectedJerry = jerricans.find((j) => j.id === selectedJerryId);
     const newVal = (selectedJerry?.current || 0) + amt;
-    const willComplete = selectedJerry
-      ? newVal >= selectedJerry.target && percent(selectedJerry) < 100
-      : false;
+    const willComplete =
+      selectedJerry ? computeStatus(newVal, selectedJerry.target) === 'completed' && selectedJerry.status !== 'completed' : false;
 
     // Show thanks overlay
     setShowThanks(
@@ -121,7 +135,11 @@ export default function DonationsPage() {
     setTimeout(() => setShowThanks(null), 2800);
 
     // Confetti celebration
-    if (willComplete) {
+    const reduce =
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (willComplete && !reduce) {
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 1600);
     }
@@ -133,7 +151,7 @@ export default function DonationsPage() {
   };
 
   useEffect(() => {
-    // Default select least filled on mount and whenever jerricans change significantly
+    // Default select least filled when state changes
     const least = [...jerricans].sort((a, b) => percent(a) - percent(b))[0];
     if (least && least.id !== selectedJerryId) {
       setSelectedJerryId(least.id);
@@ -143,25 +161,14 @@ export default function DonationsPage() {
   return (
     <section id="donations" className="relative min-h-screen px-4 sm:px-6 lg:px-8 py-10 text-white">
       <SEO
-        title={
-          lang === 'fr'
-            ? 'Soutenir l’expédition — WanderGlobers'
-            : 'Support the Expedition — WanderGlobers'
-        }
-        description={
-          lang === 'fr'
-            ? 'Chaque kilomètre compte — visualisez la progression des objectifs via des jerricans animés.'
-            : 'Every kilometer counts — visualize goal progress via animated jerrycans.'
-        }
+        title={lang === 'fr' ? 'Soutenir l’expédition — WanderGlobers' : 'Support the Expedition — WanderGlobers'}
+        description={lang === 'fr' ? 'Chaque kilomètre compte — visualisez la progression des objectifs via des jerricans animés.' : 'Every kilometer counts — visualize goal progress via animated jerrycans.'}
         path="/donations"
       />
 
       {/* Simulation banner */}
       <div className="simulation-banner">
-        <AlertTriangle />{' '}
-        {lang === 'fr'
-          ? 'Mode Simulation : les paiements ne sont pas réels pour le moment.'
-          : 'Simulation Mode: payments are not real for now.'}
+        <AlertTriangle /> {lang === 'fr' ? 'Mode Simulation : les paiements ne sont pas réels pour le moment.' : 'Simulation Mode: payments are not real for now.'}
         <button type="button" className="ml-4 underline" onClick={resetAll}>
           {lang === 'fr' ? 'Reset' : 'Reset'}
         </button>
@@ -173,9 +180,7 @@ export default function DonationsPage() {
           <Star /> <Star /> <Star />
         </div>
         <h1 className="font-handwritten text-4xl md:text-[3.5rem] mt-2">
-          {lang === 'fr'
-            ? 'Soutenez l’expédition, chaque kilomètre compte !'
-            : 'Support the expedition, every kilometer counts!'}
+          {lang === 'fr' ? 'Soutenez l’expédition, chaque kilomètre compte !' : 'Support the expedition, every kilometer counts!'}
         </h1>
         <p className="font-serif text-base md:text-lg text-white/90 leading-relaxed mt-3 mx-auto max-w-[600px]">
           {lang === 'fr'
@@ -200,24 +205,27 @@ export default function DonationsPage() {
             ? `${Math.floor(totalCurrent)}€ collectés sur ${Math.floor(totalTarget)}€ objectif`
             : `${Math.floor(totalCurrent)}€ raised of ${Math.floor(totalTarget)}€ goal`}
         </div>
+        <div className="mt-1 text-center font-serif text-white/80">
+          {lang === 'fr' ? `Jerricans nécessaires: ${totalJerryCount}` : `Required jerrycans: ${totalJerryCount}`}
+        </div>
       </div>
 
       {/* Jerricans grid */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center mb-12">
         {jerricans.map((j, idx) => {
-          const isCompleted = percent(j) >= 100;
+          const isCompleted = j.status === 'completed';
+          const pulse = pulseJerryId === j.id;
           return (
             <motion.div
               key={j.id}
               initial={{ scale: 1 }}
-              animate={{ scale: 1 }}
-              whileTap={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
+              animate={pulse ? { scale: [1, 1.15, 1] } : { scale: 1 }}
+              transition={pulse ? { duration: 0.6, ease: 'easeOut' } : { duration: 0.3 }}
             >
               <JerricanVisualization
                 targetAmount={j.target}
                 currentAmount={j.current}
-                label={j.name}
+                label={`${j.name}${isCompleted ? ' — Objectif atteint' : ''}`}
                 isCompleted={isCompleted}
                 delay={idx * 0.2}
                 ariaLabel={
@@ -269,14 +277,18 @@ export default function DonationsPage() {
                 type="button"
                 aria-pressed={selectedJerryId === j.id}
                 onClick={() => setSelectedJerryId(j.id)}
+                onMouseEnter={() => setHoverJerryId(j.id)}
+                onMouseLeave={() => setHoverJerryId((v) => (v === j.id ? null : v))}
+                onFocus={() => setHoverJerryId(j.id)}
+                onBlur={() => setHoverJerryId((v) => (v === j.id ? null : v))}
                 whileTap={{ scale: 0.95 }}
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
                 className={`pill w-full ${selectedJerryId === j.id ? 'selected' : ''}`}
-                title={
+                aria-label={
                   lang === 'fr'
-                    ? 'Carburant, entretien, visas — votre don fait avancer le véhicule.'
-                    : 'Fuel, maintenance, visas — your donation advances the vehicle.'
+                    ? `${j.name}, ${percent(j)}% rempli. Sélectionner pour diriger votre don.`
+                    : `${j.name}, ${percent(j)}% filled. Select to direct your donation.`
                 }
               >
                 <div className="flex flex-col items-center">
@@ -284,6 +296,15 @@ export default function DonationsPage() {
                   <span className="text-xs opacity-80">{percent(j)}%</span>
                 </div>
               </motion.button>
+
+              {/* Tooltip/overlay */}
+              {hoverJerryId === j.id && (
+                <div className="tooltip left-1/2 -translate-x-1/2 mt-2">
+                  {j.id === 'fuel' && (lang === 'fr' ? 'Carburant pour traverser des continents' : 'Fuel to cross continents')}
+                  {j.id === 'maint' && (lang === 'fr' ? 'Entretien mécanique et pièces' : 'Mechanical maintenance and parts')}
+                  {j.id === 'visas' && (lang === 'fr' ? 'Visas et traversées de frontières' : 'Visas and border crossings')}
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -312,19 +333,13 @@ export default function DonationsPage() {
         {[
           { amt: 5, title: lang === 'fr' ? '50 km de carburant' : '50 km of fuel', icon: '⛽' },
           { amt: 10, title: lang === 'fr' ? "1 repas pour l'équipe" : '1 team meal', icon: '🍲' },
-          {
-            amt: 25,
-            title: lang === 'fr' ? 'Entretien significatif' : 'Significant maintenance',
-            icon: '🛠️',
-          },
+          { amt: 25, title: lang === 'fr' ? "Entretien significatif" : 'Significant maintenance', icon: '🛠️' },
         ].map((c, i) => (
           <div key={i} className="bg-white/90 rounded-2xl p-6 shadow-md text-center">
             <div className="w-12 h-12 mx-auto rounded-full bg-green-100 flex items-center justify-center text-2xl">
               {c.icon}
             </div>
-            <h3 className="font-handwritten text-stone-900 mt-3">
-              {lang === 'fr' ? `${c.amt}€` : `${c.amt}€`}
-            </h3>
+            <h3 className="font-handwritten text-stone-900 mt-3">{lang === 'fr' ? `${c.amt}€` : `${c.amt}€`}</h3>
             <p className="font-serif text-stone-700">{c.title}</p>
           </div>
         ))}
@@ -352,7 +367,7 @@ export default function DonationsPage() {
               top: `-10px`,
               backgroundColor: color,
               animationDelay: `${delay}s`,
-            } as React.CSSProperties;
+            } as CSSProperties;
             return <span key={i} className="confetti-piece" style={style} />;
           })}
         </div>
