@@ -220,7 +220,9 @@ export default function DonationsPage() {
           loading="lazy"
         />
         <h1 className="font-handwritten text-4xl md:text-[3.5rem] mt-2">
-          {lang === 'fr' ? 'Soutenez l’expédition, chaque kilomètre compte !' : 'Support the expedition, every kilometer counts!'}
+          {lang === 'fr'
+            ? 'Soutenez l’expédition, chaque kilomètre compte !'
+            : 'Support the expedition, every kilometer counts!'}
         </h1>
         <p className="font-serif text-base md:text-lg text-white/90 leading-relaxed mt-3 mx-auto max-w-[600px]">
           {lang === 'fr'
