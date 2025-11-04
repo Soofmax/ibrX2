@@ -1,5 +1,5 @@
-import Crowdfunding from '../components/Crowdfunding';
+import DonationsPage from './DonationsPage';
 
 export default function SupportPage() {
-  return <Crowdfunding />;
+  return <DonationsPage />;
 }
