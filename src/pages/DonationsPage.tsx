@@ -213,10 +213,14 @@ export default function DonationsPage() {
         <div className="inline-flex items-center gap-2 text-green-400">
           <Star /> <Star /> <Star />
         </div>
+        <img
+          src="/Design sans titre_20251104_230832_0000.svg"
+          alt={lang === 'fr' ? 'Icône de jerrican WanderGlobers' : 'WanderGlobers jerrycan icon'}
+          className="mx-auto mt-3 w-16 h-16 opacity-90"
+          loading="lazy"
+        />
         <h1 className="font-handwritten text-4xl md:text-[3.5rem] mt-2">
-          {lang === 'fr'
-            ? 'Soutenez l’expédition, chaque kilomètre compte !'
-            : 'Support the expedition, every kilometer counts!'}
+          {lang === 'fr' ? 'Soutenez l’expédition, chaque kilomètre compte !' : 'Support the expedition, every kilometer counts!'}
         </h1>
         <p className="font-serif text-base md:text-lg text-white/90 leading-relaxed mt-3 mx-auto max-w-[600px]">
           {lang === 'fr'
