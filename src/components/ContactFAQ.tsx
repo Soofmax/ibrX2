@@ -26,8 +26,14 @@ export default function ContactFAQ() {
       { q: t('contact.q1'), a: t('contact.a1') },
       { q: t('contact.q2'), a: t('contact.a2') },
       { q: t('contact.q3'), a: t('contact.a3') },
-      { q: 'Quel permis pour conduire ?', a: 'Permis C (PTAC > 7,5 t) et PCI pour l’international.' },
-      { q: 'Comment suivre l’expédition ?', a: 'Via notre blog, X (#TranscontinentalTrek) et YouTube.' },
+      {
+        q: 'Quel permis pour conduire ?',
+        a: 'Permis C (PTAC > 7,5 t) et PCI pour l’international.',
+      },
+      {
+        q: 'Comment suivre l’expédition ?',
+        a: 'Via notre blog, X (#TranscontinentalTrek) et YouTube.',
+      },
       { q: 'Comment soutenir ?', a: 'Dons via Patreon/PayPal ou sponsoring — contactez-nous.' },
     ],
     [t]
@@ -67,7 +73,9 @@ export default function ContactFAQ() {
         <h2 className="form-title">{t('contact.form')}</h2>
         <form onSubmit={onSubmit} noValidate>
           <div className="form-group">
-            <label className="form-label" htmlFor="name">{t('contact.name')}</label>
+            <label className="form-label" htmlFor="name">
+              {t('contact.name')}
+            </label>
             <input
               id="name"
               className={`form-input ${nameValid ? 'valid' : ''}`}
@@ -80,7 +88,9 @@ export default function ContactFAQ() {
           </div>
 
           <div className="form-group">
-            <label className="form-label" htmlFor="email">{t('contact.email')}</label>
+            <label className="form-label" htmlFor="email">
+              {t('contact.email')}
+            </label>
             <input
               id="email"
               type="email"
@@ -94,7 +104,9 @@ export default function ContactFAQ() {
           </div>
 
           <div className="form-group">
-            <label className="form-label" htmlFor="message">{t('contact.message')}</label>
+            <label className="form-label" htmlFor="message">
+              {t('contact.message')}
+            </label>
             <textarea
               id="message"
               className={`form-textarea ${message.length ? (messageValid ? 'valid' : 'invalid') : ''}`}
@@ -110,17 +122,17 @@ export default function ContactFAQ() {
             </div>
           </div>
 
-        <button
-          type="submit"
-          className={`form-submit ${loading ? 'loading' : ''}`}
-          disabled={loading || !nameValid || !emailValid || !messageValid}
-        >
-          {loading ? 'Envoi en cours' : t('contact.send')}
-        </button>
+          <button
+            type="submit"
+            className={`form-submit ${loading ? 'loading' : ''}`}
+            disabled={loading || !nameValid || !emailValid || !messageValid}
+          >
+            {loading ? 'Envoi en cours' : t('contact.send')}
+          </button>
 
-        <div className={`form-success ${ok ? 'show' : ''}`}>
-          Message envoyé. Nous vous répondrons rapidement.
-        </div>
+          <div className={`form-success ${ok ? 'show' : ''}`}>
+            Message envoyé. Nous vous répondrons rapidement.
+          </div>
         </form>
       </div>
 
@@ -129,8 +141,8 @@ export default function ContactFAQ() {
         <div className="contact-cta-content">
           <h3 className="contact-cta-title">Vous souhaitez nous soutenir ?</h3>
           <p className="contact-cta-text">
-            Dons via Patreon/PayPal, sponsoring, partenariats —
-            ensemble, rendons cette aventure possible !
+            Dons via Patreon/PayPal, sponsoring, partenariats — ensemble, rendons cette aventure
+            possible !
           </p>
           <div className="contact-cta-buttons">
             <a href="/support" className="cta-button cta-button-primary">
@@ -148,7 +160,9 @@ export default function ContactFAQ() {
       {/* FAQ interactive */}
       <div className="faq-section">
         <div className="faq-header">
-          <div className="faq-icon" aria-hidden="true">?</div>
+          <div className="faq-icon" aria-hidden="true">
+            ?
+          </div>
           <h3 className="faq-title">{t('contact.faq')}</h3>
           <p className="faq-subtitle">Questions fréquentes — réponses claires et directes</p>
         </div>
