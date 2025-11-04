@@ -44,7 +44,7 @@ export const fr = {
   'seo.homeTitle': 'WanderGlobers — Périple Mondial des Capitales',
   'seo.homeDesc':
     'Un périple de 60 000 km à travers 5 continents pour relier un maximum de capitales par la route. Rejoignez l’aventure.',
-  'countdown.startsIn': "L’aventure commence dans",
+  'countdown.startsIn': 'L’aventure commence dans',
   'countdown.days': 'jours',
   'countdown.hours': 'heures',
   'countdown.minutes': 'minutes',

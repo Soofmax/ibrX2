@@ -153,9 +153,7 @@ export default function Hero() {
 
         {/* Countdown */}
         <div className="max-w-4xl mx-auto mb-6 animate-fade-in">
-          <p className="text-amber-100/90 font-serif mb-2">
-            {t('countdown.startsIn')}:
-          </p>
+          <p className="text-amber-100/90 font-serif mb-2">{t('countdown.startsIn')}:</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all">
               <div className="text-3xl sm:text-4xl text-amber-50 font-mono tracking-widest">
@@ -232,29 +230,29 @@ export default function Hero() {
 
         {/* KPI strip under CTAs */}
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto animate-fade-in">
-            <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:rotate-[1deg] hover:shadow-2xl">
-              <Globe className="text-green-700" size={24} />
-              <div>
-                <p className="text-stone-900 font-handwritten text-xl">{t('hero.kpi.distance')}</p>
-                <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.distanceDesc')}</p>
-              </div>
+          <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:rotate-[1deg] hover:shadow-2xl">
+            <Globe className="text-green-700" size={24} />
+            <div>
+              <p className="text-stone-900 font-handwritten text-xl">{t('hero.kpi.distance')}</p>
+              <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.distanceDesc')}</p>
             </div>
-            <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:rotate-[1deg] hover:shadow-2xl">
-              <Route className="text-green-700" size={24} />
-              <div>
-                <p className="text-stone-900 font-handwritten text-xl">{t('hero.kpi.continents')}</p>
-                <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.continentsDesc')}</p>
-              </div>
+          </div>
+          <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:rotate-[1deg] hover:shadow-2xl">
+            <Route className="text-green-700" size={24} />
+            <div>
+              <p className="text-stone-900 font-handwritten text-xl">{t('hero.kpi.continents')}</p>
+              <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.continentsDesc')}</p>
             </div>
-            <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:rotate-[1deg] hover:shadow-2xl">
-              <Truck className="text-green-700" size={24} />
-              <div>
-                <p className="text-stone-900 font-handwritten text-xl">{t('hero.kpi.trucks')}</p>
-                <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.trucksDesc')}</p>
-              </div>
+          </div>
+          <div className="bg-white/80 border border-amber-200 rounded-2xl px-5 py-4 text-left flex items-center gap-3 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:rotate-[1deg] hover:shadow-2xl">
+            <Truck className="text-green-700" size={24} />
+            <div>
+              <p className="text-stone-900 font-handwritten text-xl">{t('hero.kpi.trucks')}</p>
+              <p className="text-stone-700 font-serif text-sm">{t('hero.kpi.trucksDesc')}</p>
             </div>
           </div>
         </div>
+      </div>
 
       <button
         type="button"
