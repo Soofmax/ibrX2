@@ -6,6 +6,18 @@ type FaqItem = { q: string; a: string };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Lightweight analytics helper that works with Plausible, Umami or Google Analytics if present
+function trackEvent(name: string, props?: Record<string, unknown>) {
+  const w = window as unknown as {
+    plausible?: (event: string, options?: { props?: Record<string, unknown> }) => void;
+    umami?: { track?: (event: string, params?: Record<string, unknown>) => void };
+    gtag?: (...args: unknown[]) => void;
+  };
+  if (w.plausible) w.plausible(name, props ? { props } : undefined);
+  if (w.umami?.track) w.umami.track(name, props);
+  if (w.gtag) w.gtag('event', name, props || {});
+}
+
 export default function ContactFAQ() {
   const { t } = useI18n();
 
@@ -26,14 +38,8 @@ export default function ContactFAQ() {
       { q: t('contact.q1'), a: t('contact.a1') },
       { q: t('contact.q2'), a: t('contact.a2') },
       { q: t('contact.q3'), a: t('contact.a3') },
-      {
-        q: 'Quel permis pour conduire ?',
-        a: 'Permis C (PTAC > 7,5 t) et PCI pour l’international.',
-      },
-      {
-        q: 'Comment suivre l’expédition ?',
-        a: 'Via notre blog, X (#TranscontinentalTrek) et YouTube.',
-      },
+      { q: 'Quel permis pour conduire ?', a: 'Permis C (PTAC > 7,5 t) et PCI pour l’international.' },
+      { q: 'Comment suivre l’expédition ?', a: 'Via notre blog, X (#TranscontinentalTrek) et YouTube.' },
       { q: 'Comment soutenir ?', a: 'Dons via Patreon/PayPal ou sponsoring — contactez-nous.' },
     ],
     [t]
@@ -42,6 +48,7 @@ export default function ContactFAQ() {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    trackEvent('contact_submit_attempt', { valid: nameValid && emailValid && messageValid });
     if (!nameValid || !emailValid || !messageValid) return;
     setLoading(true);
     await new Promise((res) => setTimeout(res, 1000));
@@ -50,6 +57,7 @@ export default function ContactFAQ() {
     setName('');
     setEmail('');
     setMessage('');
+    trackEvent('contact_submit_success', { source: 'contact_page' });
   };
 
   return (
@@ -145,11 +153,19 @@ export default function ContactFAQ() {
             possible !
           </p>
           <div className="contact-cta-buttons">
-            <a href="/support" className="cta-button cta-button-primary">
+            <a
+              href="/support"
+              className="cta-button cta-button-primary"
+              onClick={() => trackEvent('contact_cta_donate')}
+            >
               <span>Faire un don</span>
               <Handshake />
             </a>
-            <a href="/sponsor-targets" className="cta-button cta-button-secondary">
+            <a
+              href="/sponsor-targets"
+              className="cta-button cta-button-secondary"
+              onClick={() => trackEvent('contact_cta_sponsor')}
+            >
               <span>Devenir sponsor</span>
               <Handshake />
             </a>
@@ -176,7 +192,10 @@ export default function ContactFAQ() {
                   type="button"
                   className="faq-question"
                   aria-expanded={active}
-                  onClick={() => setActiveFaq(active ? null : idx)}
+                  onClick={() => {
+                    setActiveFaq(active ? null : idx);
+                    trackEvent('faq_toggle', { index: idx + 1, question: item.q });
+                  }}
                 >
                   <span className="faq-number">{idx + 1}</span>
                   <span>{item.q}</span>
