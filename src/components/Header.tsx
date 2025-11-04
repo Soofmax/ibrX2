@@ -1,5 +1,5 @@
 import { Menu, X, Compass } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useI18n } from '../i18n/useI18n';
 
@@ -7,6 +7,8 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [compact, setCompact] = useState(false);
+  const lastScrollY = useRef(0);
   const { lang, setLang, t } = useI18n();
   const navigate = useNavigate();
   const location = useLocation();
@@ -14,7 +16,14 @@ export default function Header() {
   useEffect(() => {
     const handleScroll = () => {
       const y = window.scrollY || 0;
-      setScrolled(y > 50);
+      setScrolled(y > 2);
+      const prev = lastScrollY.current;
+      if (y > prev + 4) {
+        setCompact(true);
+      } else if (y < prev - 4) {
+        setCompact(false);
+      }
+      lastScrollY.current = y;
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
@@ -36,18 +45,18 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+      className={`fixed top-0 w-full z-[1000] transition-all duration-300 ease-in-out ${
         scrolled
-          ? 'bg-green-900/95 backdrop-blur-md shadow-2xl'
-          : 'bg-gradient-to-b from-green-800 to-green-900'
-      }`}
+          ? 'bg-[rgba(45,95,63,0.9)] backdrop-blur-lg shadow-lg border-b border-white/10'
+          : 'bg-[rgba(45,95,63,0.9)] backdrop-blur-lg shadow-md border-b border-white/10'
+      } ${compact ? 'h-[50px]' : 'h-[60px] sm:h-[65px] md:h-[70px]'}`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div className={`max-w-7xl mx-auto px-5 sm:px-6 lg:px-10 ${compact ? 'py-1' : 'py-2 sm:py-3'}`}>
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3 group cursor-pointer" onClick={() => go('/')}>
             <Compass
-              className="text-green-500 group-hover:rotate-180 transition-transform duration-700"
-              size={32}
+              className="text-green-500 group-hover:rotate-180 transition-transform duration-300"
+              size={36}
             />
             <span className="text-2xl sm:text-3xl font-handwritten text-white drop-shadow-lg">
               {t('header.siteName')}
@@ -55,7 +64,7 @@ export default function Header() {
           </div>
 
           <nav
-            className="hidden md:flex space-x-1 bg-green-800/40 rounded-full px-2 py-2 backdrop-blur-sm"
+            className="hidden md:flex space-x-1 bg-white/10 rounded-full px-4 py-1 backdrop-blur-sm border border-white/10"
             aria-label="Primary"
           >
             <button
@@ -156,9 +165,9 @@ export default function Header() {
             aria-controls="mobile-menu"
             aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-white bg-green-800/50 p-2 rounded-full backdrop-blur-sm focus-ring"
+            className="md:hidden text-white border border-white/20 bg-[rgba(45,95,63,0.35)] w-[30px] h-[30px] rounded-full backdrop-blur-sm transition-all duration-300 ease-in-out hover:scale-105 focus-ring"
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
