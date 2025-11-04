@@ -92,15 +92,41 @@ function JerricanVisualizationBase({
             left: innerLeft,
             width: innerWidth,
             borderRadius: 10,
-            background: 'linear-gradient(180deg, #7FE5B5 0%, #16a34a 50%, #0e7a45 100%)',
+            background:
+              'linear-gradient(180deg, #00A86B 0%, #16a34a 50%, #7FE5B5 100%)',
             willChange: 'height, top',
             // Clip the fill to the jerrican cavity (approximation)
-            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            clipPath:
+              'polygon(6% 6%, 96% 4%, 98% 100%, 4% 100%)',
           }}
           onAnimationComplete={() => {
             if (fillRef.current) fillRef.current.style.willChange = 'auto';
           }}
         />
+
+        {/* Subtle wave on top of the liquid */}
+        {!reduce && targetHeight > 0 && (
+          <motion.svg
+            width={innerWidth}
+            height={18}
+            viewBox={`0 0 ${innerWidth} 18`}
+            style={{
+              position: 'absolute',
+              left: innerLeft,
+              top: Math.max(innerTop, targetTop - 8),
+              overflow: 'visible',
+            }}
+            animate={{ x: [-5, 5, -5] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <path
+              d={`M 0 9 C ${innerWidth * 0.3} 6, ${innerWidth * 0.7} 12, ${innerWidth} 9`}
+              fill="none"
+              stroke="#7FE5B5"
+              strokeWidth={2}
+            />
+          </motion.svg>
+        )}
 
         {/* Completed badge */}
         {isCompleted && (
