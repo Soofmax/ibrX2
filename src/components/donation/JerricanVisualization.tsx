@@ -1,4 +1,4 @@
-import { memo, useId, useRef } from 'react';
+import { memo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useCountUp } from '../../hooks/useCountUp';
 
@@ -24,27 +24,27 @@ function JerricanVisualizationBase({
   ariaLabel,
 }: Props) {
   const percent = clamp(Math.floor((currentAmount / Math.max(1, targetAmount)) * 100));
-  const gradId = useId();
-  const clipId = useId();
-  const width = 120;
-  const height = 160;
-  const innerX = 16;
-  const innerY = 32;
-  const innerW = 88;
-  const innerH = 110;
+
+  // Visual constants (tuned for the imported SVG aspect ratio)
+  const boxW = 160;
+  const boxH = 200;
+
+  // Approximate inner cavity of the jerrican as percentages of the box
+  const innerLeft = Math.round(boxW * 0.23);
+  const innerTop = Math.round(boxH * 0.26);
+  const innerWidth = Math.round(boxW * 0.54);
+  const innerHeight = Math.round(boxH * 0.62);
 
   const reduce =
     typeof window !== 'undefined' &&
     window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Compute animated rect position anchored bottom
-  const targetHeight = Math.round((percent / 100) * innerH);
-  const targetY = innerY + innerH - targetHeight;
+  // Compute animated fill anchored to bottom of the inner cavity
+  const targetHeight = Math.round((percent / 100) * innerHeight);
+  const targetTop = innerTop + innerHeight - targetHeight;
 
-  const waveY = targetY - 2; // just above the liquid
-
-  const fillRef = useRef<SVGRectElement | null>(null);
+  const fillRef = useRef<HTMLDivElement | null>(null);
   const count = useCountUp(percent, { duration: 2000, startOnMount: true });
 
   return (
@@ -56,95 +56,78 @@ function JerricanVisualizationBase({
         `${label}, objectif ${targetAmount}€, actuellement ${currentAmount}€, ${percent}% complété`
       }
     >
-      <svg
-        viewBox={`0 0 ${width} ${height}`}
-        width={width}
-        height={height}
-        aria-label={ariaLabel || label}
+      {/* Container with jerrycan image and animated fill overlay */}
+      <div
+        className="relative drop-shadow-md"
         role="progressbar"
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={percent}
-        className="drop-shadow-md"
+        style={{ width: boxW, height: boxH }}
       >
-        <defs>
-          <linearGradient id={gradId} x1="0" y1="1" x2="0" y2="0">
-            <stop offset="0%" stopColor="#00A86B" />
-            <stop offset="50%" stopColor="#16a34a" />
-            <stop offset="100%" stopColor="#7FE5B5" />
-          </linearGradient>
-          <clipPath id={clipId}>
-            <rect x={innerX} y={innerY} rx={8} width={innerW} height={innerH} />
-          </clipPath>
-        </defs>
+        {/* Decorative jerrican image from /public */}
+        <img
+          src="/Design sans titre_20251104_230832_0000.svg"
+          alt={ariaLabel || label}
+          width={boxW}
+          height={boxH}
+          loading="lazy"
+          style={{
+            width: boxW,
+            height: boxH,
+            objectFit: 'contain',
+            display: 'block',
+            filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.35))',
+          }}
+        />
 
-        {/* Outer jerrican container */}
-        <g>
-          {/* body */}
-          <rect
-            x={12}
-            y={24}
-            width={96}
-            height={120}
-            rx={12}
-            fill="transparent"
-            stroke="#14532D"
-            strokeWidth={3}
-          />
-          {/* handle */}
-          <rect
-            x={26}
-            y={10}
-            width={40}
-            height={16}
-            rx={6}
-            fill="transparent"
-            stroke="#14532D"
-            strokeWidth={3}
-          />
-        </g>
+        {/* Animated liquid fill clipped to an approximate inner cavity */}
+        <motion.div
+          ref={fillRef}
+          initial={{ height: 0, top: innerTop + innerHeight }}
+          animate={{ height: targetHeight, top: targetTop }}
+          transition={{ duration: reduce ? 0 : 2, ease: 'easeOut', delay }}
+          style={{
+            position: 'absolute',
+            left: innerLeft,
+            width: innerWidth,
+            borderRadius: 10,
+            background:
+              'linear-gradient(180deg, #7FE5B5 0%, #16a34a 50%, #0e7a45 100%)',
+            willChange: 'height, top',
+            // Clip the fill to the jerrican cavity (approximation)
+            clipPath:
+              'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+          }}
+          onAnimationComplete={() => {
+            if (fillRef.current) fillRef.current.style.willChange = 'auto';
+          }}
+        />
 
-        {/* Liquid fill (animated) */}
-        <g clipPath={`url(#${clipId})`}>
-          <motion.rect
-            ref={fillRef}
-            initial={{ height: 0, y: innerY + innerH }}
-            animate={{ height: targetHeight, y: targetY }}
-            transition={{ duration: reduce ? 0 : 2, ease: 'easeOut', delay }}
-            x={innerX}
-            width={innerW}
-            fill={`url(#${gradId})`}
-            style={{ willChange: 'height, transform' }}
-            onAnimationComplete={() => {
-              if (fillRef.current) fillRef.current.style.willChange = 'auto';
-            }}
-          />
-          {/* Subtle wave on top */}
-          <motion.path
-            d={`M ${innerX} ${waveY} C ${innerX + 24} ${waveY - 3}, ${innerX + 56} ${waveY + 3}, ${innerX + innerW} ${waveY}`}
-            fill="none"
-            stroke="#7FE5B5"
-            strokeWidth={2}
-            style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
-            animate={reduce ? undefined : { x: [-5, 5, -5] }}
-            transition={reduce ? undefined : { duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        </g>
-
-        {/* Completed badge (pulse once) */}
+        {/* Completed badge */}
         {isCompleted && (
-          <motion.g
+          <motion.div
             initial={{ scale: 0.9 }}
             animate={{ scale: [0.9, 1.2, 1] }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
+            style={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              width: 24,
+              height: 24,
+              borderRadius: 9999,
+              backgroundColor: '#16a34a',
+              color: '#fff',
+              display: 'grid',
+              placeItems: 'center',
+              fontSize: 14,
+            }}
           >
-            <circle cx={96} cy={18} r={12} fill="#16a34a" />
-            <text x={96} y={22} textAnchor="middle" fontSize="12" fill="#fff">
-              ✓
-            </text>
-          </motion.g>
+            ✓
+          </motion.div>
         )}
-      </svg>
+      </div>
 
       {/* Stats below */}
       <div className="text-center">
