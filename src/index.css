@@ -53,6 +53,36 @@
     animation: fadeIn 1.2s ease-out;
   }
 
+  /* Slide down (header initial reveal) */
+  .animate-slide-down {
+    animation: slideDown 0.6s ease-out;
+  }
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Slide in from right (mobile menu) */
+  .animate-slide-in-right {
+    animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;

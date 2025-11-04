@@ -45,6 +45,13 @@ export default function Header() {
 
   return (
     <header
+      className={`fixed top-0 w-full z-[1000] transition-all duration-300 ease-in-out animate-slide-down ${
+        scrolled
+          ? 'bg-[rgba(45,95,63,0.9)] backdrop-blur-lg shadow-[0_2px_20px_rgba(0,0,0,0.1)] border-b border-white/10'
+          : 'bg-[rgba(45,95,63,0.9)] backdrop-blur-lg shadow-[0_2px_12px_rgba(0,0,0,0.08)] border-b border-white/10'
+      } ${compact ? 'h-[50px]' : 'h-[60px] sm:h-[65px] md:h-[70px]'}`}
+    >
+      <div className={`max-w-7xl mx-auto px-5 sm:px-6 lg:px-10 ${compact ? 'py-1' : 'py-2 sm:py-3'}`}>eader
       className={`fixed top-0 w-full z-[1000] transition-all duration-300 ease-in-out ${
         scrolled
           ? 'bg-[rgba(45,95,63,0.9)] backdrop-blur-lg shadow-lg border-b border-white/10'
@@ -57,7 +64,7 @@ export default function Header() {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3 group cursor-pointer" onClick={() => go('/')}>
             <Compass
-              className="text-green-500 group-hover:rotate-180 transition-transform duration-300"
+              className="text-green-500 transition-transform duration-300 hover:scale-105 hover:rotate-[5deg]"
               size={36}
             />
             <span className="text-2xl sm:text-3xl font-handwritten text-white drop-shadow-lg">
@@ -174,89 +181,95 @@ export default function Header() {
         </div>
 
         {mobileMenuOpen && (
-          <nav
-            id="mobile-menu"
-            className="md:hidden mt-4 pb-4 flex flex-col space-y-2 bg-green-800/40 rounded-xl p-4 backdrop-blur-sm animate-fade-in"
-            aria-label="Mobile"
-          >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-white font-serif">{t('header.language')}</span>
+          <>
+            <div
+              className="fixed inset-0 z-[900] bg-black/40 backdrop-blur-[2px]"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            <nav
+              id="mobile-menu"
+              className={`md:hidden fixed z-[1001] right-0 ${compact ? 'top-[50px]' : 'top-[60px] sm:top-[65px] md:top-[70px]'} w-72 sm:w-80 h-[calc(100vh-60px)] sm:h-[calc(100vh-65px)] md:h-[calc(100vh-70px)] p-4 bg-[rgba(45,95,63,0.85)] border-l border-white/10 backdrop-blur-lg rounded-l-2xl animate-slide-in-right flex flex-col space-y-2`}
+              aria-label="Mobile"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-white font-serif">{t('header.language')}</span>
+                <button
+                  type="button"
+                  onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
+                  className="text-white bg-green-700/70 px-3 py-1 rounded-full focus-ring"
+                >
+                  {lang === 'fr' ? 'FR' : 'EN'}
+                </button>
+              </div>
               <button
                 type="button"
-                onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
-                className="text-white bg-green-700 px-3 py-1 rounded-full focus-ring"
+                aria-current={location.pathname === '/' ? 'page' : undefined}
+                onClick={() => go('/')}
+                className={navClass('/')}
               >
-                {lang === 'fr' ? 'FR' : 'EN'}
+                {t('nav.home')}
               </button>
-            </div>
-            <button
-              type="button"
-              aria-current={location.pathname === '/' ? 'page' : undefined}
-              onClick={() => go('/')}
-              className={navClass('/')}
-            >
-              {t('nav.home')}
-            </button>
-            <button
-              type="button"
-              aria-current={location.pathname === '/itinerary' ? 'page' : undefined}
-              onClick={() => go('/itinerary')}
-              className={navClass('/itinerary')}
-            >
-              {t('nav.itinerary')}
-            </button>
-            <button
-              type="button"
-              aria-current={location.pathname === '/expedition' ? 'page' : undefined}
-              onClick={() => go('/expedition')}
-              className={navClass('/expedition')}
-            >
-              {t('nav.expedition')}
-            </button>
+              <button
+                type="button"
+                aria-current={location.pathname === '/itinerary' ? 'page' : undefined}
+                onClick={() => go('/itinerary')}
+                className={navClass('/itinerary')}
+              >
+                {t('nav.itinerary')}
+              </button>
+              <button
+                type="button"
+                aria-current={location.pathname === '/expedition' ? 'page' : undefined}
+                onClick={() => go('/expedition')}
+                className={navClass('/expedition')}
+              >
+                {t('nav.expedition')}
+              </button>
 
-            <button
-              type="button"
-              aria-current={location.pathname === '/logistics' ? 'page' : undefined}
-              onClick={() => go('/logistics')}
-              className={navClass('/logistics')}
-            >
-              {t('nav.logistics')}
-            </button>
-
-            <button
-              type="button"
-              aria-current={location.pathname === '/blog' ? 'page' : undefined}
-              onClick={() => go('/blog')}
-              className={navClass('/blog')}
-            >
-              {t('nav.blog')}
-            </button>
-
-            <button
-              type="button"
-              aria-current={location.pathname === '/sponsor-targets' ? 'page' : undefined}
-              onClick={() => go('/sponsor-targets')}
-              className={navClass('/sponsor-targets')}
-            >
-              {t('nav.targets')}
-            </button>
-            <button
-              type="button"
-              aria-current={location.pathname === '/support' ? 'page' : undefined}
-              onClick={() => go('/support')}
-              className={navClass('/support')}
-            >
-              {t('nav.support')}
-            </button>
-            <button
-              type="button"
-              aria-current={location.pathname === '/contact' ? 'page' : undefined}
-              onClick={() => go('/contact')}
-              className={navClass('/contact')}
-            >
-              {t('nav.contact')}
-            </button>
-          </nav>
+              <button
+                type="button"
+                aria-current={location.pathname === '/logistics' ? 'page' : undefined}
+                onClick={() => go('/logistics')}
+                className={navClass('/logistics')}
+              >
+                {t('nav.logistics')}
+              </button>
+              
+              <button
+                type="button"
+                aria-current={location.pathname === '/blog' ? 'page' : undefined}
+                onClick={() => go('/blog')}
+                className={navClass('/blog')}
+              >
+                {t('nav.blog')}
+              </button>
+              
+              <button
+                type="button"
+                aria-current={location.pathname === '/sponsor-targets' ? 'page' : undefined}
+                onClick={() => go('/sponsor-targets')}
+                className={navClass('/sponsor-targets')}
+              >
+                {t('nav.targets')}
+              </button>
+              <button
+                type="button"
+                aria-current={location.pathname === '/support' ? 'page' : undefined}
+                onClick={() => go('/support')}
+                className={navClass('/support')}
+              >
+                {t('nav.support')}
+              </button>
+              <button
+                type="button"
+                aria-current={location.pathname === '/contact' ? 'page' : undefined}
+                onClick={() => go('/contact')}
+                className={navClass('/contact')}
+              >
+                {t('nav.contact')}
+              </button>
+            </nav>
+          </>
         )}
       </div>
     </header>
