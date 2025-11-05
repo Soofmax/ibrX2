@@ -55,7 +55,6 @@ function JerricanVisualizationBase({
 
   // Compute animated fill anchored to bottom of the inner cavity
   const targetHeight = Math.round((percent / 100) * innerHeight);
-  const targetTop = innerTop + innerHeight - targetHeight;
 
   const fillRef = useRef<HTMLDivElement | null>(null);
   const count = useCountUp(percent, { duration: 2000, startOnMount: true });
