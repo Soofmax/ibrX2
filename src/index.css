@@ -655,41 +655,6 @@
     color: rgba(255, 255, 255, 0.5);
     margin-top: 20px;
   }
-  putGlow {
-    0%,
-    100% {
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
-    }
-    50% {
-      box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
-    }
-  }
-  .newsletter-button {
-    padding: 16px 34px;
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: #1a4d2e;
-    background: linear-gradient(135deg, #ffd700, #ffa500);
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    white-space: nowrap;
-  }
-  .newsletter-button:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
-  }
-  .newsletter-button .arrow {
-    transition: transform 0.3s ease;
-  }
-  .newsletter-button:hover .arrow {
-    transform: translateX(5px);
-  }
 
   @keyframes fadeIn {
     from {
@@ -1040,12 +1005,12 @@
   color: #2d5f3f;
   text-align: center;
   margin-top: 20px;
-  animation: slideIn 0.5s ease-out;
+  animation: slideInY 0.5s ease-out;
 }
 .form-success.show {
   display: block;
 }
-@keyframes slideIn {
+@keyframes slideInY {
   from {
     opacity: 0;
     transform: translateY(-20px);
