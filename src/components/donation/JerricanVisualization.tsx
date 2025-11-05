@@ -42,7 +42,7 @@ function JerricanVisualizationBase({
     () =>
       Array.from({ length: 8 }).map((_, i) => ({
         leftPct: 6 + ((i * 12) % 88),
-        size: 6 + ((i % 3) * 3),
+        size: 6 + (i % 3) * 3,
         delay: i * 0.35,
       })),
     []
@@ -118,8 +118,7 @@ function JerricanVisualizationBase({
               left: 0,
               bottom: 0,
               width: '100%',
-              background:
-                'linear-gradient(180deg, #22c55e 0%, #16a34a 55%, #0b4d32 100%)',
+              background: 'linear-gradient(180deg, #22c55e 0%, #16a34a 55%, #0b4d32 100%)',
               willChange: 'height',
             }}
             onAnimationComplete={() => {
@@ -173,7 +172,7 @@ function JerricanVisualizationBase({
                 }}
                 animate={{ y: [0, -(innerHeight - 8)], opacity: [0, 1, 0] }}
                 transition={{
-                  duration: 3 + ((i % 3) * 0.6),
+                  duration: 3 + (i % 3) * 0.6,
                   repeat: Infinity,
                   delay: b.delay,
                   ease: 'easeInOut',
@@ -181,8 +180,6 @@ function JerricanVisualizationBase({
               />
             ))}
         </div>
-
-        
 
         {/* Completed badge */}
         {isCompleted && (
