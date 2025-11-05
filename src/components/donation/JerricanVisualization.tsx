@@ -33,7 +33,7 @@ function JerricanVisualizationBase({
   const innerLeft = Math.round(boxW * 0.27);
   const innerTop = Math.round(boxH * 0.38);
   const innerWidth = Math.round(boxW * 0.46);
-  const innerHeight = Math.round(boxH * 0.40);
+  const innerHeight = Math.round(boxH * 0.4);
   const cornerRadius = 12;
 
   const reduce =
@@ -105,8 +105,7 @@ function JerricanVisualizationBase({
               left: 0,
               bottom: 0,
               width: '100%',
-              background:
-                'linear-gradient(180deg, #22c55e 0%, #16a34a 55%, #0b4d32 100%)',
+              background: 'linear-gradient(180deg, #22c55e 0%, #16a34a 55%, #0b4d32 100%)',
               willChange: 'height',
             }}
             onAnimationComplete={() => {
