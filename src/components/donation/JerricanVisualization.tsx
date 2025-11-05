@@ -1,4 +1,4 @@
-import { memo, useRef } from 'react';
+import { memo, useRef, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useCountUp } from '../../hooks/useCountUp';
 
@@ -35,6 +35,18 @@ function JerricanVisualizationBase({
   const innerWidth = Math.round(boxW * 0.46);
   const innerHeight = Math.round(boxH * 0.4);
   const cornerRadius = 12;
+  const waveHeight = 10;
+
+  // Bubble specs for subtle liquid animation inside the cavity
+  const bubbleSpecs = useMemo(
+    () =>
+      Array.from({ length: 8 }).map((_, i) => ({
+        leftPct: 6 + ((i * 12) % 88),
+        size: 6 + ((i % 3) * 3),
+        delay: i * 0.35,
+      })),
+    []
+  );
 
   const reduce =
     typeof window !== 'undefined' &&
@@ -95,6 +107,7 @@ function JerricanVisualizationBase({
             zIndex: 2,
           }}
         >
+          {/* Base liquid fill (anchored bottom) */}
           <motion.div
             ref={fillRef}
             initial={{ height: 0 }}
@@ -105,30 +118,71 @@ function JerricanVisualizationBase({
               left: 0,
               bottom: 0,
               width: '100%',
-              background: 'linear-gradient(180deg, #22c55e 0%, #16a34a 55%, #0b4d32 100%)',
+              background:
+                'linear-gradient(180deg, #22c55e 0%, #16a34a 55%, #0b4d32 100%)',
               willChange: 'height',
             }}
             onAnimationComplete={() => {
               if (fillRef.current) fillRef.current.style.willChange = 'auto';
             }}
           />
+
+          {/* Animated wave surface inside the cavity */}
+          {!reduce && targetHeight > 0 && (
+            <motion.svg
+              width={innerWidth}
+              height={waveHeight}
+              viewBox={`0 0 ${innerWidth} ${waveHeight}`}
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: Math.max(0, innerHeight - targetHeight - Math.floor(waveHeight / 2)),
+                overflow: 'visible',
+                zIndex: 3,
+              }}
+              animate={{ x: [-8, 8, -8] }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <path
+                d={`M 0 ${waveHeight / 2} C ${innerWidth * 0.25} 0, ${
+                  innerWidth * 0.75
+                } ${waveHeight}, ${innerWidth} ${waveHeight / 2}`}
+                fill="none"
+                stroke="rgba(255,255,255,0.35)"
+                strokeWidth={2}
+              />
+            </motion.svg>
+          )}
+
+          {/* Subtle bubbles rising */}
+          {!reduce &&
+            bubbleSpecs.map((b, i) => (
+              <motion.div
+                key={i}
+                style={{
+                  position: 'absolute',
+                  left: `${b.leftPct}%`,
+                  bottom: 4,
+                  width: b.size,
+                  height: b.size,
+                  borderRadius: 9999,
+                  background: 'rgba(255,255,255,0.25)',
+                  filter: 'blur(0.2px)',
+                  zIndex: 3,
+                  pointerEvents: 'none',
+                }}
+                animate={{ y: [0, -(innerHeight - 8)], opacity: [0, 1, 0] }}
+                transition={{
+                  duration: 3 + ((i % 3) * 0.6),
+                  repeat: Infinity,
+                  delay: b.delay,
+                  ease: 'easeInOut',
+                }}
+              />
+            ))}
         </div>
 
-        {/* Surface highlight for a crisp top edge */}
-        {targetHeight > 0 && (
-          <div
-            style={{
-              position: 'absolute',
-              left: innerLeft,
-              top: Math.max(innerTop, targetTop - 2),
-              width: innerWidth,
-              height: 2,
-              background: 'rgba(255,255,255,0.25)',
-              borderRadius: 2,
-              zIndex: 3,
-            }}
-          />
-        )}
+        
 
         {/* Completed badge */}
         {isCompleted && (
