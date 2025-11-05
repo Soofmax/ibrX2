@@ -30,10 +30,11 @@ function JerricanVisualizationBase({
   const boxH = 200;
 
   // Approximate inner cavity of the jerrican as percentages of the box
-  const innerLeft = Math.round(boxW * 0.23);
-  const innerTop = Math.round(boxH * 0.26);
-  const innerWidth = Math.round(boxW * 0.54);
-  const innerHeight = Math.round(boxH * 0.62);
+  const innerLeft = Math.round(boxW * 0.27);
+  const innerTop = Math.round(boxH * 0.38);
+  const innerWidth = Math.round(boxW * 0.46);
+  const innerHeight = Math.round(boxH * 0.40);
+  const cornerRadius = 12;
 
   const reduce =
     typeof window !== 'undefined' &&
@@ -81,51 +82,53 @@ function JerricanVisualizationBase({
           }}
         />
 
-        {/* Animated liquid fill clipped to an approximate inner cavity */}
-        <motion.div
-          ref={fillRef}
-          initial={{ height: 0, top: innerTop + innerHeight }}
-          animate={{ height: targetHeight, top: targetTop }}
-          transition={{ duration: reduce ? 0 : 2, ease: 'easeOut', delay }}
+        {/* Cavity wrapper with rounded corners for a cleaner fill */}
+        <div
           style={{
             position: 'absolute',
             left: innerLeft,
+            top: innerTop,
             width: innerWidth,
-            borderRadius: 10,
-            background: 'linear-gradient(180deg, #00A86B 0%, #16a34a 50%, #7FE5B5 100%)',
-            willChange: 'height, top',
+            height: innerHeight,
+            borderRadius: cornerRadius,
+            overflow: 'hidden',
             zIndex: 2,
-            // Clip the fill to the jerrican cavity (approximation)
-            clipPath: 'polygon(10% 18%, 30% 8%, 92% 6%, 96% 100%, 4% 100%)',
           }}
-          onAnimationComplete={() => {
-            if (fillRef.current) fillRef.current.style.willChange = 'auto';
-          }}
-        />
+        >
+          <motion.div
+            ref={fillRef}
+            initial={{ height: 0 }}
+            animate={{ height: targetHeight }}
+            transition={{ duration: reduce ? 0 : 1.4, ease: 'easeOut', delay }}
+            style={{
+              position: 'absolute',
+              left: 0,
+              bottom: 0,
+              width: '100%',
+              background:
+                'linear-gradient(180deg, #22c55e 0%, #16a34a 55%, #0b4d32 100%)',
+              willChange: 'height',
+            }}
+            onAnimationComplete={() => {
+              if (fillRef.current) fillRef.current.style.willChange = 'auto';
+            }}
+          />
+        </div>
 
-        {/* Subtle wave on top of the liquid */}
-        {!reduce && targetHeight > 0 && (
-          <motion.svg
-            width={innerWidth}
-            height={18}
-            viewBox={`0 0 ${innerWidth} 18`}
+        {/* Surface highlight for a crisp top edge */}
+        {targetHeight > 0 && (
+          <div
             style={{
               position: 'absolute',
               left: innerLeft,
-              top: Math.max(innerTop, targetTop - 8),
-              overflow: 'visible',
+              top: Math.max(innerTop, targetTop - 2),
+              width: innerWidth,
+              height: 2,
+              background: 'rgba(255,255,255,0.25)',
+              borderRadius: 2,
               zIndex: 3,
             }}
-            animate={{ x: [-5, 5, -5] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <path
-              d={`M 0 9 C ${innerWidth * 0.3} 6, ${innerWidth * 0.7} 12, ${innerWidth} 9`}
-              fill="none"
-              stroke="#7FE5B5"
-              strokeWidth={2}
-            />
-          </motion.svg>
+          />
         )}
 
         {/* Completed badge */}
