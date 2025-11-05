@@ -67,7 +67,7 @@ function JerricanVisualizationBase({
       >
         {/* Decorative jerrican image from /public */}
         <img
-          src="/jerrican.svg"
+          src="/jerrican-transparent.svg"
           alt={ariaLabel || label}
           width={boxW}
           height={boxH}

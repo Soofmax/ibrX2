@@ -214,7 +214,7 @@ export default function DonationsPage() {
           <Star /> <Star /> <Star />
         </div>
         <img
-          src="/jerrican.svg"
+          src="/jerrican-transparent.svg"
           alt={lang === 'fr' ? 'Icône de jerrican WanderGlobers' : 'WanderGlobers jerrycan icon'}
           className="mx-auto mt-3 w-16 h-16 opacity-90"
           loading="lazy"
