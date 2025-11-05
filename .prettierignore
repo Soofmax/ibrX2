@@ -1,0 +1,7 @@
+# Ignore files not supported by Prettier parsers to prevent CI exit code 2
+public/sitemap.xml
+public/robots.txt
+netlify.toml
+
+# Avoid formatting GitHub workflow files to prevent permission issues when CI tries to commit
+.github/workflows/

@@ -1,25 +1,26 @@
 import { Routes, Route } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ErrorBoundary from './components/ErrorBoundary';
 
 import Home from './pages/Home';
 import ItineraryPage from './pages/ItineraryPage';
-import FleetPage from './pages/FleetPage';
-import TeamPage from './pages/TeamPage';
+import ExpeditionPage from './pages/ExpeditionPage';
 import LogisticsPage from './pages/LogisticsPage';
-import PracticalPage from './pages/PracticalPage';
+
 import BlogPage from './pages/BlogPage';
 import SponsorsPage from './pages/SponsorsPage';
 import SupportPage from './pages/SupportPage';
 import ContactPage from './pages/ContactPage';
 import SponsorTargetsPage from './pages/SponsorTargetsPage';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import Terms from './pages/Terms';
 import NotFound from './pages/NotFound';
+import LegalPage from './pages/LegalPage';
+import DonationsPage from './pages/DonationsPage';
 
 function App() {
   return (
-    <div className="min-h-screen bg-amber-50">
+    <div className="min-h-screen bg-gradient-to-b from-green-900 via-green-800 to-amber-50">
       {/* Skip link for keyboard users */}
       <a
         href="#main-content"
@@ -29,23 +30,35 @@ function App() {
       </a>
 
       <Header />
-      <main id="main-content" role="main" tabIndex={-1}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/itinerary" element={<ItineraryPage />} />
-          <Route path="/fleet" element={<FleetPage />} />
-          <Route path="/team" element={<TeamPage />} />
-          <Route path="/logistics" element={<LogisticsPage />} />
-          <Route path="/practical" element={<PracticalPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/sponsors" element={<SponsorsPage />} />
-          <Route path="/sponsor-targets" element={<SponsorTargetsPage />} />
-          <Route path="/support" element={<SupportPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+      {/* Add top padding to avoid body content overlapping the fixed header */}
+      <main
+        id="main-content"
+        role="main"
+        tabIndex={-1}
+        className="pt-[60px] sm:pt-[65px] md:pt-[70px]"
+      >
+        <ErrorBoundary>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/itinerary" element={<ItineraryPage />} />
+            <Route path="/expedition" element={<ExpeditionPage />} />
+            <Route path="/fleet" element={<Navigate to="/expedition" replace />} />
+            <Route path="/team" element={<Navigate to="/expedition" replace />} />
+            <Route path="/logistics" element={<LogisticsPage />} />
+            <Route path="/practical" element={<Navigate to="/logistics" replace />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/sponsors" element={<SponsorsPage />} />
+            <Route path="/sponsor-targets" element={<SponsorTargetsPage />} />
+            <Route path="/support" element={<SupportPage />} />
+            <Route path="/donations" element={<DonationsPage />} />
+            <Route path="/donation" element={<Navigate to="/support" replace />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/legal" element={<LegalPage />} />
+            <Route path="/privacy" element={<Navigate to="/legal" replace />} />
+            <Route path="/terms" element={<Navigate to="/legal" replace />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ErrorBoundary>
       </main>
       <Footer />
     </div>

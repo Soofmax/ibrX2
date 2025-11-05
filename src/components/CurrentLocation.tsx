@@ -1,6 +1,6 @@
 import { MapPin, Navigation, Calendar, Ship } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { useI18n } from '../i18n/I18nContext';
+import { useI18n } from '../i18n/useI18n';
 import { routeStops } from '../data/routeStops';
 import { expeditionTotals } from '../data/expeditionPlan';
 
@@ -27,18 +27,41 @@ const stops: Stop[] = (() => {
   }));
 })();
 
-export default function CurrentLocation() {
+export default function CurrentLocation(): JSX.Element {
   const { t, lang } = useI18n();
   const locale = lang === 'fr' ? 'fr-FR' : 'en-US';
 
   const pathRef = useRef<SVGPathElement | null>(null);
   const [progress, setProgress] = useState(0);
-  const [positions, setPositions] = useState<{ x: number; y: number; name: string; t: number; tooltip: string }[]>([]);
+  const [positions, setPositions] = useState<
+    { x: number; y: number; name: string; t: number; tooltip: string }[]
+  >([]);
   const [currentStopIndex, setCurrentStopIndex] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [speedMultiplier, setSpeedMultiplier] = useState(1);
-  const [segments, setSegments] = useState<{ points: string; ferry: boolean; mid: { x: number; y: number }; pxLen: number }[]>([]);
+  const [segments, setSegments] = useState<
+    { points: string; ferry: boolean; mid: { x: number; y: number }; pxLen: number }[]
+  >([]);
   const [totalPxLen, setTotalPxLen] = useState(0);
+  const [tooltip, setTooltip] = useState<{
+    x: number;
+    y: number;
+    name: string;
+    tip: string;
+    isFerry: boolean;
+  } | null>(null);
+
+  // refs to avoid exhaustive-deps warning while keeping animation loop stable
+  const progressRef = useRef(progress);
+  const currentStopIndexRef = useRef(currentStopIndex);
+
+  useEffect(() => {
+    progressRef.current = progress;
+  }, [progress]);
+
+  useEffect(() => {
+    currentStopIndexRef.current = currentStopIndex;
+  }, [currentStopIndex]);
 
   useEffect(() => {
     const path = pathRef.current;
@@ -51,7 +74,8 @@ export default function CurrentLocation() {
     setPositions(pts);
 
     // Build polylines per segment for styling (ferry dashed) and compute pixel lengths
-    const segs: { points: string; ferry: boolean; mid: { x: number; y: number }; pxLen: number }[] = [];
+    const segs: { points: string; ferry: boolean; mid: { x: number; y: number }; pxLen: number }[] =
+      [];
     let total = 0;
     for (let i = 0; i < stops.length - 1; i++) {
       const a = stops[i];
@@ -94,15 +118,15 @@ export default function CurrentLocation() {
 
     let rafId = 0;
     let prev = performance.now();
-    let p = progress;
-    let currentIdx = currentStopIndex;
+    let p = progressRef.current;
+    let currentIdx = currentStopIndexRef.current;
 
     const tick = (time: number) => {
       const dt = (time - prev) / 1000;
       prev = time;
 
-      // Respect reduced motion and pause/play state
-      if (!playing || prefersReducedMotion) {
+      // Respect pause/play state
+      if (!playing) {
         rafId = requestAnimationFrame(tick);
         return;
       }
@@ -114,7 +138,7 @@ export default function CurrentLocation() {
 
       const prevP = p;
       const mode = stops[currentIdx]?.modeToNext ?? 'road';
-      const base = 0.06;
+      const base = prefersReducedMotion ? 0.02 : 0.06;
       const ferryFactor = mode === 'ferry' ? 1.15 : 1.0;
       const speedPerSec = base * ferryFactor * (speedMultiplier || 1);
 
@@ -178,7 +202,7 @@ export default function CurrentLocation() {
     const kmRemaining = pxRemaining * scaleKmPerPx;
 
     const travelDays = kmRemaining / averageKmPerDay;
-    const pauseMs = (next.pauseMs ?? 0);
+    const pauseMs = next.pauseMs ?? 0;
     const pauseDays = pauseMs / (1000 * 60 * 60 * 24);
 
     const totalDays = travelDays + pauseDays;
@@ -196,7 +220,10 @@ export default function CurrentLocation() {
   };
 
   return (
-    <section id="map" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-100 to-amber-50 relative overflow-hidden scroll-mt-24">
+    <section
+      id="map"
+      className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-stone-100 to-amber-50 relative overflow-hidden scroll-mt-24"
+    >
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-10 w-64 h-64 bg-amber-600 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-stone-600 rounded-full blur-3xl"></div>
@@ -272,13 +299,40 @@ export default function CurrentLocation() {
                     </span>
                   )}
                 </div>
-                <p className="text-stone-700 text-sm">{t('current.state')} <span className="font-semibold">{playing ? t('current.moving') : t('current.paused')}</span></p>
-                <p className="text-stone-700 text-sm">{t('current.speedLabel')} <span className="font-semibold">{speedMultiplier}×</span> ({t('current.speedModelFmt').replace('{n}', String(averageKmPerDay))})</p>
+                <p className="text-stone-700 text-sm">
+                  {t('current.state')}{' '}
+                  <span className="font-semibold">
+                    {playing ? t('current.moving') : t('current.paused')}
+                  </span>
+                </p>
+                <p className="text-stone-700 text-sm">
+                  {t('current.speedLabel')}{' '}
+                  <span className="font-semibold">{speedMultiplier}×</span> (
+                  {t('current.speedModelFmt').replace('{n}', String(averageKmPerDay))})
+                </p>
                 {etaInfo && (
                   <div className="mt-2 text-stone-700 text-sm">
-                    <p>{t('current.distanceRemaining')} <span className="font-semibold">{Math.round(etaInfo.kmRemaining).toLocaleString(locale)} {t('current.km')}</span></p>
-                    <p>{t('current.etaNext')} <span className="font-semibold">{etaInfo.etaDate.toLocaleString(locale, { weekday: 'short', hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' })}</span></p>
-                    <p className="text-amber-700 text-xs italic mt-1">{t('current.etaSimulated')}</p>
+                    <p>
+                      {t('current.distanceRemaining')}{' '}
+                      <span className="font-semibold">
+                        {Math.round(etaInfo.kmRemaining).toLocaleString(locale)} {t('current.km')}
+                      </span>
+                    </p>
+                    <p>
+                      {t('current.etaNext')}{' '}
+                      <span className="font-semibold">
+                        {etaInfo.etaDate.toLocaleString(locale, {
+                          weekday: 'short',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          day: '2-digit',
+                          month: '2-digit',
+                        })}
+                      </span>
+                    </p>
+                    <p className="text-amber-700 text-xs italic mt-1">
+                      {t('current.etaSimulated')}
+                    </p>
                   </div>
                 )}
               </div>
@@ -305,7 +359,7 @@ export default function CurrentLocation() {
                 </filter>
               </defs>
 
-              <rect width="1000" height="500" fill="url(#mapGradient)"/>
+              <rect width="1000" height="500" fill="url(#mapGradient)" />
               {/* Styled per-segment route (solid for road, dashed for ferry) */}
               {segments.map((seg, i) => {
                 const active = i === Math.min(currentStopIndex, segments.length - 1);
@@ -322,7 +376,12 @@ export default function CurrentLocation() {
                     />
                     {seg.ferry && (
                       <g transform={`translate(${seg.mid.x}, ${seg.mid.y})`} opacity="0.9">
-                        <path d="M -10 0 L 10 0 L 6 -6 L -8 -6 Z" fill="#d97706" stroke="#b45309" strokeWidth="0.5" />
+                        <path
+                          d="M -10 0 L 10 0 L 6 -6 L -8 -6 Z"
+                          fill="#d97706"
+                          stroke="#b45309"
+                          strokeWidth="0.5"
+                        />
                         <rect x="-2" y="-10" width="4" height="4" fill="#1C1917" />
                       </g>
                     )}
@@ -365,50 +424,43 @@ export default function CurrentLocation() {
                     }
                   }}
                   onFocus={() => {
-                    const tip = document.getElementById('map-tooltip');
-                    if (tip) {
-                      const ferry = stops[idx]?.modeToNext === 'ferry'
-                        ? `<div class='font-serif text-[10px] text-amber-700 mt-1'>${t('current.nextFerrySegment')}</div>`
-                        : '';
-                      tip.style.left = `${p.x}px`;
-                      tip.style.top = `${p.y - 24}px`;
-                      tip.innerHTML = `<div class='bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2'>
-                        <div class='font-serif text-sm font-semibold'>${p.name}</div>
-                        <div class='font-serif text-xs text-stone-600'>${p.tooltip}</div>
-                        ${ferry}
-                      </div>`;
-                      tip.style.display = 'block';
-                    }
+                    setTooltip({
+                      x: p.x,
+                      y: p.y,
+                      name: p.name,
+                      tip: p.tooltip,
+                      isFerry: stops[idx]?.modeToNext === 'ferry',
+                    });
                   }}
                   onBlur={() => {
-                    const tip = document.getElementById('map-tooltip');
-                    if (tip) tip.style.display = 'none';
+                    setTooltip(null);
                   }}
                   onMouseEnter={() => {
-                    const tip = document.getElementById('map-tooltip');
-                    if (tip) {
-                      const ferry = stops[idx]?.modeToNext === 'ferry' ? `<div class='font-serif text-[10px] text-amber-700 mt-1'>${t('current.nextFerrySegment')}</div>` : '';
-                      tip.style.left = `${p.x}px`;
-                      tip.style.top = `${p.y - 24}px`;
-                      tip.innerHTML = `<div class='bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2'>
-                        <div class='font-serif text-sm font-semibold'>${p.name}</div>
-                        <div class='font-serif text-xs text-stone-600'>${p.tooltip}</div>
-                        ${ferry}
-                      </div>`;
-                      tip.style.display = 'block';
-                    }
+                    setTooltip({
+                      x: p.x,
+                      y: p.y,
+                      name: p.name,
+                      tip: p.tooltip,
+                      isFerry: stops[idx]?.modeToNext === 'ferry',
+                    });
                   }}
                   onMouseLeave={() => {
-                    const tip = document.getElementById('map-tooltip');
-                    if (tip) tip.style.display = 'none';
+                    setTooltip(null);
                   }}
                 >
                   <circle r="10" fill="#16A34A" opacity="0.7" />
-                  <text x="14" y="-12" fontSize="14" fill="#1C1917" fontFamily="serif">{p.name}</text>
+                  {(idx === currentStopIndex || idx === currentStopIndex + 1) && (
+                    <text x="14" y="-12" fontSize="14" fill="#1C1917" fontFamily="serif">
+                      {p.name}
+                    </text>
+                  )}
                 </g>
               ))}
 
-              <g transform={`translate(${vanTransform.x}, ${vanTransform.y + bounce}) rotate(${vanTransform.angle})`} filter="url(#glow)">
+              <g
+                transform={`translate(${vanTransform.x}, ${vanTransform.y + bounce}) rotate(${vanTransform.angle})`}
+                filter="url(#glow)"
+              >
                 <rect x="-15" y="-10" width="30" height="18" rx="3" fill="#1C1917" />
                 <rect x="5" y="-8" width="14" height="12" rx="2" fill="#F59E0B" />
                 <circle cx="-8" cy="10" r="4" fill="#0f172a" />
@@ -416,22 +468,57 @@ export default function CurrentLocation() {
               </g>
 
               <foreignObject x="0" y="0" width="1000" height="500">
-                <div xmlns="http://www.w3.org/1999/xhtml" id="map-tooltip" style="position:absolute; display:none; transform:translate(-50%, -110%); z-index:30; pointer-events:none;"></div>
+                {tooltip && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: `${tooltip.x}px`,
+                      top: `${tooltip.y - 24}px`,
+                      transform: 'translate(-50%, -110%)',
+                      zIndex: 30,
+                      pointerEvents: 'none',
+                      display: 'block',
+                    }}
+                  >
+                    <div className="bg-white/95 border border-amber-200 text-stone-900 rounded-xl shadow-xl px-3 py-2">
+                      <div className="font-serif text-sm font-semibold">{tooltip.name}</div>
+                      <div className="font-serif text-xs text-stone-600">{tooltip.tip}</div>
+                      {tooltip.isFerry && (
+                        <div className="font-serif text-[10px] text-amber-700 mt-1">
+                          {t('current.nextFerrySegment')}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </foreignObject>
 
-              <text x="500" y="380" fontSize="24" fill="#16A34A" textAnchor="middle" fontFamily="serif" fontStyle="italic">
+              <text
+                x="500"
+                y="380"
+                fontSize="24"
+                fill="#16A34A"
+                textAnchor="middle"
+                fontFamily="serif"
+                fontStyle="italic"
+              >
                 {t('current.svgTitle')}
               </text>
-              <text x="500" y="410" fontSize="16" fill="#a8a29e" textAnchor="middle" fontFamily="serif">
+              <text
+                x="500"
+                y="410"
+                fontSize="16"
+                fill="#a8a29e"
+                textAnchor="middle"
+                fontFamily="serif"
+              >
                 {t('current.svgSubtitle')}
               </text>
             </svg>
             <div aria-live="polite" className="sr-only">
-              {
-                etaInfo
-                  ? `${t('map.lastStep')}: ${lastStop}. ${t('map.nextDestination')}: ${nextStop}. ${t('current.distanceRemaining')} ${Math.round(etaInfo.kmRemaining).toLocaleString(locale)} ${t('current.km')}. ${t('current.etaNext')} ${etaInfo.etaDate.toLocaleString(locale)}. ${etaInfo.isFerry ? t('current.ferry') + '. ' : ''}${t('current.etaSimulatedShort')}`
-                  : `${t('map.lastStep')}: ${lastStop}. ${t('map.nextDestination')}: ${nextStop}.`
-              }
+              {etaInfo
+                ? `${t('map.lastStep')}: ${lastStop}. ${t('map.nextDestination')}: ${nextStop}. ${t('current.distanceRemaining')} ${Math.round(etaInfo.kmRemaining).toLocaleString(locale)} ${t('current.km')}. ${t('current.etaNext')} ${etaInfo.etaDate.toLocaleString(locale)}. ${etaInfo.isFerry ? t('current.ferry') + '. ' : ''}${t('current.etaSimulatedShort')}`
+                : `${t('map.lastStep')}: ${lastStop}. ${t('map.nextDestination')}: ${nextStop}.`}
             </div>
           </div>
 
@@ -443,7 +530,9 @@ export default function CurrentLocation() {
                     <MapPin className="text-amber-700" size={28} />
                   </div>
                   <div>
-                    <p className="text-sm text-stone-500 font-serif mb-1">{t('current.lastStop')}</p>
+                    <p className="text-sm text-stone-500 font-serif mb-1">
+                      {t('current.lastStop')}
+                    </p>
                     <h3 className="text-2xl font-handwritten text-stone-900 mb-1">{lastStop}</h3>
                     <div className="flex items-center gap-2 text-sm text-stone-600">
                       <Calendar size={14} />
@@ -459,7 +548,9 @@ export default function CurrentLocation() {
                     <Navigation className="text-amber-700" size={28} />
                   </div>
                   <div>
-                    <p className="text-sm text-amber-700 font-serif mb-1">{t('current.nextDestination')}</p>
+                    <p className="text-sm text-amber-700 font-serif mb-1">
+                      {t('current.nextDestination')}
+                    </p>
                     <h3 className="text-2xl font-handwritten text-stone-900 mb-1">{nextStop}</h3>
                     <div className="flex items-center gap-2 text-sm text-stone-600">
                       <Calendar size={14} />
@@ -492,13 +583,11 @@ export default function CurrentLocation() {
                   {t('current.nextStep')}
                 </button>
               </div>
-              <p className="text-stone-600 font-serif mt-2">
-                {t('current.help')}
-              </p>
+              <p className="text-stone-600 font-serif mt-2">{t('current.help')}</p>
             </div>
           </div>
         </div>
       </div>
     </section>
   );
-
+}

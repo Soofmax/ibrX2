@@ -1,7 +1,7 @@
 import { Youtube, Instagram, Facebook, Mail, Send, Compass, Camera } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useI18n } from '../i18n/I18nContext';
+import { useI18n } from '../i18n/useI18n';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -28,9 +28,7 @@ export default function Footer() {
               <Compass className="text-amber-400" size={36} />
               <h3 className="text-3xl font-handwritten text-amber-400">{t('header.siteName')}</h3>
             </div>
-            <p className="text-white/80 font-serif leading-relaxed mb-6">
-              Following the wind, collecting stories, and sharing adventures from every corner of the globe.
-            </p>
+            <p className="text-white/80 font-serif leading-relaxed mb-6">{t('footer.aboutText')}</p>
             <div className="flex gap-3">
               <a
                 href="https://youtube.com/@TranscontinentalTrek"
@@ -75,22 +73,38 @@ export default function Footer() {
             <h3 className="text-2xl font-handwritten mb-6 text-amber-400">{t('footer.quick')}</h3>
             <ul className="space-y-3">
               <li>
-                <button type="button" onClick={() => navigate('/')} className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button
+                  type="button"
+                  onClick={() => navigate('/')}
+                  className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring"
+                >
                   {t('footer.about')}
                 </button>
               </li>
               <li>
-                <button type="button" onClick={() => navigate('/blog')} className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button
+                  type="button"
+                  onClick={() => navigate('/blog')}
+                  className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring"
+                >
                   {t('footer.tips')}
                 </button>
               </li>
               <li>
-                <button type="button" onClick={() => navigate('/blog')} className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button
+                  type="button"
+                  onClick={() => navigate('/blog')}
+                  className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring"
+                >
                   {t('footer.gallery')}
                 </button>
               </li>
               <li>
-                <button type="button" onClick={() => navigate('/contact')} className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring">
+                <button
+                  type="button"
+                  onClick={() => navigate('/contact')}
+                  className="text-white/80 hover:text-amber-400 transition-colors font-serif hover:translate-x-2 inline-block transition-transform focus-ring"
+                >
                   {t('nav.contact')}
                 </button>
               </li>
@@ -98,18 +112,23 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-2xl font-handwritten mb-4 text-amber-400">{t('footer.dontMiss')}</h3>
+            <h3 className="text-2xl font-handwritten mb-4 text-amber-400">
+              {t('footer.dontMiss')}
+            </h3>
             <p className="text-white/80 font-serif mb-4 text-sm leading-relaxed">
-              Get weekly updates with new stories, travel tips, and exclusive content delivered to your inbox.
+              {t('footer.newsletterIntro')}
             </p>
             <form onSubmit={handleSubscribe} className="space-y-3">
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" size={20} />
+                <Mail
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400"
+                  size={20}
+                />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your email address"
+                  placeholder={t('footer.emailPlaceholder')}
                   className="w-full pl-12 pr-4 py-4 rounded-full text-stone-900 font-serif focus:outline-none focus:ring-2 focus:ring-green-500 bg-white shadow-lg"
                   required
                 />
@@ -127,17 +146,25 @@ export default function Footer() {
 
         <div className="border-t border-stone-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="font-serif text-white/70 text-center md:text-left">
-              © 2025 Your Name. All rights reserved.
+            <p className="footer-copyright font-serif text-white/70 text-center md:text-left">
+              {t('footer.copyright')}
             </p>
-            <div className="flex gap-6 text-sm">
-              <button type="button" onClick={() => navigate('/privacy')} className="text-white/70 hover:text-amber-400 transition-colors font-serif focus-ring">
+            <nav className="footer-links" aria-label="Legal links">
+              <button
+                type="button"
+                onClick={() => navigate('/privacy')}
+                className="footer-link font-serif focus-ring"
+              >
                 {t('footer.privacy')}
               </button>
-              <button type="button" onClick={() => navigate('/terms')} className="text-white/70 hover:text-amber-400 transition-colors font-serif focus-ring">
+              <button
+                type="button"
+                onClick={() => navigate('/terms')}
+                className="footer-link font-serif focus-ring"
+              >
                 {t('footer.terms')}
               </button>
-            </div>
+            </nav>
           </div>
         </div>
       </div>

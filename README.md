@@ -15,6 +15,7 @@ Ce dépôt contient une application React + TypeScript (Vite) stylée avec Tailw
   npm run preview
 
 Notes:
+
 - Un avertissement “Browserslist: caniuse-lite is outdated” peut s’afficher; c’est non bloquant. Pour l’actualiser:
   npx update-browserslist-db@latest
 
@@ -41,6 +42,7 @@ Notes:
 ## 4) Couleurs et style
 
 Palette Tailwind (valeurs par défaut):
+
 - Ambre (amber-50 … amber-700) : teinte principale et CTA
 - Stone (stone-50/100/200/600/700/800/900) : neutres et textes
 - Accents: orange-600, rose-50/200/600, green-100/600, red-600, white/black
@@ -48,6 +50,7 @@ Palette Tailwind (valeurs par défaut):
 - Carte: points de ville en vert “apple” (#16A34A), tracé ambre (#d97706)
 
 Accessibilité:
+
 - Utilitaire .focus-ring (outline accessible)
 - Préférence reduced-motion prise en compte
 - Skip link, aria-current, aria-live pour la carte
@@ -85,6 +88,7 @@ Accessibilité:
 - Voir docs/contributing.md
 
 Liens utiles:
+
 - docs/architecture.md — Architecture et routes
 - docs/i18n.md — Internationalisation
 - docs/content.md — Gestion des contenus (blog, team, fleet)

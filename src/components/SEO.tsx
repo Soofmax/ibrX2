@@ -1,5 +1,11 @@
 import { useEffect } from 'react';
 
+type GeoProps = {
+  region?: string;
+  placename?: string;
+  position?: { lat: number; lon: number };
+};
+
 type Props = {
   title: string;
   description?: string;
@@ -7,6 +13,7 @@ type Props = {
   image?: string;
   lang?: 'fr' | 'en';
   siteName?: string;
+  geo?: GeoProps;
 };
 
 function ensureMetaByName(name: string, content?: string) {
@@ -41,20 +48,38 @@ function ensureLinkRel(rel: string, href: string) {
   link.setAttribute('href', href);
 }
 
+function ensureHrefLangLink(hreflang: string, href: string) {
+  let link = document.querySelector(
+    `link[rel="alternate"][hreflang="${hreflang}"]`
+  ) as HTMLLinkElement | null;
+  if (!link) {
+    link = document.createElement('link');
+    link.setAttribute('rel', 'alternate');
+    link.setAttribute('hreflang', hreflang);
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', href);
+}
+
 export default function SEO({
   title,
   description,
   path,
   image,
   lang = 'fr',
-  siteName = 'Transcontinental Trek',
+  siteName = 'WanderGlobers',
+  geo,
 }: Props) {
   useEffect(() => {
     const origin =
       typeof window !== 'undefined' && window.location
         ? `${window.location.origin}`
         : 'https://example.com';
-    const canonical = path ? `${origin}${path}` : (typeof window !== 'undefined' ? window.location.href : origin);
+    const canonical = path
+      ? `${origin}${path}`
+      : typeof window !== 'undefined'
+        ? window.location.href
+        : origin;
     const ogLocale = lang === 'en' ? 'en_US' : 'fr_FR';
     const fallbackImage =
       image ||
@@ -66,6 +91,11 @@ export default function SEO({
 
     // Canonical
     ensureLinkRel('canonical', canonical);
+    // hreflang alternates
+    ensureHrefLangLink(lang, canonical);
+    ensureHrefLangLink(lang === 'en' ? 'fr' : 'en', canonical);
+    // Basic robots
+    ensureMetaByName('robots', 'index,follow');
 
     // Open Graph
     ensureMetaByProperty('og:type', 'website');
@@ -75,7 +105,7 @@ export default function SEO({
     ensureMetaByProperty('og:url', canonical);
     ensureMetaByProperty('og:image', fallbackImage);
     ensureMetaByProperty('og:locale', ogLocale);
-
+    ensureMetaByProperty('og:locale:alternate', lang === 'en' ? 'fr_FR' : 'en_US');
     // Twitter
     ensureMetaByName('twitter:card', 'summary_large_image');
     ensureMetaByName('twitter:title', title);
@@ -100,7 +130,84 @@ export default function SEO({
       description: description || '',
     };
     ld.text = JSON.stringify(ldPayload);
-  }, [title, description, path, image, lang, siteName]);
+
+    // Geo meta tags and Place JSON-LD (optional)
+    if (geo) {
+      const { region, placename, position } = geo;
+      ensureMetaByName('geo.region', region);
+      ensureMetaByName('geo.placename', placename);
+      if (position) {
+        const { lat, lon } = position;
+        const posStr = `${lat};${lon}`;
+        ensureMetaByName('geo.position', posStr);
+        ensureMetaByName('ICBM', `${lat}, ${lon}`);
+
+        // JSON-LD Place with coordinates
+        const ldPlaceId = 'ld-place';
+        let ldPlace = document.getElementById(ldPlaceId) as HTMLScriptElement | null;
+        if (!ldPlace) {
+          ldPlace = document.createElement('script');
+          ldPlace.type = 'application/ld+json';
+          ldPlace.id = ldPlaceId;
+          document.head.appendChild(ldPlace);
+        }
+        const placePayload = {
+          '@context': 'https://schema.org',
+          '@type': 'Place',
+          name: siteName,
+          url: canonical,
+          geo: {
+            '@type': 'GeoCoordinates',
+            latitude: lat,
+            longitude: lon,
+          },
+        };
+        ldPlace.text = JSON.stringify(placePayload);
+      }
+    }
+
+    // Optional analytics: Plausible / Umami / Google Analytics (configurable via Vite env)
+    const { VITE_PLAUSIBLE_DOMAIN, VITE_UMAMI_SRC, VITE_UMAMI_WEBSITE_ID, VITE_GA_ID } = import.meta
+      .env;
+
+    if (VITE_PLAUSIBLE_DOMAIN && !document.getElementById('plausible-script')) {
+      const s = document.createElement('script');
+      s.defer = true;
+      s.id = 'plausible-script';
+      s.setAttribute('data-domain', VITE_PLAUSIBLE_DOMAIN);
+      s.src = 'https://plausible.io/js/script.js';
+      document.head.appendChild(s);
+    }
+
+    if (VITE_UMAMI_SRC && VITE_UMAMI_WEBSITE_ID && !document.getElementById('umami-script')) {
+      const s = document.createElement('script');
+      s.defer = true;
+      s.id = 'umami-script';
+      s.setAttribute('data-website-id', VITE_UMAMI_WEBSITE_ID);
+      s.src = VITE_UMAMI_SRC;
+      document.head.appendChild(s);
+    }
+
+    if (VITE_GA_ID && !document.getElementById('ga-script')) {
+      const s = document.createElement('script');
+      s.async = true;
+      s.id = 'ga-script';
+      s.src = `https://www.googletagmanager.com/gtag/js?id=${VITE_GA_ID}`;
+      document.head.appendChild(s);
+
+      if (!document.getElementById('ga-init')) {
+        const init = document.createElement('script');
+        init.id = 'ga-init';
+        init.text = `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${VITE_GA_ID}');
+        `;
+        document.head.appendChild(init);
+      }
+    }
+  }, [title, description, path, image, lang, siteName, geo]);
 
   return null;
 }

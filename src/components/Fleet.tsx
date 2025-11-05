@@ -1,5 +1,5 @@
 import { Truck, Wrench } from 'lucide-react';
-import { useI18n } from '../i18n/I18nContext';
+import { useI18n } from '../i18n/useI18n';
 
 export default function Fleet() {
   const { t } = useI18n();
@@ -15,7 +15,8 @@ export default function Fleet() {
         'Cellule isolée, solaire 400W, chauffage diesel',
         'Suspension renforcée',
       ],
-      image: 'https://images.pexels.com/photos/532002/pexels-photo-532002.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image:
+        'https://images.pexels.com/photos/532002/pexels-photo-532002.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
       name: 'Camion restauré — Pionnier',
@@ -27,7 +28,8 @@ export default function Fleet() {
         'Frigo, solaire 400W, navigation GPS',
         'Boîte reconditionnée',
       ],
-      image: 'https://images.pexels.com/photos/532001/pexels-photo-532001.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image:
+        'https://images.pexels.com/photos/532001/pexels-photo-532001.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
       name: 'Camion logistique — Support',
@@ -39,7 +41,8 @@ export default function Fleet() {
         'Pneus mixtes, GPS intégré, hayon élévateur',
         'Cabine double, climatisation',
       ],
-      image: 'https://images.pexels.com/photos/2199293/pexels-photo-2199293.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image:
+        'https://images.pexels.com/photos/2199293/pexels-photo-2199293.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
   ];
 
@@ -48,14 +51,19 @@ export default function Fleet() {
     return widths
       .map((w) => {
         const hasW = /[?&]w=\d+/.test(url);
-        const u = hasW ? url.replace(/w=\d+/, `w=${w}`) : `${url}${url.includes('?') ? '&' : '?'}w=${w}`;
+        const u = hasW
+          ? url.replace(/w=\d+/, `w=${w}`)
+          : `${url}${url.includes('?') ? '&' : '?'}w=${w}`;
         return `${u} ${w}w`;
       })
       .join(', ');
   };
 
   return (
-    <section id="fleet" className="py-24 px-4 sm:px-6 lg:px-8 bg-amber-50 relative overflow-hidden scroll-mt-24">
+    <section
+      id="fleet"
+      className="py-24 px-4 sm:px-6 lg:px-8 bg-amber-50 relative overflow-hidden scroll-mt-24"
+    >
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-40 right-20 w-96 h-96 bg-amber-600 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 left-20 w-80 h-80 bg-orange-600 rounded-full blur-3xl"></div>
@@ -74,7 +82,10 @@ export default function Fleet() {
 
         <div className="grid lg:grid-cols-3 gap-8">
           {vehicles.map((v, i) => (
-            <article key={i} className="group bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-stone-200">
+            <article
+              key={i}
+              className="group bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-stone-200"
+            >
               <div className="relative aspect-[4/3] overflow-hidden bg-stone-200">
                 <img
                   src={v.image}
@@ -98,10 +109,15 @@ export default function Fleet() {
                 <p className="text-stone-700 font-serif mb-3">{v.summary}</p>
                 <ul className="space-y-2 mb-4">
                   {v.specs.map((s, idx) => (
-                    <li key={idx} className="text-stone-700 font-serif leading-relaxed">• {s}</li>
+                    <li key={idx} className="text-stone-700 font-serif leading-relaxed">
+                      • {s}
+                    </li>
                   ))}
                 </ul>
-                <button type="button" className="bg-stone-900 hover:bg-stone-800 text-white font-serif px-6 py-3 rounded-full transition-all hover:scale-105 shadow-xl focus-ring">
+                <button
+                  type="button"
+                  className="bg-stone-900 hover:bg-stone-800 text-white font-serif px-6 py-3 rounded-full transition-all hover:scale-105 shadow-xl focus-ring"
+                >
                   {t('fleet.viewMore')}
                 </button>
               </div>

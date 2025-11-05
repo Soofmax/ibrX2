@@ -1,0 +1,46 @@
+name: Lighthouse
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 1" # weekly on Monday at 03:00 UTC
+
+permissions:
+  contents: write
+
+jobs:
+  lhci:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: https://transcontinental-trek.netlify.app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            ${{ env.SITE_URL }}/
+            ${{ env.SITE_URL }}/itinerary
+            ${{ env.SITE_URL }}/fleet
+            ${{ env.SITE_URL }}/blog
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Save latest HTML report to docs
+        run: |
+          mkdir -p docs
+          latest=$(ls -t .lighthouseci/*.html | head -n 1 || true)
+          if [ -n "$latest" ]; then
+            cp "$latest" docs/lighthouse-last.html
+          else
+            echo "<!-- No Lighthouse report generated -->" > docs/lighthouse-last.html
+          fi
+
+      - name: Commit report to repository
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "docs/lighthouse-last.html"
+          message: "chore(lighthouse): update report"
+          default_author: github_actions

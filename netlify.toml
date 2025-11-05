@@ -1,0 +1,38 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Optional: retain node_modules cache between builds
+[functions]
+  node_bundler = "esbuild"
+  directory = "netlify/functions"
+
+# Redirect legacy donation URL to support (permanent)
+[[redirects]]
+  from = "/donation"
+  to = "/support"
+  status = 301
+  force = true
+
+# Redirect practical to logistics (permanent)
+[[redirects]]
+  from = "/practical"
+  to = "/logistics"
+  status = 301
+  force = true
+
+# Redirect team and fleet to expedition (permanent)
+[[redirects]]
+  from = "/team"
+  to = "/expedition"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/fleet"
+  to = "/expedition"
+  status = 301
+  force = true
