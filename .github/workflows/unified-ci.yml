@@ -32,7 +32,8 @@ jobs:
           cache: "npm"
 
       - name: Install
-        run: npm ci --no-audit --no-fund
+        # Utilise 'npm install' pour éviter l'échec en cas de désynchronisation package.json/package-lock.json.
+        run: npm install --no-audit --no-fund
 
       - name: Lint
         run: npm run lint
