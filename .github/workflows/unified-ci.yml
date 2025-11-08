@@ -159,7 +159,14 @@ jobs:
             echo "<!-- No Lighthouse report generated -->" > docs/lighthouse-last.html
           fi
 
-      - name: Commit report to repository
+      - name: Upload Lighthouse report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: docs/lighthouse-last.html
+
+      - name: Commit report to repository (main branch only)
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         uses: EndBug/add-and-commit@v9
         with:
           add: "docs/lighthouse-last.html"
