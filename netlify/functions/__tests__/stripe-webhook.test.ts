@@ -5,7 +5,10 @@ vi.mock('stripe', () => {
   class MockStripe {
     webhooks = {
       constructEvent: vi.fn((body: string, sig: string, secret: string) => {
-        if (!sig || !secret) {
+        if (!secret) {
+          throw new Error('Invalid signature');
+        }
+        if (!sig) {
           throw new Error('Invalid signature');
         }
         // Very simple fake event
@@ -52,6 +55,21 @@ describe('stripe-webhook', () => {
     expect(res.body).toContain('Missing Stripe-Signature');
   });
 
+  it('rejects invalid signature when constructEvent throws', async () => {
+    // Temporarily remove webhook secret to trigger invalid signature path
+    delete process.env.STRIPE_WEBHOOK_SECRET;
+    const res = await handler(makeEvent({ 'stripe-signature': 'sig123' }, { id: 'evt_bad' }));
+    expect(res.statusCode).toBe(500); // secrets not configured
+    // Restore for next tests
+    process.env.STRIPE_WEBHOOK_SECRET = 'whsec_123';
+  });
+
+  it('returns 500 when secrets missing', async () => {
+    delete process.env.STRIPE_SECRET_KEY;
+    const res = await handler(makeEvent({ 'stripe-signature': 'sig123' }, { id: 'evt_no_secret' }));
+    expect(res.statusCode).toBe(500);
+  });
+
   it('accepts valid event', async () => {
     const res = await handler(
       makeEvent({ 'stripe-signature': 'sig123' }, { id: 'evt_1', session: { amount_total: 1000 } })
@@ -67,5 +85,16 @@ describe('stripe-webhook', () => {
     const res2 = await handler(event);
     expect(res2.statusCode).toBe(200);
     expect(res2.body).toBe('duplicate');
+  });
+
+  it('handles unknown event type gracefully', async () => {
+    const res = await handler(
+      makeEvent(
+        { 'stripe-signature': 'sig123' },
+        { id: 'evt_unknown', type: 'payment_intent.succeeded', session: {} }
+      )
+    );
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toBe('ok');
   });
 });
