@@ -1,0 +1,76 @@
+openapi: 3.0.3
+info:
+  title: WanderGlobers Payments API
+  version: 1.0.0
+  description: Netlify function for creating Stripe Checkout sessions.
+servers:
+  - url: /.netlify/functions
+paths:
+  /create-checkout-session:
+    post:
+      summary: Create a Stripe Checkout session
+      description: |
+        Creates a Stripe Checkout session for a fixed donation amount.
+        CORS is restricted to configured origins; preflight OPTIONS is supported.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: integer
+                  enum: [1, 5, 10, 25]
+                  description: Donation amount in EUR.
+                lang:
+                  type: string
+                  enum: [fr, en]
+                  default: fr
+              required: [amount]
+      responses:
+        '200':
+          description: Checkout session created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+        '400':
+          description: Invalid request (e.g., amount not allowed or bad JSON)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '405':
+          description: Method not allowed
+        '429':
+          description: Too many requests (rate limiting)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Server error (e.g., Stripe misconfiguration)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+components:
+  securitySchemes: {}
+x-cors:
+  allowed-origins: env:ALLOWED_ORIGINS
+  allow-methods: [POST, OPTIONS]
+  allow-headers: [Content-Type]

@@ -166,11 +166,18 @@ export default function SEO({
       }
     }
 
-    // Optional analytics: Plausible / Umami / Google Analytics (configurable via Vite env)
-    const { VITE_PLAUSIBLE_DOMAIN, VITE_UMAMI_SRC, VITE_UMAMI_WEBSITE_ID, VITE_GA_ID } = import.meta
-      .env;
+    // Optional analytics: gated by consent (localStorage: wg_consent_analytics = "true")
+    const consentGranted = (() => {
+      try {
+        return typeof window !== 'undefined' && window.localStorage.getItem('wg_consent_analytics') === 'true';
+      } catch {
+        return false;
+      }
+    })();
 
-    if (VITE_PLAUSIBLE_DOMAIN && !document.getElementById('plausible-script')) {
+    const { VITE_PLAUSIBLE_DOMAIN, VITE_UMAMI_SRC, VITE_UMAMI_WEBSITE_ID, VITE_GA_ID } = import.meta.env;
+
+    if (consentGranted && VITE_PLAUSIBLE_DOMAIN && !document.getElementById('plausible-script')) {
       const s = document.createElement('script');
       s.defer = true;
       s.id = 'plausible-script';
@@ -179,7 +186,7 @@ export default function SEO({
       document.head.appendChild(s);
     }
 
-    if (VITE_UMAMI_SRC && VITE_UMAMI_WEBSITE_ID && !document.getElementById('umami-script')) {
+    if (consentGranted && VITE_UMAMI_SRC && VITE_UMAMI_WEBSITE_ID && !document.getElementById('umami-script')) {
       const s = document.createElement('script');
       s.defer = true;
       s.id = 'umami-script';
@@ -188,7 +195,7 @@ export default function SEO({
       document.head.appendChild(s);
     }
 
-    if (VITE_GA_ID && !document.getElementById('ga-script')) {
+    if (consentGranted && VITE_GA_ID && !document.getElementById('ga-script')) {
       const s = document.createElement('script');
       s.async = true;
       s.id = 'ga-script';

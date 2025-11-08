@@ -63,6 +63,10 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Audit dependencies
+        continue-on-error: true
+        run: npm audit --omit=dev --audit-level=moderate
+
       - name: Test
         run: npm run test
 

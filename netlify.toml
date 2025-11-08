@@ -4,6 +4,8 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  SITE_URL = "https://wanderglobers.com"
+  ALLOWED_ORIGINS = "https://wanderglobers.com,https://www.wanderglobers.com"
 
 # Optional: retain node_modules cache between builds
 [functions]
@@ -36,3 +38,16 @@
   to = "/expedition"
   status = 301
   force = true
+
+# Security headers and CSP
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "same-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    # Content Security Policy: tighten sources; allows analytics when enabled via SEO component
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data: https://images.pexels.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://plausible.io; connect-src 'self' https://plausible.io https://umami.is https://api.stripe.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+

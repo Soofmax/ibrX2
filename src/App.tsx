@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
+import ConsentBanner from './components/ConsentBanner';
 
 import Home from './pages/Home';
 import ItineraryPage from './pages/ItineraryPage';
@@ -60,6 +61,7 @@ function App() {
           </Routes>
         </ErrorBoundary>
       </main>
+      <ConsentBanner />
       <Footer />
     </div>
   );
