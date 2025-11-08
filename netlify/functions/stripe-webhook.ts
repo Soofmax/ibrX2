@@ -53,8 +53,9 @@ export async function handler(event: Event) {
     switch (stripeEvent.type) {
       case 'checkout.session.completed': {
         const session = stripeEvent.data.object as Stripe.Checkout.Session;
-        // Placeholder persistance: here you would store the successful session (id, amount_total, etc.)
-        // For template purposes, we simply acknowledge the event.
+        // Marquer comme utilisé pour satisfaire les règles linting, en attendant la persistance réelle.
+        void session;
+        // Placeholder persistance: ici vous persisterez la session (id, amount_total, etc.)
         break;
       }
       // Add more event types as needed, e.g., payment_intent.succeeded, payment_intent.payment_failed

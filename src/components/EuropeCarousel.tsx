@@ -75,8 +75,6 @@ export default function EuropeCarousel(): JSX.Element {
 
   const itemWidth = 300;
   const visibleCount = 3;
-  const containerWidth = itemWidth * visibleCount;
-  const translateX = -(idx * itemWidth) + (containerWidth / 2 - itemWidth / 2);
   const current = cities[idx];
 
   const prev = () => setIdx((i) => (i - 1 + cities.length) % cities.length);
