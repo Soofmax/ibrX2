@@ -67,8 +67,8 @@ jobs:
         continue-on-error: true
         run: npm audit --omit=dev --audit-level=moderate
 
-      - name: Test
-        run: npm run test
+      - name: Test (with coverage thresholds)
+        run: npm run test:coverage
 
       - name: Build
         run: npm run build

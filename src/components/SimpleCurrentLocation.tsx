@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useI18n } from '../i18n/useI18n';
 import { routeStops } from '../data/routeStops';
 import { Navigation, MapPin } from 'lucide-react';
+import Carousel from './Carousel';
 
 type Stop = {
   name: string;
@@ -32,8 +33,7 @@ export default function SimpleCurrentLocation(): JSX.Element {
 
   const itemWidth = 260; // px
   const visibleCount = 5;
-  const containerWidth = itemWidth * visibleCount;
-  const translateX = -(idx * itemWidth) + (containerWidth / 2 - itemWidth / 2);
+  // Utilise le Carousel générique — calcule le transform en interne
 
   const prev = () => setIdx((i) => (i - 1 + stops.length) % stops.length);
   const next = () => setIdx((i) => (i + 1) % stops.length);
@@ -87,44 +87,31 @@ export default function SimpleCurrentLocation(): JSX.Element {
         </div>
 
         {/* Carrousel simplifié */}
-        <div
-          className="relative mx-auto overflow-hidden rounded-2xl bg-white shadow-xl border border-stone-200"
-          style={{ width: containerWidth }}
-        >
-          <div
-            className="flex transition-transform duration-700 ease-out will-change-transform"
-            style={{ transform: `translateX(${translateX}px)` }}
-          >
-            {stops.map((s, i) => {
-              const active = i === idx;
-              return (
-                <div
-                  key={`${s.name}-${i}`}
-                  className={`shrink-0 px-4 py-6 border-r border-stone-100 ${active ? 'bg-amber-50' : 'bg-white'}`}
-                  style={{ width: itemWidth }}
-                  aria-current={active ? 'true' : undefined}
-                >
-                  <div className="flex items-start gap-3">
-                    <div className={`p-2 rounded-full ${active ? 'bg-amber-200' : 'bg-stone-200'}`}>
-                      <MapPin
-                        className={`${active ? 'text-amber-700' : 'text-stone-700'}`}
-                        size={22}
-                      />
-                    </div>
-                    <div>
-                      <h3
-                        className={`text-lg font-handwritten ${active ? 'text-stone-900' : 'text-stone-800'}`}
-                      >
-                        {s.name}
-                      </h3>
-                      <p className="text-sm text-stone-600 font-serif">{s.continent}</p>
-                    </div>
+        <Carousel itemWidth={itemWidth} visibleCount={visibleCount} index={idx}>
+          {stops.map((s, i) => {
+            const active = i === idx;
+            return (
+              <div
+                key={`${s.name}-${i}`}
+                className={`shrink-0 px-4 py-6 border-r border-stone-100 ${active ? 'bg-amber-50' : 'bg-white'}`}
+                style={{ width: itemWidth }}
+                aria-current={active ? 'true' : undefined}
+              >
+                <div className="flex items-start gap-3">
+                  <div className={`p-2 rounded-full ${active ? 'bg-amber-200' : 'bg-stone-200'}`}>
+                    <MapPin className={`${active ? 'text-amber-700' : 'text-stone-700'}`} size={22} />
+                  </div>
+                  <div>
+                    <h3 className={`text-lg font-handwritten ${active ? 'text-stone-900' : 'text-stone-800'}`}>
+                      {s.name}
+                    </h3>
+                    <p className="text-sm text-stone-600 font-serif">{s.continent}</p>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
+              </div>
+            );
+          })}
+        </Carousel>
 
         {/* État accessible */}
         <div aria-live="polite" className="sr-only">
