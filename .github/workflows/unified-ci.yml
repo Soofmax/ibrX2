@@ -57,7 +57,7 @@ jobs:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           pattern: "dist/assets/*.{js,css}"
           install-script: "npm install --no-audit --no-fund"
-          build-script: "npm run build"
+          build-script: "build"
 
       - name: Upload build artifacts (PR only)
         if: ${{ github.event_name == 'pull_request' }}
