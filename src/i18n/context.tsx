@@ -1,4 +1,3 @@
-import React from 'react';
 import { useMemo, useState, useEffect, ReactNode } from 'react';
 import { I18nContext, type I18nContextValue, type Lang } from './useI18n';
 import { fr, en, type I18nKeys, type Dict } from './dict';
