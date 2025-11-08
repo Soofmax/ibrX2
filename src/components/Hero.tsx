@@ -136,6 +136,8 @@ export default function Hero() {
     }
 
     let i = 0;
+    let caretTimeout: ReturnType<typeof setTimeout> | null = null;
+
     const typing = setInterval(() => {
       if (i < titleFull.length - 1) {
         i++;
@@ -143,7 +145,7 @@ export default function Hero() {
       } else {
         clearInterval(typing);
         // Petite pause avant d'afficher le dernier caractère
-        setTimeout(() => {
+        caretTimeout = setTimeout(() => {
           i = titleFull.length;
           setTypedTitle(titleFull.slice(0, i));
           setShowCaret(false);
@@ -156,6 +158,7 @@ export default function Hero() {
     return () => {
       clearInterval(typing);
       clearInterval(blink);
+      if (caretTimeout) clearTimeout(caretTimeout);
     };
   }, [titleFull]);
 
