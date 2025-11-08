@@ -99,10 +99,15 @@ export default function SimpleCurrentLocation(): JSX.Element {
               >
                 <div className="flex items-start gap-3">
                   <div className={`p-2 rounded-full ${active ? 'bg-amber-200' : 'bg-stone-200'}`}>
-                    <MapPin className={`${active ? 'text-amber-700' : 'text-stone-700'}`} size={22} />
+                    <MapPin
+                      className={`${active ? 'text-amber-700' : 'text-stone-700'}`}
+                      size={22}
+                    />
                   </div>
                   <div>
-                    <h3 className={`text-lg font-handwritten ${active ? 'text-stone-900' : 'text-stone-800'}`}>
+                    <h3
+                      className={`text-lg font-handwritten ${active ? 'text-stone-900' : 'text-stone-800'}`}
+                    >
                       {s.name}
                     </h3>
                     <p className="text-sm text-stone-600 font-serif">{s.continent}</p>
