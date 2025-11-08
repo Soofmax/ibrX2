@@ -26,7 +26,10 @@ function siteURLFromEnv(): string {
 
 // Very lightweight, best-effort rate limiting (per IP, in-memory).
 const RATE_LIMIT_WINDOW_MS = 60_000;
-const RATE_LIMIT_MAX = Number(process.env.RATE_LIMIT_MAX || 20);
+// Read max from env on each check to allow dynamic tests and config changes
+function getRateLimitMax(): number {
+  return Number(process.env.RATE_LIMIT_MAX || 20);
+}
 const rateBuckets = new Map<string, { count: number; resetAt: number }>();
 
 function getClientIp(headers: Record<string, string | undefined>): string | null {
@@ -53,7 +56,7 @@ function isRateLimited(ip: string | null): boolean {
   }
   bucket.count += 1;
   rateBuckets.set(ip, bucket);
-  return bucket.count > RATE_LIMIT_MAX;
+  return bucket.count > getRateLimitMax();
 }
 
 export async function handler(event: Event) {
