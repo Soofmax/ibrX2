@@ -67,6 +67,11 @@ export default function CurrentLocation(): JSX.Element {
   useEffect(() => {
     const path = pathRef.current;
     if (!path) return;
+    const hasGeom =
+      typeof path.getTotalLength === 'function' &&
+      typeof path.getPointAtLength === 'function';
+    if (!hasGeom) return;
+
     const length = path.getTotalLength();
     const pts = stops.map((s) => {
       const p = path.getPointAtLength(s.t * length);
@@ -95,7 +100,6 @@ export default function CurrentLocation(): JSX.Element {
         const dy = arr[k + 1].y - arr[k].y;
         pxLen += Math.hypot(dx, dy);
       }
-      
       const mid = arr[Math.floor(arr.length / 2)];
       segs.push({
         points: arr.map((p) => `${p.x},${p.y}`).join(' '),
@@ -163,7 +167,12 @@ export default function CurrentLocation(): JSX.Element {
   // Compute van transform
   const vanTransform = (() => {
     const path = pathRef.current;
-    if (!path) return { x: 120, y: 280, angle: 0 };
+    const defaultPos = { x: 120, y: 280, angle: 0 };
+    if (!path) return defaultPos;
+    const hasGeom =
+      typeof path.getTotalLength === 'function' &&
+      typeof path.getPointAtLength === 'function';
+    if (!hasGeom) return defaultPos;
     const length = path.getTotalLength();
     const p1 = path.getPointAtLength(progress * length);
     const p2 = path.getPointAtLength(Math.min(progress * length + 1, length));
