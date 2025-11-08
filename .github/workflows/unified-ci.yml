@@ -98,10 +98,10 @@ jobs:
           sudo mv osv-scanner /usr/local/bin/osv-scanner
 
       - name: Run OSV-Scanner (non-bloquant)
-        continue-on-error: true
         run: |
-          osv-scanner --version
-          osv-scanner --recursive --lockfile=package-lock.json .
+          osv-scanner --version || true
+          # Exécute le scan mais ne fait pas échouer le job (non-bloquant)
+          osv-scanner --recursive --lockfile=package-lock.json . || true
 
   codeql:
     name: CodeQL (Code scanning)
