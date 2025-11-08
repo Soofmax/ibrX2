@@ -252,6 +252,7 @@ export default function CurrentLocation(): JSX.Element {
                   onClick={() => setPlaying((p) => !p)}
                   aria-pressed={playing}
                   aria-label={playing ? t('current.pauseAria') : t('current.playAria')}
+                  data-testid="toggle-play"
                 >
                   {playing ? t('current.pause') : t('current.play')}
                 </button>

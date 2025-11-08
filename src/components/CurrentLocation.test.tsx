@@ -21,12 +21,11 @@ describe('CurrentLocation component', () => {
         <CurrentLocation />
       </I18nProvider>
     );
-    const pauseBtns = await screen.findAllByRole('button', { name: /pause/i });
-    const pauseBtn = pauseBtns[0];
-    expect(pauseBtn).toBeInTheDocument();
+    const toggle = await screen.findByTestId('toggle-play');
+    expect(toggle).toBeInTheDocument();
 
     // Click to toggle to "Play"/"Lecture"
-    fireEvent.click(pauseBtn);
+    fireEvent.click(toggle);
     const playBtns = await screen.findAllByRole('button', { name: /play|lecture/i });
     expect(playBtns[0]).toBeInTheDocument();
   });
@@ -43,8 +42,8 @@ describe('CurrentLocation component', () => {
     expect(focusable).toBeTruthy();
 
     // Initially, the pause button is present (playing = true)
-    const pauseBtns = await screen.findAllByRole('button', { name: /pause/i });
-    expect(pauseBtns[0]).toBeInTheDocument();
+    const toggle = await screen.findByTestId('toggle-play');
+    expect(toggle).toBeInTheDocument();
 
     // Space key should toggle to "Play"/"Lecture"
     fireEvent.keyDown(focusable as Element, { key: ' ' });
