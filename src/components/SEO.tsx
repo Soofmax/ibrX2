@@ -205,23 +205,27 @@ export default function SEO({
     }
 
     if (consentGranted && VITE_GA_ID && !document.getElementById('ga-script')) {
+      // Définir dataLayer et gtag via le bundle (évite les scripts inline)
+      (window as unknown as { dataLayer?: unknown[]; gtag?: (...args: unknown[]) => void }).dataLayer =
+        (window as unknown as { dataLayer?: unknown[] }).dataLayer || [];
+      (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag = function (...args: unknown[]) {
+        const w = window as unknown as { dataLayer?: unknown[] };
+        if (!w.dataLayer) w.dataLayer = [];
+        w.dataLayer.push(args);
+      };
+
       const s = document.createElement('script');
       s.async = true;
       s.id = 'ga-script';
       s.src = `https://www.googletagmanager.com/gtag/js?id=${VITE_GA_ID}`;
+      s.onload = () => {
+        const w = window as unknown as { gtag?: (...args: unknown[]) => void };
+        if (typeof w.gtag === 'function') {
+          w.gtag('js', new Date());
+          w.gtag('config', VITE_GA_ID);
+        }
+      };
       document.head.appendChild(s);
-
-      if (!document.getElementById('ga-init')) {
-        const init = document.createElement('script');
-        init.id = 'ga-init';
-        init.text = `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${VITE_GA_ID}');
-        `;
-        document.head.appendChild(init);
-      }
     }
   }, [title, description, path, image, lang, siteName, geo]);
 

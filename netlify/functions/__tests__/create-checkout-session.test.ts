@@ -82,4 +82,24 @@ describe('create-checkout-session', () => {
     expect(res.statusCode).toBe(200);
     expect(res.headers?.['Access-Control-Allow-Origin']).toBe('https://wanderglobers.com');
   });
+
+  it('returns 500 if STRIPE_SECRET_KEY missing', async () => {
+    delete process.env.STRIPE_SECRET_KEY;
+    const res = await handler(makeEvent('POST', { origin: 'https://wanderglobers.com' }, { amount: 10 }));
+    expect(res.statusCode).toBe(500);
+    const json = JSON.parse(res.body as string);
+    expect(json.error).toMatch(/Stripe secret key not configured/);
+  });
+
+  it('rate limits excessive requests (429)', async () => {
+    process.env.RATE_LIMIT_MAX = '2';
+    // Fire 3 requests from same IP
+    const ev = (body: object) => makeEvent('POST', { origin: 'https://wanderglobers.com', 'x-forwarded-for': '1.2.3.4' }, body);
+    await handler(ev({ amount: 10 }));
+    await handler(ev({ amount: 10 }));
+    const res = await handler(ev({ amount: 10 }));
+    expect(res.statusCode).toBe(429);
+    const json = JSON.parse(res.body as string);
+    expect(json.error).toBe('Too Many Requests');
+  });
 });
