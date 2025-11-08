@@ -1,0 +1,176 @@
+name: Unified CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 1" # weekly (used by Lighthouse & CodeQL)
+
+permissions:
+  contents: read
+  security-events: write
+  pages: write
+  id-token: write
+
+jobs:
+  quality-node:
+    name: Quality (Node) — lint, typecheck, tests, build, size
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test (coverage with thresholds)
+        run: npm run test:coverage
+
+      - name: Audit dependencies (moderate, non-blocking)
+        continue-on-error: true
+        run: npm audit --omit=dev --audit-level=moderate
+
+      - name: Build
+        run: npm run build
+
+      - name: Compressed size (JS/CSS in dist/assets)
+        uses: preactjs/compressed-size-action@v2
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          pattern: "dist/assets/*.{js,css}"
+
+      - name: Upload build artifacts (PR only)
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+  secret-scan:
+    name: Secret Scan (Gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  osv-scanner:
+    name: OSV Scanner (CVEs transitifs)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install OSV-Scanner
+        run: |
+          curl -sSL https://github.com/google/osv-scanner/releases/latest/download/osv-scanner_linux_amd64 -o osv-scanner
+          chmod +x osv-scanner
+          sudo mv osv-scanner /usr/local/bin/osv-scanner
+
+      - name: Run OSV-Scanner (non-bloquant)
+        continue-on-error: true
+        run: |
+          osv-scanner --version
+          osv-scanner --recursive --lockfile=package-lock.json .
+
+  codeql:
+    name: CodeQL (Code scanning)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript"
+
+  lighthouse:
+    name: Lighthouse CI (weekly + manual)
+    runs-on: ubuntu-latest
+    needs: quality-node
+    env:
+      SITE_URL: https://transcontinental-trek.netlify.app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            ${{ env.SITE_URL }}/
+            ${{ env.SITE_URL }}/itinerary
+            ${{ env.SITE_URL }}/fleet
+            ${{ env.SITE_URL }}/blog
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          configPath: lighthouserc.json
+
+      - name: Save latest HTML report to docs
+        run: |
+          mkdir -p docs
+          latest=$(ls -t .lighthouseci/*.html | head -n 1 || true)
+          if [ -n "$latest" ]; then
+            cp "$latest" docs/lighthouse-last.html
+          else
+            echo "<!-- No Lighthouse report generated -->" > docs/lighthouse-last.html
+          fi
+
+      - name: Commit report to repository
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "docs/lighthouse-last.html"
+          message: "chore(lighthouse): update report"
+          default_author: github_actions
+
+  pages:
+    name: Deploy GitHub Pages (docs/)
+    runs-on: ubuntu-latest
+    needs: quality-node
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./docs"
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
