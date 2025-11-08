@@ -49,11 +49,16 @@ describe('create-checkout-session', () => {
   });
 
   it('rejects invalid JSON with 400', async () => {
-    const res = await handler({
+    const badEvent: {
+      httpMethod: string;
+      headers: Headers;
+      body?: string | null;
+    } = {
       httpMethod: 'POST',
       headers: { origin: 'https://wanderglobers.com' },
       body: '{bad json',
-    } as any);
+    };
+    const res = await handler(badEvent);
     expect(res.statusCode).toBe(400);
     expect(res.headers?.['Access-Control-Allow-Origin']).toBe('https://wanderglobers.com');
   });

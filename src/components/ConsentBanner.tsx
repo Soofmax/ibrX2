@@ -21,7 +21,10 @@ export default function ConsentBanner() {
       if (typeof window !== 'undefined') {
         window.localStorage.setItem('wg_consent_analytics', 'true');
       }
-    } catch {}
+    } catch {
+      // ignore
+      void 0;
+    }
     setVisible(false);
   }
 
@@ -30,8 +33,8 @@ export default function ConsentBanner() {
       if (typeof window !== 'undefined') {
         window.localStorage.setItem('wg_consent_analytics', 'false');
       }
-    } catch {}
-    setVisible(false);
+    } catch {
+      // ignore(false);
   }
 
   if (!visible) return null;
