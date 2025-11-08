@@ -7,7 +7,8 @@ export default function ConsentBanner() {
 
   useEffect(() => {
     try {
-      const stored = typeof window !== 'undefined' ? window.localStorage.getItem('wg_consent_analytics') : null;
+      const stored =
+        typeof window !== 'undefined' ? window.localStorage.getItem('wg_consent_analytics') : null;
       setVisible(stored === null); // show only if no decision yet
     } catch {
       // if localStorage not available, don't show
