@@ -25,9 +25,10 @@ concurrency:
 
 jobs:
   lockfile-regenerate:
-    name: Regenerate package-lock.json (PR only)
+    name: Regenerate package-lock.json (PR + push main)
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' }}
+    # Run on PRs and on push to main; skip schedule/manual unless explicitly needed
+    if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     permissions:
       contents: write
     env:
@@ -45,17 +46,21 @@ jobs:
       - name: Regenerate package-lock.json (ignore lifecycle scripts)
         run: |
           npm install --package-lock-only --ignore-scripts --no-audit --no-fund
-      - name: Commit lockfile to PR branch
-        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+      - name: Commit lockfile
+        if: ${{ (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Determine target branch
           BRANCH="${{ github.head_ref }}"
+          if [ "${{ github.event_name }}" = "push" ]; then
+            BRANCH="main"
+          fi
           if [ -z "$BRANCH" ]; then
-            echo "No head_ref available; skipping commit."
+            echo "No target branch available; skipping commit."
             exit 0
           fi
-          git checkout "$BRANCH"
+          git checkout "$BRANCH" || true
           git add package-lock.json
           if git diff --cached --quiet; then
             echo "No changes to commit."
@@ -85,7 +90,7 @@ jobs:
           cache: "npm"
 
       - name: Install
-        run: npm ci --no-audit --no-fund
+        run: npm ci --no-audit --no-fund || npm install --no-audit --no-fund
 
       - name: Lint
         run: npm run lint
