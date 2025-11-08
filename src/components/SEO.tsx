@@ -206,9 +206,12 @@ export default function SEO({
 
     if (consentGranted && VITE_GA_ID && !document.getElementById('ga-script')) {
       // Définir dataLayer et gtag via le bundle (évite les scripts inline)
-      (window as unknown as { dataLayer?: unknown[]; gtag?: (...args: unknown[]) => void }).dataLayer =
-        (window as unknown as { dataLayer?: unknown[] }).dataLayer || [];
-      (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag = function (...args: unknown[]) {
+      (
+        window as unknown as { dataLayer?: unknown[]; gtag?: (...args: unknown[]) => void }
+      ).dataLayer = (window as unknown as { dataLayer?: unknown[] }).dataLayer || [];
+      (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag = function (
+        ...args: unknown[]
+      ) {
         const w = window as unknown as { dataLayer?: unknown[] };
         if (!w.dataLayer) w.dataLayer = [];
         w.dataLayer.push(args);
