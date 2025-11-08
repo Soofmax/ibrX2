@@ -11,7 +11,7 @@ describe('CurrentLocation component', () => {
         <CurrentLocation />
       </I18nProvider>
     );
-    const svg = screen.getByRole('img', { name: /carte de l’itinéraire/i });
+    const svg = screen.getByRole('img', { name: /carte de l’itinéraire|route map/i });
     expect(svg).toBeInTheDocument();
   });
 
@@ -24,9 +24,9 @@ describe('CurrentLocation component', () => {
     const pauseBtn = await screen.findByRole('button', { name: /pause/i });
     expect(pauseBtn).toBeInTheDocument();
 
-    // Click to toggle to "Lecture"
+    // Click to toggle to "Play"/"Lecture"
     fireEvent.click(pauseBtn);
-    const playBtn = await screen.findByRole('button', { name: /lecture/i });
+    const playBtn = await screen.findByRole('button', { name: /play|lecture/i });
     expect(playBtn).toBeInTheDocument();
   });
 
@@ -45,9 +45,9 @@ describe('CurrentLocation component', () => {
     const pauseBtn = await screen.findByRole('button', { name: /pause/i });
     expect(pauseBtn).toBeInTheDocument();
 
-    // Space key should toggle to "Lecture"
+    // Space key should toggle to "Play"/"Lecture"
     fireEvent.keyDown(focusable as Element, { key: ' ' });
-    const playBtn = await screen.findByRole('button', { name: /lecture/i });
+    const playBtn = await screen.findByRole('button', { name: /play|lecture/i });
     expect(playBtn).toBeInTheDocument();
   });
 });

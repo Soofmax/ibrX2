@@ -22,7 +22,8 @@ function corsOrigin(headers: Record<string, string | undefined>): string {
 
 function siteURLFromEnv(): string {
   const raw = (process.env.SITE_URL || 'https://wanderglobers.com').trim();
-  return raw.replace(/\+$/, '');
+  // Remove trailing slashes
+  return raw.replace(/\/+$/, '');
 }
 
 // Read max from env on each check to allow dynamic tests and config changes
