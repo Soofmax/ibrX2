@@ -47,6 +47,46 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          BRANCH="${{ github.head_ref }}"
+          if [ -z "$BRANCH" ]; then
+            echo "No head_ref available; skipping commit."
+            exit 0
+          fi
+          git checkout "$BRANCH"
+          git add package-lock.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(lockfile): regenerate package-lock.json via CI"
+          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:"refs/heads/$BRANCH"
+
+  quality-node:
+    name: Quality (Node) — lint, typecheck, tests, build, size
+    runs-on: ubuntu-latest
+    needs: [lockfile-regenerate]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Sync to latest PR head commit
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          git fetch origin ${{ github.head_ref }}
+          git reset --hard origin/${{ github.head_ref }}
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+      - name: Regenerate package-lock.json
+        run: |
+          npm install --package-lock-only --no-audit --no-fund
+      - name: Commit lockfile to PR branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           # Ensure we are on the PR head branch
           BRANCH="${{ github.head_ref }}"
           if [ -z "$BRANCH" ]; then
@@ -101,7 +141,7 @@ jobs:
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           pattern: "dist/assets/*.{js,css}"
-          install-script: "npm install --no-audit --no-fund"
+          install-script: "npm ci --no-audit --no-fund || npm install --no-audit --no-fund"
           build-script: "build"
 
       - name: Upload build artifacts (PR only)
