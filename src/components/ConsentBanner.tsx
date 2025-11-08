@@ -34,7 +34,10 @@ export default function ConsentBanner() {
         window.localStorage.setItem('wg_consent_analytics', 'false');
       }
     } catch {
-      // ignore(false);
+      // ignore
+      void 0;
+    }
+    setVisible(false);
   }
 
   if (!visible) return null;
