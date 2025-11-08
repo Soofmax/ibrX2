@@ -1,4 +1,5 @@
 import Stripe from 'stripe';
+import { rateLimit as rateLimitStore } from './lib/store';
 
 type Event = {
   httpMethod: string;
@@ -21,16 +22,13 @@ function corsOrigin(headers: Record<string, string | undefined>): string {
 
 function siteURLFromEnv(): string {
   const raw = (process.env.SITE_URL || 'https://wanderglobers.com').trim();
-  return raw.replace(/\/+$/, '');
+  return raw.replace(/\+$/, '');
 }
 
-// Very lightweight, best-effort rate limiting (per IP, in-memory).
-const RATE_LIMIT_WINDOW_MS = 60_000;
 // Read max from env on each check to allow dynamic tests and config changes
 function getRateLimitMax(): number {
   return Number(process.env.RATE_LIMIT_MAX || 20);
 }
-const rateBuckets = new Map<string, { count: number; resetAt: number }>();
 
 function getClientIp(headers: Record<string, string | undefined>): string | null {
   // Netlify passes various headers; prefer x-forwarded-for first entry
@@ -44,19 +42,6 @@ function getClientIp(headers: Record<string, string | undefined>): string | null
   const xr = headers['x-real-ip'] || headers['X-Real-IP'];
   if (xr) return xr;
   return null;
-}
-
-function isRateLimited(ip: string | null): boolean {
-  if (!ip) return false;
-  const now = Date.now();
-  const bucket = rateBuckets.get(ip);
-  if (!bucket || now > bucket.resetAt) {
-    rateBuckets.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return false;
-  }
-  bucket.count += 1;
-  rateBuckets.set(ip, bucket);
-  return bucket.count > getRateLimitMax();
 }
 
 export async function handler(event: Event) {
@@ -128,7 +113,7 @@ export async function handler(event: Event) {
   }
 
   const ip = getClientIp(event.headers);
-  if (isRateLimited(ip)) {
+  if (await rateLimitStore(ip, 60, getRateLimitMax())) {
     return {
       statusCode: 429,
       headers: {

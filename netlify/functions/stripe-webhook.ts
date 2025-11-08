@@ -1,24 +1,11 @@
 import Stripe from 'stripe';
+import { seenRecently } from './lib/store';
 
 type Event = {
   httpMethod: string;
   headers: Record<string, string | undefined>;
   body?: string | null;
 };
-
-const processedEvents = new Map<string, number>();
-const EVENT_TTL_MS = 10 * 60 * 1000; // 10 minutes
-
-function isDuplicate(id?: string | null): boolean {
-  if (!id) return false;
-  const now = Date.now();
-  const seenAt = processedEvents.get(id);
-  if (seenAt && now - seenAt < EVENT_TTL_MS) {
-    return true;
-  }
-  processedEvents.set(id, now);
-  return false;
-}
 
 export async function handler(event: Event) {
   if (event.httpMethod !== 'POST') {
@@ -45,7 +32,8 @@ export async function handler(event: Event) {
     return { statusCode: 400, body: msg };
   }
 
-  if (isDuplicate(stripeEvent.id)) {
+  // Deduplicate events with durable store when configured, else in-memory TTL (~10 minutes)
+  if (await seenRecently(stripeEvent.id, 10 * 60)) {
     return { statusCode: 200, body: 'duplicate' };
   }
 
@@ -53,9 +41,8 @@ export async function handler(event: Event) {
     switch (stripeEvent.type) {
       case 'checkout.session.completed': {
         const session = stripeEvent.data.object as Stripe.Checkout.Session;
-        // Marquer comme utilisé pour satisfaire les règles linting, en attendant la persistance réelle.
+        // Placeholder persistance: here you would persist the session (id, amount_total, etc.)
         void session;
-        // Placeholder persistance: ici vous persisterez la session (id, amount_total, etc.)
         break;
       }
       // Add more event types as needed, e.g., payment_intent.succeeded, payment_intent.payment_failed

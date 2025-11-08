@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../i18n/useI18n';
 import { routeStops } from '../data/routeStops';
 import { expeditionTotals } from '../data/expeditionPlan';
+import { DEFAULT_STOP_MS, AVERAGE_KM_PER_DAY, SEGMENT_SAMPLE_COUNT } from '../constants';
+import { useETA } from '../hooks/useETA';
 
 type Stop = {
   name: string;
@@ -82,7 +84,7 @@ export default function CurrentLocation(): JSX.Element {
       const b = stops[i + 1];
       const L1 = a.t * length;
       const L2 = b.t * length;
-      const n = 24;
+      const n = SEGMENT_SAMPLE_COUNT;
       const arr: { x: number; y: number }[] = [];
       for (let j = 0; j <= n; j++) {
         const l = L1 + ((L2 - L1) * j) / n;
@@ -112,7 +114,6 @@ export default function CurrentLocation(): JSX.Element {
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const defaultStopMs = 1200;
     const path = pathRef.current;
     if (!path) return;
 
@@ -148,7 +149,7 @@ export default function CurrentLocation(): JSX.Element {
       // detect crossing a stop
       const nextIdx = stops.findIndex((s) => s.t > prevP && s.t <= p + 0.0001);
       if (nextIdx !== -1) {
-        const ms = stops[nextIdx].pauseMs ?? defaultStopMs;
+        const ms = stops[nextIdx].pauseMs ?? DEFAULT_STOP_MS;
         pauseUntilRef.current = time + ms;
         currentIdx = nextIdx;
       }
@@ -179,38 +180,18 @@ export default function CurrentLocation(): JSX.Element {
   const nextStop = stops[currentStopIndex + 1]?.name ?? stops[0].name;
 
   // ETA simulation
-  const averageKmPerDay = 250; // configurable
+  const averageKmPerDay = AVERAGE_KM_PER_DAY; // configurable
   const scaleKmPerPx = totalPxLen > 0 ? expeditionTotals.distanceKm / totalPxLen : 0;
 
-  const etaInfo = (() => {
-    if (!pathRef.current || segments.length === 0) return null;
-    const currIdx = Math.min(currentStopIndex, segments.length - 1);
-    const currStop = stops[currIdx];
-    const next = stops[currIdx + 1] ?? stops[currIdx]; // fallback
-    const seg = segments[currIdx];
-
-    const path = pathRef.current;
-    const length = path.getTotalLength();
-    const Lcurr = currStop.t * length;
-    const Lnext = next.t * length;
-    const Lnow = progress * length;
-
-    const segSpan = Math.max(1, Lnext - Lcurr);
-    const localT = Math.min(1, Math.max(0, (Lnow - Lcurr) / segSpan));
-
-    const pxRemaining = seg.pxLen * (1 - localT);
-    const kmRemaining = pxRemaining * scaleKmPerPx;
-
-    const travelDays = kmRemaining / averageKmPerDay;
-    const pauseMs = next.pauseMs ?? 0;
-    const pauseDays = pauseMs / (1000 * 60 * 60 * 24);
-
-    const totalDays = travelDays + pauseDays;
-    const etaMs = totalDays * 24 * 60 * 60 * 1000;
-    const etaDate = new Date(Date.now() + etaMs);
-
-    return { kmRemaining, etaDate, isFerry: currStop.modeToNext === 'ferry' };
-  })();
+  const etaInfo = useETA({
+    progress,
+    currentStopIndex,
+    segments,
+    pathRef,
+    expeditionKm: expeditionTotals.distanceKm,
+    averageKmPerDay,
+    stops,
+  });
 
   const jumpTo = (tval: number, idx: number) => {
     setProgress(tval);
