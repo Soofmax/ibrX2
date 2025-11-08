@@ -1,10 +1,14 @@
 name: Unified CI
 
 on:
-  push:
-    branches: ["**"]
+  # Exécuter sur PRs (toutes branches)
   pull_request:
     branches: ["**"]
+
+  # Éviter les doublons: exécuter sur push uniquement sur la branche main
+  push:
+    branches: ["main"]
+
   workflow_dispatch:
   schedule:
     - cron: "0 3 * * 1" # weekly (used by Lighthouse & CodeQL)
