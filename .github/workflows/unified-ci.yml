@@ -30,6 +30,8 @@ jobs:
     if: ${{ github.event_name == 'pull_request' }}
     permissions:
       contents: write
+    env:
+      HUSKY: '0'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,10 +42,11 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
-      - name: Regenerate package-lock.json
+      - name: Regenerate package-lock.json (ignore lifecycle scripts)
         run: |
-          npm install --package-lock-only --no-audit --no-fund
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
       - name: Commit lockfile to PR branch
+        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -67,6 +70,8 @@ jobs:
     name: Quality (Node) — lint, typecheck, tests, build, size
     runs-on: ubuntu-latest
     needs: [lockfile-regenerate]
+    env:
+      HUSKY: '0'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -100,6 +105,8 @@ jobs:
 
       - name: Compressed size (JS/CSS in dist/assets)
         uses: preactjs/compressed-size-action@v2
+        env:
+          HUSKY: '0'
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           pattern: "dist/assets/*.{js,css}"
@@ -173,6 +180,8 @@ jobs:
     name: Lighthouse CI (weekly + manual)
     runs-on: ubuntu-latest
     needs: quality-node
+    env:
+      HUSKY: '0'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
