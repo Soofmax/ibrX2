@@ -44,7 +44,6 @@ export default function CurrentLocation(): JSX.Element {
   const [segments, setSegments] = useState<
     { points: string; ferry: boolean; mid: { x: number; y: number }; pxLen: number }[]
   >([]);
-  const [totalPxLen, setTotalPxLen] = useState(0);
   const [tooltip, setTooltip] = useState<{
     x: number;
     y: number;
@@ -78,7 +77,6 @@ export default function CurrentLocation(): JSX.Element {
     // Build polylines per segment for styling (ferry dashed) and compute pixel lengths
     const segs: { points: string; ferry: boolean; mid: { x: number; y: number }; pxLen: number }[] =
       [];
-    let total = 0;
     for (let i = 0; i < stops.length - 1; i++) {
       const a = stops[i];
       const b = stops[i + 1];
@@ -97,7 +95,7 @@ export default function CurrentLocation(): JSX.Element {
         const dy = arr[k + 1].y - arr[k].y;
         pxLen += Math.hypot(dx, dy);
       }
-      total += pxLen;
+      
       const mid = arr[Math.floor(arr.length / 2)];
       segs.push({
         points: arr.map((p) => `${p.x},${p.y}`).join(' '),
@@ -107,7 +105,6 @@ export default function CurrentLocation(): JSX.Element {
       });
     }
     setSegments(segs);
-    setTotalPxLen(total);
   }, []);
 
   const pauseUntilRef = useRef(0);
