@@ -181,7 +181,6 @@ export default function CurrentLocation(): JSX.Element {
 
   // ETA simulation
   const averageKmPerDay = AVERAGE_KM_PER_DAY; // configurable
-  const scaleKmPerPx = totalPxLen > 0 ? expeditionTotals.distanceKm / totalPxLen : 0;
 
   const etaInfo = useETA({
     progress,

@@ -7,7 +7,7 @@
  *  - UPSTASH_REDIS_REST_TOKEN
  */
 
-type UpstashResult = { result?: unknown } | unknown[];
+type UpstashResult = { result?: unknown } | Array<{ result?: unknown }>;
 
 const UPSTASH_URL = process.env.UPSTASH_REDIS_REST_URL || '';
 const UPSTASH_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN || '';
@@ -71,8 +71,9 @@ export async function rateLimit(ip: string | null, windowSeconds: number, max: n
       const resp = (await upstashPipeline([
         ['INCR', key],
         ['EXPIRE', key, windowSeconds],
-      ])) as Array<{ result: number }>;
-      const count = Number((resp?.[0] as any)?.result ?? 0);
+      ])) as Array<{ result?: number | string }>;
+      const first = resp?.[0];
+      const count = typeof first?.result === 'number' ? first.result : Number(first?.result ?? 0);
       return count > max;
     } catch {
       // On failure, do not block — fall back to in-memory below
@@ -103,7 +104,7 @@ export async function seenRecently(id?: string | null, ttlSeconds: number = 600)
     try {
       const resp = (await upstashCmd(['SET', key, '1', 'EX', ttlSeconds, 'NX'])) as { result?: string | null };
       // If result is null => key already exists => duplicate
-      return (resp as any)?.result === null;
+      return resp?.result === null;
     } catch {
       // On failure, fall back to in-memory
     }

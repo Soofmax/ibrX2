@@ -27,10 +27,9 @@ vi.mock('stripe', () => {
 import { handler } from '../stripe-webhook';
 
 type Headers = Record<string, string | undefined>;
-function makeEvent(
-  headers: Headers,
-  body?: object
-): { httpMethod: string; headers: Headers; body?: string } {
+type WebhookEvent = { httpMethod: string; headers: Headers; body?: string };
+
+function makeEvent(headers: Headers, body?: object): WebhookEvent {
   return {
     httpMethod: 'POST',
     headers,
@@ -45,7 +44,8 @@ beforeEach(() => {
 
 describe('stripe-webhook', () => {
   it('rejects non-POST', async () => {
-    const res = await handler({ httpMethod: 'GET', headers: {}, body: '' } as any);
+    const event: WebhookEvent = { httpMethod: 'GET', headers: {}, body: '' };
+    const res = await handler(event);
     expect(res.statusCode).toBe(405);
   });
 

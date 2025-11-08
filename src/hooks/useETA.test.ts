@@ -3,10 +3,10 @@ import { computeETA } from './useETA';
 
 describe('computeETA', () => {
   it('computes ETA and kmRemaining with simple linear path', () => {
-    const pathRef = {
+    const pathRef: { current: { getTotalLength(): number } | null } = {
       current: {
         getTotalLength: () => 1000,
-      } as any,
+      },
     };
     const segments = [{ pxLen: 100 }, { pxLen: 100 }];
     const stops = [
@@ -14,7 +14,7 @@ describe('computeETA', () => {
       { t: 0.5, modeToNext: 'road' as const },
       { t: 1, modeToNext: 'road' as const },
     ];
-    const res = computeETA(0.25, 0, segments, pathRef as any, 1000, 250, stops);
+    const res = computeETA(0.25, 0, segments, pathRef, 1000, 250, stops);
     expect(res).not.toBeNull();
     if (res) {
       expect(res.kmRemaining).toBeGreaterThan(0);
