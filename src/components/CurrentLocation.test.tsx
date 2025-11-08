@@ -21,13 +21,14 @@ describe('CurrentLocation component', () => {
         <CurrentLocation />
       </I18nProvider>
     );
-    const pauseBtn = await screen.findByRole('button', { name: /pause/i });
+    const pauseBtns = await screen.findAllByRole('button', { name: /pause/i });
+    const pauseBtn = pauseBtns[0];
     expect(pauseBtn).toBeInTheDocument();
 
     // Click to toggle to "Play"/"Lecture"
     fireEvent.click(pauseBtn);
-    const playBtn = await screen.findByRole('button', { name: /play|lecture/i });
-    expect(playBtn).toBeInTheDocument();
+    const playBtns = await screen.findAllByRole('button', { name: /play|lecture/i });
+    expect(playBtns[0]).toBeInTheDocument();
   });
 
   it('responds to keyboard Space on the animation container', async () => {
@@ -42,12 +43,12 @@ describe('CurrentLocation component', () => {
     expect(focusable).toBeTruthy();
 
     // Initially, the pause button is present (playing = true)
-    const pauseBtn = await screen.findByRole('button', { name: /pause/i });
-    expect(pauseBtn).toBeInTheDocument();
+    const pauseBtns = await screen.findAllByRole('button', { name: /pause/i });
+    expect(pauseBtns[0]).toBeInTheDocument();
 
     // Space key should toggle to "Play"/"Lecture"
     fireEvent.keyDown(focusable as Element, { key: ' ' });
-    const playBtn = await screen.findByRole('button', { name: /play|lecture/i });
-    expect(playBtn).toBeInTheDocument();
+    const playBtns = await screen.findAllByRole('button', { name: /play|lecture/i });
+    expect(playBtns[0]).toBeInTheDocument();
   });
 });
