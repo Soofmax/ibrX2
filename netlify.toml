@@ -48,8 +48,8 @@
     X-Frame-Options = "DENY"
     Referrer-Policy = "same-origin"
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
-    # Content Security Policy: stricte sans inline scripts; analytics autorisés après consentement
-    Content-Security-Policy = "default-src 'self'; img-src 'self' data: https://images.pexels.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://www.googletagmanager.com https://plausible.io; connect-src 'self' https://plausible.io https://umami.is https://www.google-analytics.com https://api.stripe.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+    # Content Security Policy: strict, no inline scripts; allow style attributes separately (CSP3)
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data: https://images.pexels.com; style-src 'self' https://fonts.googleapis.com; style-src-elem 'self' https://fonts.googleapis.com; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://www.googletagmanager.com https://plausible.io; connect-src 'self' https://plausible.io https://umami.is https://www.google-analytics.com https://api.stripe.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
 
 # Cache long-terme pour les assets générés
 [[headers]]
