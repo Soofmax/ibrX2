@@ -1,100 +1,128 @@
-# Transcontinental Trek — Documentation et Guide du Projet
+<div align="center">
+  <!-- Logo SmarterLogicWeb (à ajouter dans /public si disponible) -->
+  <h1>🚀 Transcontinental Trek</h1>
+  <p><strong>Solutions web intelligentes, sécurisées et sur‑mesure</strong></p>
 
-Ce dépôt contient une application React + TypeScript (Vite) stylée avec Tailwind CSS. Elle présente l’expédition “Transcontinental Trek” avec un site multipage, une i18n FR/EN, une carte animée, un blog statique et des pages sponsors/logistique/pratique.
+  <a href="https://github.com/Soofmax/ibrX2/actions/workflows/unified-ci.yml">
+    <img alt="CI" src="https://github.com/Soofmax/ibrX2/actions/workflows/unified-ci.yml/badge.svg">
+  </a>
+  <a href="https://github.com/Soofmax/ibrX2/actions/workflows/unified-ci.yml">
+    <img alt="Coverage" src="https://img.shields.io/badge/coverage-vitest-green?logo=vitest">
+  </a>
+  <a href="LICENSE">
+    <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg">
+  </a>
+  <a href="https://img.shields.io/github/last-commit/Soofmax/ibrX2">
+    <img alt="Last commit" src="https://img.shields.io/github/last-commit/Soofmax/ibrX2">
+  </a>
+  <a href="https://github.com/Soofmax/ibrX2/issues">
+    <img alt="Issues" src="https://img.shields.io/github/issues/Soofmax/ibrX2">
+  </a>
+  <a href="https://img.shields.io/badge/PRs-welcome-brightgreen.svg">
+    <img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg">
+  </a>
 
-## 1) Démarrage
+  <p>
+    <a href="#-pourquoi-ce-projet">Pourquoi ce projet ?</a> •
+    <a href="#-features">Features</a> •
+    <a href="#-demo">Demo</a> •
+    <a href="#-quick-start">Quick Start</a> •
+    <a href="#-documentation">Docs</a> •
+    <a href="#-support--contact">Support</a>
+  </p>
+</div>
 
-- Prérequis: Node 18+ (recommandé), npm 9+
-- Installer les dépendances:
-  npm install
-- Lancer en développement:
-  npm run dev
-- Construire la version de production:
-  npm run build
-- Prévisualiser le build:
-  npm run preview
+---
 
-Notes:
+## 🎯 Pourquoi ce projet ?
 
-- Un avertissement “Browserslist: caniuse-lite is outdated” peut s’afficher; c’est non bloquant. Pour l’actualiser:
-  npx update-browserslist-db@latest
+Ce dépôt est un showcase professionnel SmarterLogicWeb pour une application React + TypeScript (Vite), mettant en avant:
+- une carte animée accessible,
+- une i18n FR/EN,
+- un contenu éditorial (blog, équipe, flotte),
+- des fonctionnalités prêtes pour la prod (CSP, CI unifiée, Netlify Functions pour Stripe).
 
-## 2) Pile technique
+Objectif: démontrer une base applicative “enterprise‑grade” — sécurisée, maintenable, documentée et prête à l’échelle.
 
-- React 18 + TypeScript
-- Vite 5
-- React Router DOM (site multipage)
-- Tailwind CSS (thème ambre/stone + accent vert sur la carte)
-- Lucide Icons
-- i18n maison (context React)
-- SEO léger via composant SEO.tsx (ajout dynamique des balises head)
+## ✨ Features
 
-## 3) Structure du projet
+- ⚡ React 18 + TypeScript + Vite 5
+- 🎨 Tailwind CSS (design system ambre/stone), Lucide Icons
+- 🌍 i18n FR/EN (context React + persistance)
+- 🗺️ Carte animée (play/pause, vitesse, étapes, aria‑live)
+- 🔐 Netlify Functions: Stripe Checkout + Webhook (signature, rate limit, déduplication)
+- 🧪 Tests (Vitest, @testing-library/react) + couverture
+- 🛡️ Sécurité: CSP stricte, HSTS, CORS allowlist
+- 🧰 CI unifiée: lint, typecheck, tests, build, audit, Lighthouse, CodeQL, secret scan
+- 📚 Docs complètes (architecture, i18n, SEO, contenu, déploiement)
 
-- src/components: composants UI (Header, Footer, Hero, BlogPosts, CurrentLocation, Fleet, Team…)
-- src/pages: pages routées (si présent)
-- src/data: données statiques (blogPosts, routeStops, expeditionPlan)
-- src/i18n: I18nContext (dictionnaires FR/EN, persistence locale)
-- src/index.css: styles globaux, utilitaires focus, reduced-motion
-- public/: assets statiques (favicons/manifest si ajoutés)
-- docs/: documentation détaillée (architecture, i18n, contenu, carte, déploiement…)
+## 🎥 Demo
 
-## 4) Couleurs et style
+- Placeholder: ajoutez un GIF/screenshots de la carte animée et de la page Hero.
+- Hébergement recommandé: Netlify (preview URLs).
 
-Palette Tailwind (valeurs par défaut):
+## 🚀 Quick Start
 
-- Ambre (amber-50 … amber-700) : teinte principale et CTA
-- Stone (stone-50/100/200/600/700/800/900) : neutres et textes
-- Accents: orange-600, rose-50/200/600, green-100/600, red-600, white/black
-- Header/Footer: fond vert sombre (green-900/950), texte blanc (contraste)
-- Carte: points de ville en vert “apple” (#16A34A), tracé ambre (#d97706)
+1) Prérequis
+- Node 20 (voir `.nvmrc`)
+- npm 9+
 
-Accessibilité:
+2) Installation
+- npm install
 
-- Utilitaire .focus-ring (outline accessible)
-- Préférence reduced-motion prise en compte
-- Skip link, aria-current, aria-live pour la carte
+3) Démarrage
+- Dev: npm run dev
+- Build: npm run build
+- Preview: npm run preview
 
-## 5) i18n (FR/EN)
+## 📚 Documentation
 
-- Contexte: src/i18n/I18nContext.tsx
-- Clé d’accès: const { t, lang, setLang } = useI18n()
-- Persistance: localStorage('lang'), html lang synchronisé
-- Ajout de clés: docs/i18n.md
-- Traduction des données (articles, bios, specs): voir docs/content.md
+- Index: `docs/README.md`
+- Architecture: `docs/architecture.md`
+- Carte: `docs/map.md`
+- i18n: `docs/i18n.md`
+- SEO: `docs/seo.md`
+- Déploiement: `docs/deployment.md`
+- Accessibilité: `docs/accessibility.md`
+- Style Guide: `docs/style-guide.md`
+- Contribuer: `docs/contributing.md`
 
-## 6) SEO
+Voir la structure proposée dans la section “Documentation” de ce README et les nouveaux fichiers sous `docs/`.
 
-- Composant SEO.tsx (manipule DOM pour balises meta/OG/Twitter/canonical/JSON-LD)
-- À utiliser par page (titre, description, image, path)
-- Détails: docs/seo.md
+## 🛠️ Tech Stack
 
-## 7) Carte animée
+- Frontend: React 18, TypeScript, Vite, Tailwind CSS, React Router DOM
+- Backend: Netlify Functions (Stripe)
+- Tests: Vitest, @testing-library/react
+- CI: GitHub Actions (Unified CI), Lighthouse, CodeQL, Gitleaks, OSV‑Scanner
 
-- Composant: src/components/CurrentLocation.tsx
-- Données: src/data/routeStops.ts (ordre, modeToNext ferry), src/data/expeditionPlan.ts (kilométrage)
-- Contrôles: play/pause, vitesse, étapes, tooltips, ferry, aria-live
-- Détails, personnalisation, migration Mapbox: docs/map.md
+## 🤝 Contributing
 
-## 8) Déploiement
+Les contributions sont bienvenues:
+- Lisez `CONTRIBUTING.md`
+- Respectez le `CODE_OF_CONDUCT.md`
+- Ouvrez une issue/PR claire, avec tests et docs si nécessaire
 
-- Netlify (recommandé)
-- Build: npm run build, publish: dist/
-- Erreurs courantes: voir docs/deployment.md
+## 📝 License
 
-## 9) Contribution
+Ce projet est sous licence MIT. Voir `LICENSE`.
 
-- Conventions de code (TS + React + Tailwind), PR propres, i18n obligatoire pour nouveaux libellés
-- Voir docs/contributing.md
+## 📧 Support & Contact
 
-Liens utiles:
+- Société: SmarterLogicWeb — https://smarterlogicweb.com
+- Mission: Solutions web intelligentes, sécurisées et sur‑mesure
+- Contact: [email] (remplacez par votre email pro)
 
-- docs/architecture.md — Architecture et routes
-- docs/i18n.md — Internationalisation
-- docs/content.md — Gestion des contenus (blog, team, fleet)
-- docs/seo.md — SEO par page
-- docs/accessibility.md — Accessibilité
-- docs/style-guide.md — Design system et styles
-- docs/map.md — Carte animée et données itinéraire
-- docs/deployment.md — Déploiement Netlify
-- docs/contributing.md — Contribuer
+---
+
+<div align="center">
+  <p>Made with ❤️ by <strong>SmarterLogicWeb</strong></p>
+  <p>
+    🌐 <a href="https://smarterlogicweb.com">Website</a> •
+    📧 <a href="mailto:[email]">Contact</a> •
+    💼 <a href="https://linkedin.com/company/smarterlogicweb">LinkedIn</a>
+  </p>
+  <p>
+    <sub>© 2025 SmarterLogicWeb. All rights reserved.</sub>
+  </p>
+</div>

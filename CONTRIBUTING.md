@@ -1,44 +1,54 @@
-# Contributing
+# Contributing — SmarterLogicWeb
 
-Thank you for your interest in contributing! This project uses React 18, TypeScript, Vite, Tailwind, and Netlify Functions.
+Merci pour votre intérêt à contribuer ! Ce projet utilise React 18, TypeScript, Vite, Tailwind et des Fonctions Netlify (Stripe).
 
-## Getting Started
+## Démarrage
 
-- Node: see `.nvmrc` (Node 20)
-- Install: `npm install`
-- Dev server: `npm run dev`
+- Node: voir `.nvmrc` (Node 20)
+- Installer: `npm install`
+- Dev: `npm run dev`
 - Lint: `npm run lint`
 - Typecheck: `npm run typecheck`
 - Tests: `npm run test`
 - Build: `npm run build`
 
-## Environment Variables
+## Variables d’environnement
 
-Copy `.env.example` to `.env` and set values:
+Copiez `.env.example` vers `.env` et renseignez:
 
 - Client: `VITE_PLAUSIBLE_DOMAIN`, `VITE_UMAMI_SRC`, `VITE_UMAMI_WEBSITE_ID`, `VITE_GA_ID`
-- Server: `STRIPE_SECRET_KEY`, `SITE_URL`, `ALLOWED_ORIGINS`, optional `RATE_LIMIT_MAX`
+- Serveur: `STRIPE_SECRET_KEY`, `SITE_URL`, `ALLOWED_ORIGINS`, optionnel `RATE_LIMIT_MAX`
+- Optionnel durabilité (rate-limit/idempotence): `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`
 
-## Coding Standards
+## Standards de code
 
-- Prettier formatting; CI may auto-commit formatting fixes on push.
-- ESLint + TypeScript strictness.
-- Keep components small and reusable; avoid duplication.
-- Do not commit secrets; use environment variables.
+- Prettier pour le formatage
+- ESLint + TypeScript (strict) — pas de `any` explicite
+- Composants petits et réutilisables; évitez les duplications
+- Aucun secret dans le code; utilisez des variables d’environnement
 
-## Pull Requests
+## Processus Pull Request
 
-- Create a feature branch from `main`.
-- Include tests where appropriate.
-- Update docs if behavior changes.
-- Ensure CI passes (lint, typecheck, test, build, audit).
+- Branchez depuis `main`
+- Ajoutez des tests si pertinent
+- Mettez à jour la documentation si le comportement change
+- Assurez la réussite CI (lint, typecheck, tests, build, audit)
 
-## Security
+## Sécurité
 
-- Do not expose secrets in code or logs.
-- Follow CSP and CORS guidelines.
-- See `SECURITY.md`.
+- N’exposez aucun secret dans le code ou les logs
+- Respectez CSP/CORS
+- Lisez `SECURITY.md`
+
+## Code of Conduct
+
+- Respectez le `CODE_OF_CONDUCT.md` (Contributor Covenant)
 
 ## License
 
-By contributing, you agree your contributions are licensed under the MIT License.
+En contribuant, vous acceptez que vos contributions soient publiées sous licence MIT.
+
+## Contact
+
+- SmarterLogicWeb — https://smarterlogicweb.com
+- Email: [email] (remplacez par votre email pro)

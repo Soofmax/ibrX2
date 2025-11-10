@@ -1,39 +1,45 @@
-# Security Policy
+# Security Policy — SmarterLogicWeb
 
-We take security seriously and appreciate responsible disclosure.
+Nous prenons la sécurité au sérieux et apprécions les divulgations responsables.
 
-- Supported branches: `main` (actively maintained).
-- Reporting a vulnerability: Email security@wanderglobers.com or open a private security advisory on GitHub.
-- Please include a clear description, reproduction steps, and potential impact.
+- Branches supportées: `main` (maintenue activement).
+- Signalement d’une vulnérabilité: envoyez un email à [email] (remplacez par votre contact sécurité) ou ouvrez une “GitHub Security Advisory” privée.
+- Incluez une description claire, des étapes de reproduction, la version affectée et l’impact potentiel.
 
-## Scope
+## Portée
 
-- Client app (React + Vite)
-- Netlify serverless functions (Stripe checkout)
-- Configuration (Netlify, CI, CSP headers)
+- Application cliente (React + Vite)
+- Fonctions Netlify (Stripe Checkout + Webhook)
+- Configuration (Netlify, CI, en-têtes de sécurité CSP/HSTS/etc.)
 
-## Best Practices Implemented
+## Bonnes pratiques en place
 
-- Strict CSP, HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy
-- Locked-down CORS for serverless functions (allowlist + preflight)
-- Minimal IP-based rate limiting for Stripe function
-- Environment variables for secrets, no secrets committed
-- CI includes lint, typecheck, tests, and dependency audit
+- CSP stricte, HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy
+- CORS verrouillé (allowlist d’origines + gestion du préflight OPTIONS)
+- Rate limiting IP pour la fonction Stripe (durable via Upstash Redis si configuré)
+- Secrets via variables d’environnement; aucun secret commité
+- CI: lint, typecheck, tests, build, audit, Lighthouse, CodeQL, Gitleaks
 
-## Vulnerability Disclosure
+## Divulgation de vulnérabilités
 
-1. Do not publicly disclose before we have a fix.
-2. Provide a PoC and version details.
-3. We aim to acknowledge within 48 hours and provide a remediation timeline.
+1. Ne divulguez pas publiquement avant qu’un correctif ne soit disponible.
+2. Fournissez un PoC et les détails de version/environnement.
+3. Accusé de réception sous 48h, puis calendrier de remédiation communiqué.
 
-## Security Scanning
+## Scans de sécurité recommandés
 
-- Run `npm audit` locally and in CI.
-- Recommended external scans: Snyk, OSV-Scanner, CodeQL.
-- Run secret scanning on git history using gitleaks or TruffleHog.
+- `npm audit` en local et CI
+- OSV-Scanner, Snyk (transitifs)
+- CodeQL (SAST)
+- Secret scanning historique Git via Gitleaks/TruffleHog
 
-## Data Practices (GDPR)
+## Données & conformité (GDPR)
 
-- Analytics are gated behind user consent and configured via environment variables.
-- Stripe payments handled via Checkout; no card data processed or stored on our servers.
-- See `docs/privacy.md` (to be added) for details.
+- Analytics conditionnées au consentement utilisateur (localStorage), configurées via variables.
+- Paiements gérés par Stripe Checkout; aucune donnée carte traitée/stockée côté serveur.
+- Voir `docs/privacy.md` (à compléter) pour les pratiques de données.
+
+## Contact
+
+- SmarterLogicWeb — https://smarterlogicweb.com
+- Sécurité: [email] (remplacez par votre email pro)
