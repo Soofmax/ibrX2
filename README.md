@@ -1,128 +1,154 @@
-<div align="center">
-  <!-- Logo SmarterLogicWeb (à ajouter dans /public si disponible) -->
-  <h1>🚀 Transcontinental Trek</h1>
-  <p><strong>Solutions web intelligentes, sécurisées et sur‑mesure</strong></p>
+# Transcontinental Trek — SPA React / Stripe / Netlify Functions
 
-  <a href="https://github.com/Soofmax/ibrX2/actions/workflows/unified-ci.yml">
-    <img alt="CI" src="https://github.com/Soofmax/ibrX2/actions/workflows/unified-ci.yml/badge.svg">
-  </a>
-  <a href="https://github.com/Soofmax/ibrX2/actions/workflows/unified-ci.yml">
-    <img alt="Coverage" src="https://img.shields.io/badge/coverage-vitest-green?logo=vitest">
-  </a>
-  <a href="LICENSE">
-    <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg">
-  </a>
-  <a href="https://img.shields.io/github/last-commit/Soofmax/ibrX2">
-    <img alt="Last commit" src="https://img.shields.io/github/last-commit/Soofmax/ibrX2">
-  </a>
-  <a href="https://github.com/Soofmax/ibrX2/issues">
-    <img alt="Issues" src="https://img.shields.io/github/issues/Soofmax/ibrX2">
-  </a>
-  <a href="https://img.shields.io/badge/PRs-welcome-brightgreen.svg">
-    <img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg">
-  </a>
+<!-- Status & Déploiement -->
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Ftranscontinental-trek.netlify.app&label=website&logo=netlify&logoColor=white)](https://transcontinental-trek.netlify.app)
+[![Hosting](https://img.shields.io/badge/Hosting-Netlify-00ad9f)](https://www.netlify.com)
 
-  <p>
-    <a href="#-pourquoi-ce-projet">Pourquoi ce projet ?</a> •
-    <a href="#-features">Features</a> •
-    <a href="#-demo">Demo</a> •
-    <a href="#-quick-start">Quick Start</a> •
-    <a href="#-documentation">Docs</a> •
-    <a href="#-support--contact">Support</a>
-  </p>
-</div>
+<!-- Tech & Standards -->
+[![Node](https://img.shields.io/badge/node-20.x-339933?logo=node.js&logoColor=white)](.nvmrc)
+[![React](https://img.shields.io/badge/React-18.3.1-61dafb?logo=react&logoColor=white)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.x-646cff?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
----
+<!-- Qualité & Conformité -->
+[![CI](https://img.shields.io/badge/CI-GitHub_Actions-2088FF?logo=github-actions&logoColor=white)](.github/workflows/unified-ci.yml)
+[![A11y](https://img.shields.io/badge/A11y-WCAG_2.1_AA-0a7ea4)](docs/accessibility.md)
+[![Security](https://img.shields.io/badge/Security-CSP%2FCORS%2FRate_Limit-8a2be2)](SECURITY.md)
+[![Analytics](https://img.shields.io/badge/Analytics-Consent_Gated-orange)](docs/seo.md)
 
-## 🎯 Pourquoi ce projet ?
+## Quick Start
 
-Ce dépôt est un showcase professionnel SmarterLogicWeb pour une application React + TypeScript (Vite), mettant en avant:
-- une carte animée accessible,
-- une i18n FR/EN,
-- un contenu éditorial (blog, équipe, flotte),
-- des fonctionnalités prêtes pour la prod (CSP, CI unifiée, Netlify Functions pour Stripe).
+```bash
+# Cloner et démarrer
+git clone https://github.com/Soofmax/ibrX2.git
+cd ibrX2
+npm install
+npm run dev
+```
 
-Objectif: démontrer une base applicative “enterprise‑grade” — sécurisée, maintenable, documentée et prête à l’échelle.
+Build et preview:
+```bash
+npm run build
+npm run preview
+```
 
-## ✨ Features
+## Aperçu
 
-- ⚡ React 18 + TypeScript + Vite 5
-- 🎨 Tailwind CSS (design system ambre/stone), Lucide Icons
-- 🌍 i18n FR/EN (context React + persistance)
-- 🗺️ Carte animée (play/pause, vitesse, étapes, aria‑live)
-- 🔐 Netlify Functions: Stripe Checkout + Webhook (signature, rate limit, déduplication)
-- 🧪 Tests (Vitest, @testing-library/react) + couverture
-- 🛡️ Sécurité: CSP stricte, HSTS, CORS allowlist
-- 🧰 CI unifiée: lint, typecheck, tests, build, audit, Lighthouse, CodeQL, secret scan
-- 📚 Docs complètes (architecture, i18n, SEO, contenu, déploiement)
+Ajoutez vos captures ou GIFs ici:
+- Hero + KPI animés
+- Carte "Where am I now?" (play/pause, vitesse, étapes)
 
-## 🎥 Demo
+## Tech Stack
 
-- Placeholder: ajoutez un GIF/screenshots de la carte animée et de la page Hero.
-- Hébergement recommandé: Netlify (preview URLs).
+| Catégorie      | Technologies                                                                 |
+|----------------|-------------------------------------------------------------------------------|
+| Frontend       | React 18, TypeScript, Vite, Tailwind CSS, React Router DOM, Lucide Icons     |
+| Backend        | Netlify Functions (Stripe Checkout + Webhook)                                |
+| Sécurité       | Netlify headers (CSP/HSTS/XCTO/XFO), CORS allowlist, rate limiting           |
+| Tests/Qualité  | Vitest + Testing Library, ESLint, Prettier, Lighthouse CI                    |
+| CI/CD          | GitHub Actions (Unified CI: build, lint, typecheck, tests, audit, Lighthouse)|
+| Analytics      | Plausible/Umami/GA (gérés par consentement utilisateur)                      |
+| Docs           | Architecture, i18n, SEO, style-guide, déploiement, troubleshooting           |
 
-## 🚀 Quick Start
+## Points forts techniques
 
-1) Prérequis
+- Performance
+  - Split bundling (Vite), Tailwind JIT, cache long pour assets (Netlify).
+  - Support prefers-reduced-motion, optimisations Lighthouse (fonts prévus en self-host).
+- Sécurité
+  - CSP stricte (sans inline scripts), HSTS, X-Frame-Options, Referrer-Policy.
+  - Fonctions Stripe avec CORS verrouillé, rate limiting, déduplication (webhook).
+- Qualité
+  - CI unifiée: lint, typecheck, tests (couverture), build, audit, CodeQL, Gitleaks, Lighthouse.
+- Maintenabilité
+  - i18n via context, composants modulaires, types partagés pour flux de paiement.
+
+## Démarrer en local
+
+Prérequis:
 - Node 20 (voir `.nvmrc`)
 - npm 9+
 
-2) Installation
-- npm install
+Commandes utiles:
+```bash
+npm install
+npm run dev       # serveur de dev
+npm run test      # tests Vitest
+npm run build     # build production
+npm run preview   # preview dist/
+npm run lint      # ESLint
+npm run typecheck # tsc --noEmit
+```
 
-3) Démarrage
-- Dev: npm run dev
-- Build: npm run build
-- Preview: npm run preview
+## Qualité & CI
 
-## 📚 Documentation
+- Workflow: `.github/workflows/unified-ci.yml`
+  - Jobs: lockfile-regenerate, quality (lint/typecheck/tests/build/size), secret scan (Gitleaks), OSV, CodeQL, Lighthouse, Pages.
+  - Rapport Lighthouse rendu hebdomadaire et disponible en artifact (`docs/lighthouse-last.html`).
 
-- Index: `docs/README.md`
-- Architecture: `docs/architecture.md`
-- Carte: `docs/map.md`
-- i18n: `docs/i18n.md`
-- SEO: `docs/seo.md`
-- Déploiement: `docs/deployment.md`
-- Accessibilité: `docs/accessibility.md`
-- Style Guide: `docs/style-guide.md`
-- Contribuer: `docs/contributing.md`
+Lancer localement:
+```bash
+npm run lint
+npm run typecheck
+npm run test:coverage
+npm run build
+```
 
-Voir la structure proposée dans la section “Documentation” de ce README et les nouveaux fichiers sous `docs/`.
+## Déploiement Netlify
 
-## 🛠️ Tech Stack
+- Build: `npm run build`
+- Publish: `dist/`
+- Variables d’environnement (Netlify UI):
+  - `STRIPE_SECRET_KEY`, `SITE_URL`, `ALLOWED_ORIGINS`, `RATE_LIMIT_MAX` (optionnel)
+  - Upstash (optionnel): `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`
+- Headers de sécurité et CSP: `netlify.toml`
 
-- Frontend: React 18, TypeScript, Vite, Tailwind CSS, React Router DOM
-- Backend: Netlify Functions (Stripe)
-- Tests: Vitest, @testing-library/react
-- CI: GitHub Actions (Unified CI), Lighthouse, CodeQL, Gitleaks, OSV‑Scanner
+## SEO: bonnes pratiques (résumé)
 
-## 🤝 Contributing
+- Composant `SEO.tsx`: meta essentielles, OG/Twitter, canonical, JSON‑LD basique.
+- Hreflang FR/EN, liens alternates, titres/descriptions cohérents.
+- Images optimisées, tailles définies, lazy pour non-critiques.
 
-Les contributions sont bienvenues:
-- Lisez `CONTRIBUTING.md`
-- Respectez le `CODE_OF_CONDUCT.md`
-- Ouvrez une issue/PR claire, avec tests et docs si nécessaire
+## Accessibilité (résumé)
 
-## 📝 License
+- Focus visible (.focus-ring), skip link, clavier OK.
+- Composants animés compatibles reduced motion.
+- Labelling et aria-live sur la carte.
 
-Ce projet est sous licence MIT. Voir `LICENSE`.
+## Analytics (Consent gating)
 
-## 📧 Support & Contact
+- ConsentBanner + injection conditionnelle (Plausible/Umami/GA).
+- Stockage du choix (localStorage), activation post-consent.
 
-- Société: SmarterLogicWeb — https://smarterlogicweb.com
-- Mission: Solutions web intelligentes, sécurisées et sur‑mesure
-- Contact: admin@smarterlogicweb.com
+## Structure du projet
 
----
+- `src/components/` — UI (Hero, CurrentLocation, Carousels, Donations…)
+- `src/i18n/` — context + dictionnaires FR/EN
+- `src/services/` — api client (Stripe)
+- `netlify/functions/` — endpoints Stripe (checkout + webhook)
+- `docs/` — architecture, i18n, SEO, style-guide, deployment, troubleshooting
+- `netlify.toml` — headers sécurité, cache, redirects
 
-<div align="center">
-  <p>Made with ❤️ by <strong>SmarterLogicWeb</strong></p>
-  <p>
-    🌐 <a href="https://smarterlogicweb.com">Website</a> •
-    📧 <a href="mailto:admin@smarterlogicweb.com">Contact</a> •
-    💼 <a href="https://linkedin.com/company/smarterlogicweb">LinkedIn</a>
-  </p>
-  <p>
-    <sub>© 2025 SmarterLogicWeb. All rights reserved.</sub>
-  </p>
-</div>
+## Contribution
+
+Nous acceptons les contributions !  
+Consultez:
+- 📖 [CONTRIBUTING.md](CONTRIBUTING.md)
+- ✅ [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+
+Workflow recommandé:
+1. Fork
+2. Branche: `feature/xxx`
+3. Commits clairs
+4. PR vers `main` avec tests et docs
+
+## Licence
+
+- MIT — voir [LICENSE](LICENSE).
+
+## Contact
+
+- SmarterLogicWeb — https://smarterlogicweb.com
+- Email: admin@smarterlogicweb.com
+- LinkedIn: https://linkedin.com/company/smarterlogicweb
