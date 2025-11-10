@@ -1,11 +1,6 @@
 import Stripe from 'stripe';
 import { rateLimit as rateLimitStore } from './lib/store';
-
-type Event = {
-  httpMethod: string;
-  headers: Record<string, string | undefined>;
-  body?: string | null;
-};
+import type { HttpEvent } from './types';
 
 const ALLOWED_AMOUNTS = [1, 5, 10, 25] as const;
 
@@ -45,7 +40,7 @@ function getClientIp(headers: Record<string, string | undefined>): string | null
   return null;
 }
 
-export async function handler(event: Event) {
+export async function handler(event: HttpEvent) {
   const origin = corsOrigin(event.headers);
 
   if (event.httpMethod === 'OPTIONS') {

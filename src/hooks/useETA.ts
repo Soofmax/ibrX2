@@ -19,8 +19,17 @@ export type ETAInfo = {
 } | null;
 
 /**
- * Pure computation for ETA based on current path progress.
- * Useful for unit tests without React.
+ * Calcule une ETA (date d'arrivée estimée) simple en fonction de la progression
+ * le long d'un tracé SVG.
+ *
+ * Hypothèses:
+ * - La distance en kilomètres de l'expédition (expeditionKm) est répartie
+ *   proportionnellement à la longueur totale du chemin SVG.
+ * - La vitesse moyenne quotidienne (averageKmPerDay) est constante.
+ * - Les segments sont échantillonnés en pixels et fournissent leur longueur
+ *   (pxLen) pour un calcul local du reste à parcourir.
+ *
+ * Retourne null si les données minimales ne sont pas disponibles.
  */
 export function computeETA(
   progress: number,
@@ -48,7 +57,7 @@ export function computeETA(
   const localT = Math.min(1, Math.max(0, (Lnow - Lcurr) / segSpan));
 
   const pxRemaining = seg.pxLen * (1 - localT);
-  const scaleKmPerPx = length > 0 ? expeditionKm / length : 0; // coarse approximation fallback
+  const scaleKmPerPx = length > 0 ? expeditionKm / length : 0; // approximation
   const kmRemaining = pxRemaining * scaleKmPerPx;
 
   const travelDays = kmRemaining / Math.max(1, averageKmPerDay);
@@ -59,7 +68,7 @@ export function computeETA(
 }
 
 /**
- * Hook wrapper that memoizes ETA computation.
+ * Hook qui mémoïse le calcul de l'ETA pour éviter les recomputations inutiles.
  */
 export function useETA(args: UseETAArgs & { stops: { t: number; modeToNext?: 'road' | 'ferry' }[] }): ETAInfo {
   const { progress, currentStopIndex, segments, pathRef, expeditionKm, averageKmPerDay, stops } = args;

@@ -1,13 +1,8 @@
 import Stripe from 'stripe';
 import { seenRecently } from './lib/store';
+import type { HttpEvent } from './types';
 
-type Event = {
-  httpMethod: string;
-  headers: Record<string, string | undefined>;
-  body?: string | null;
-};
-
-export async function handler(event: Event) {
+export async function handler(event: HttpEvent) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
