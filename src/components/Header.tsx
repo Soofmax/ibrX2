@@ -1,7 +1,8 @@
-import { Menu, X, Compass } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useI18n } from '../i18n/useI18n';
+import LogoMark from './icons/LogoMark';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -56,10 +57,7 @@ export default function Header() {
       >
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3 group cursor-pointer" onClick={() => go('/')}>
-            <Compass
-              className="text-green-500 transition-transform duration-300 hover:scale-105 hover:rotate-[5deg]"
-              size={36}
-            />
+            <LogoMark className="w-[36px] h-[36px] text-white transition-transform duration-300 group-hover:scale-105 group-hover:rotate-[4deg]" />
             <span className="text-2xl sm:text-3xl font-handwritten text-white drop-shadow-lg">
               {t('header.siteName')}
             </span>
