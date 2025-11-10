@@ -1,5 +1,6 @@
-import { Users, Compass, Wrench, MapPinned } from 'lucide-react';
+import { Users, Wrench, MapPinned } from 'lucide-react';
 import { useI18n } from '../i18n/useI18n';
+import LogoMark from './icons/LogoMark';
 
 export default function Team() {
   const { t } = useI18n();
@@ -9,25 +10,25 @@ export default function Team() {
       name: 'Alex',
       role: t('team.role.lead'),
       bio: 'Passionné d’overlanding, Alex planifie cette aventure depuis 5 ans et excelle en logistique.',
-      icon: Compass,
+      iconEl: <LogoMark className="w-6 h-6 text-amber-600" ariaLabel="Logo" />,
     },
     {
       name: 'Marie',
       role: t('team.role.nav'),
       bio: 'Experte en GPS et moteurs Cummins, Marie a traversé l’Asie en 4x4.',
-      icon: MapPinned,
+      iconEl: <MapPinned size={24} className="text-amber-600" />,
     },
     {
       name: 'Sam',
       role: t('team.role.mech'),
       bio: 'Conducteur aguerri, Sam capture l’épopée pour YouTube et les sponsors.',
-      icon: Wrench,
+      iconEl: <Wrench size={24} className="text-amber-600" />,
     },
     {
       name: 'Logistique',
       role: t('team.role.log'),
       bio: 'Budget, ferrys, assurances — coordination et intendance du convoi.',
-      icon: Users,
+      iconEl: <Users size={24} className="text-amber-600" />,
     },
   ];
 
@@ -59,7 +60,7 @@ export default function Team() {
               className="bg-white rounded-2xl p-8 shadow-lg border border-stone-200 hover:shadow-2xl transition-all"
             >
               <div className="flex items-center gap-3 mb-3">
-                <m.icon className="text-amber-600" size={24} />
+                {m.iconEl}
                 <h3 className="text-2xl font-handwritten text-stone-900">{m.name}</h3>
               </div>
               <p className="text-stone-700 font-serif">{m.role}</p>
