@@ -1,7 +1,8 @@
-import { Youtube, Instagram, Facebook, Mail, Send, Compass, Camera } from 'lucide-react';
+import { Youtube, Instagram, Facebook, Mail, Send, Camera } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useI18n } from '../i18n/useI18n';
+import LogoMark from './icons/LogoMark';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -25,7 +26,7 @@ export default function Footer() {
         <div className="grid lg:grid-cols-3 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <Compass className="text-amber-400" size={36} />
+              <LogoMark className="w-[36px] h-[36px] text-white" />
               <h3 className="text-3xl font-handwritten text-amber-400">{t('header.siteName')}</h3>
             </div>
             <p className="text-white/80 font-serif leading-relaxed mb-6">{t('footer.aboutText')}</p>
