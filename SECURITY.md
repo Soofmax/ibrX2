@@ -3,7 +3,7 @@
 Nous prenons la sécurité au sérieux et apprécions les divulgations responsables.
 
 - Branches supportées: `main` (maintenue activement).
-- Signalement d’une vulnérabilité: envoyez un email à [email] (remplacez par votre contact sécurité) ou ouvrez une “GitHub Security Advisory” privée.
+- Signalement d’une vulnérabilité: envoyez un email à admin@smarterlogicweb.com ou ouvrez une “GitHub Security Advisory” privée.
 - Incluez une description claire, des étapes de reproduction, la version affectée et l’impact potentiel.
 
 ## Portée
@@ -42,4 +42,4 @@ Nous prenons la sécurité au sérieux et apprécions les divulgations responsab
 ## Contact
 
 - SmarterLogicWeb — https://smarterlogicweb.com
-- Sécurité: [email] (remplacez par votre email pro)
+- Sécurité: admin@smarterlogicweb.com

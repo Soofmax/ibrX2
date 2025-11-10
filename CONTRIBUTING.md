@@ -51,4 +51,4 @@ En contribuant, vous acceptez que vos contributions soient publiées sous licenc
 ## Contact
 
 - SmarterLogicWeb — https://smarterlogicweb.com
-- Email: [email] (remplacez par votre email pro)
+- Email: admin@smarterlogicweb.com

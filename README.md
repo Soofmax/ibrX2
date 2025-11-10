@@ -111,7 +111,7 @@ Ce projet est sous licence MIT. Voir `LICENSE`.
 
 - Société: SmarterLogicWeb — https://smarterlogicweb.com
 - Mission: Solutions web intelligentes, sécurisées et sur‑mesure
-- Contact: [email] (remplacez par votre email pro)
+- Contact: admin@smarterlogicweb.com
 
 ---
 
@@ -119,7 +119,7 @@ Ce projet est sous licence MIT. Voir `LICENSE`.
   <p>Made with ❤️ by <strong>SmarterLogicWeb</strong></p>
   <p>
     🌐 <a href="https://smarterlogicweb.com">Website</a> •
-    📧 <a href="mailto:[email]">Contact</a> •
+    📧 <a href="mailto:admin@smarterlogicweb.com">Contact</a> •
     💼 <a href="https://linkedin.com/company/smarterlogicweb">LinkedIn</a>
   </p>
   <p>

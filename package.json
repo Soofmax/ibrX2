@@ -52,7 +52,7 @@
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json,css,md,yml,html}": "prettier --write"
   },
-  "author": "SmarterLogicWeb <[email]>",
+  "author": "SmarterLogicWeb <admin@smarterlogicweb.com>",
   "homepage": "https://smarterlogicweb.com",
   "repository": {
     "type": "git",
@@ -60,7 +60,7 @@
   },
   "bugs": {
     "url": "https://github.com/Soofmax/ibrX2/issues",
-    "email": "[email]"
+    "email": "admin@smarterlogicweb.com"
   },
   "license": "MIT"
 }

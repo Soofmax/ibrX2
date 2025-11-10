@@ -21,6 +21,6 @@ Nous nous engageons à maintenir une communauté accueillante et inclusive, conf
 Les violations peuvent entraîner des mesures correctives. Si vous êtes témoin ou victime d’un comportement inacceptable, contactez les mainteneurs:
 
 - SmarterLogicWeb — https://smarterlogicweb.com
-- Email: [email] (remplacez par votre email pro)
+- Email: admin@smarterlogicweb.com
 
 Inspiré par le [Contributor Covenant](https://www.contributor-covenant.org/).
