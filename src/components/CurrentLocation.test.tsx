@@ -27,8 +27,8 @@ describe('CurrentLocation component', () => {
 
     // Click to toggle to "Play"/"Lecture"
     fireEvent.click(toggle);
-    const playBtns = await screen.findAllByRole('button', { name: /play|lecture/i });
-    expect(playBtns[0]).toBeInTheDocument();
+    const togglesAfter = await screen.findAllByTestId('toggle-play');
+    expect(togglesAfter[0]).toHaveTextContent(/play|lecture/i);
   });
 
   it('responds to keyboard Space on the animation container', async () => {
@@ -49,7 +49,7 @@ describe('CurrentLocation component', () => {
 
     // Space key should toggle to "Play"/"Lecture"
     fireEvent.keyDown(focusable as Element, { key: ' ' });
-    const playBtns = await screen.findAllByRole('button', { name: /play|lecture/i });
-    expect(playBtns[0]).toBeInTheDocument();
+    const togglesAfter = await screen.findAllByTestId('toggle-play');
+    expect(togglesAfter[0]).toHaveTextContent(/play|lecture/i);
   });
 });
