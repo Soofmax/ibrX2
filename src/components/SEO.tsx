@@ -166,11 +166,22 @@ export default function SEO({
       }
     }
 
-    // Optional analytics: Plausible / Umami / Google Analytics (configurable via Vite env)
+    // Optional analytics: gated by consent (localStorage: wg_consent_analytics = "true")
+    const consentGranted = (() => {
+      try {
+        return (
+          typeof window !== 'undefined' &&
+          window.localStorage.getItem('wg_consent_analytics') === 'true'
+        );
+      } catch {
+        return false;
+      }
+    })();
+
     const { VITE_PLAUSIBLE_DOMAIN, VITE_UMAMI_SRC, VITE_UMAMI_WEBSITE_ID, VITE_GA_ID } = import.meta
       .env;
 
-    if (VITE_PLAUSIBLE_DOMAIN && !document.getElementById('plausible-script')) {
+    if (consentGranted && VITE_PLAUSIBLE_DOMAIN && !document.getElementById('plausible-script')) {
       const s = document.createElement('script');
       s.defer = true;
       s.id = 'plausible-script';
@@ -179,7 +190,12 @@ export default function SEO({
       document.head.appendChild(s);
     }
 
-    if (VITE_UMAMI_SRC && VITE_UMAMI_WEBSITE_ID && !document.getElementById('umami-script')) {
+    if (
+      consentGranted &&
+      VITE_UMAMI_SRC &&
+      VITE_UMAMI_WEBSITE_ID &&
+      !document.getElementById('umami-script')
+    ) {
       const s = document.createElement('script');
       s.defer = true;
       s.id = 'umami-script';
@@ -188,24 +204,31 @@ export default function SEO({
       document.head.appendChild(s);
     }
 
-    if (VITE_GA_ID && !document.getElementById('ga-script')) {
+    if (consentGranted && VITE_GA_ID && !document.getElementById('ga-script')) {
+      // Définir dataLayer et gtag via le bundle (évite les scripts inline)
+      (
+        window as unknown as { dataLayer?: unknown[]; gtag?: (...args: unknown[]) => void }
+      ).dataLayer = (window as unknown as { dataLayer?: unknown[] }).dataLayer || [];
+      (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag = function (
+        ...args: unknown[]
+      ) {
+        const w = window as unknown as { dataLayer?: unknown[] };
+        if (!w.dataLayer) w.dataLayer = [];
+        w.dataLayer.push(args);
+      };
+
       const s = document.createElement('script');
       s.async = true;
       s.id = 'ga-script';
       s.src = `https://www.googletagmanager.com/gtag/js?id=${VITE_GA_ID}`;
+      s.onload = () => {
+        const w = window as unknown as { gtag?: (...args: unknown[]) => void };
+        if (typeof w.gtag === 'function') {
+          w.gtag('js', new Date());
+          w.gtag('config', VITE_GA_ID);
+        }
+      };
       document.head.appendChild(s);
-
-      if (!document.getElementById('ga-init')) {
-        const init = document.createElement('script');
-        init.id = 'ga-init';
-        init.text = `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${VITE_GA_ID}');
-        `;
-        document.head.appendChild(init);
-      }
     }
   }, [title, description, path, image, lang, siteName, geo]);
 

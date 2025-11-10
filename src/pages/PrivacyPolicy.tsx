@@ -32,10 +32,17 @@ export default function PrivacyPolicy() {
           <li>• To manage sponsorships, support, and media requests.</li>
         </ul>
 
-        <h3 className="text-2xl font-handwritten text-stone-900 mt-6 mb-3">Cookies</h3>
+        <h3 className="text-2xl font-handwritten text-stone-900 mt-6 mb-3">Cookies & Analytics</h3>
         <p className="font-serif text-stone-700">
-          We may use cookies or similar technologies to analyze traffic and enhance the site. You
-          can disable cookies in your browser settings.
+          We use a consent banner to control analytics scripts. Analytics (e.g., Plausible, Umami,
+          Google Analytics) are only loaded if you explicitly consent. You can withdraw consent at
+          any time by clearing your browser storage (localStorage key{' '}
+          <code>wg_consent_analytics</code>) or via the banner when presented again.
+        </p>
+        <p className="font-serif text-stone-700 mt-2">
+          Providers and data: Plausible and Umami focus on privacy-preserving analytics. Google
+          Analytics may collect additional usage data. We do not sell personal information. You can
+          disable cookies in your browser settings.
         </p>
 
         <h3 className="text-2xl font-handwritten text-stone-900 mt-6 mb-3">Data Sharing</h3>

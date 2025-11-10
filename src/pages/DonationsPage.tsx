@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { motion } from 'framer-motion';
 import JerricanVisualization from '../components/donation/JerricanVisualization';
+import AmountSelector from '../components/donation/AmountSelector';
+import ProgressBar from '../components/donation/ProgressBar';
 import { useI18n } from '../i18n/useI18n';
 import SEO from '../components/SEO';
 import { AlertTriangle, Star } from 'lucide-react';
@@ -233,20 +235,14 @@ export default function DonationsPage() {
 
       {/* Global progress bar */}
       <div className="max-w-4xl mx-auto mb-10">
-        <div className="progress-bar">
-          <motion.div
-            className="progress-fill"
-            initial={{ width: 0 }}
-            animate={{ width: `${totalPercent}%` }}
-            transition={{ duration: 1.2, ease: 'easeOut' }}
-          />
-          <div className="progress-text">{totalPercent}%</div>
-        </div>
-        <div className="mt-2 text-center font-serif">
-          {lang === 'fr'
-            ? `${Math.floor(totalCurrent)}€ collectés sur ${Math.floor(totalTarget)}€ objectif`
-            : `${Math.floor(totalCurrent)}€ raised of ${Math.floor(totalTarget)}€ goal`}
-        </div>
+        <ProgressBar
+          percent={totalPercent}
+          label={
+            lang === 'fr'
+              ? `${Math.floor(totalCurrent)}€ collectés sur ${Math.floor(totalTarget)}€ objectif`
+              : `${Math.floor(totalCurrent)}€ raised of ${Math.floor(totalTarget)}€ goal`
+          }
+        />
         <div className="mt-1 text-center font-serif text-white/80">
           {lang === 'fr'
             ? `Jerricans nécessaires: ${totalJerryCount}`
@@ -285,33 +281,14 @@ export default function DonationsPage() {
 
       {/* Selection card */}
       <div className="max-w-4xl mx-auto donation-card">
-        {/* Amount presets */}
-        <div className="grid grid-cols-4 gap-3">
-          {[1, 5, 10, 25].map((a) => (
-            <motion.button
-              key={a}
-              type="button"
-              aria-pressed={selectedAmount === a}
-              onClick={() => setPresetAmount(a)}
-              whileTap={{ scale: 0.95 }}
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-              className={`pill ${selectedAmount === a ? 'selected' : ''}`}
-            >
-              {a}€
-            </motion.button>
-          ))}
-        </div>
-        <div className="mt-4">
-          <input
-            type="number"
-            min={1}
-            placeholder={lang === 'fr' ? 'Montant personnalisé €' : 'Custom amount €'}
-            value={customAmount}
-            onChange={(e) => onCustomAmount(e.target.value)}
-            className="w-full rounded-2xl px-4 py-3 bg-white text-stone-900 font-serif"
-          />
-        </div>
+        {/* Amount selector */}
+        <AmountSelector
+          lang={lang}
+          selectedAmount={selectedAmount}
+          customAmount={customAmount}
+          onPreset={setPresetAmount}
+          onCustomChange={onCustomAmount}
+        />
 
         {/* Jerry selection */}
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">

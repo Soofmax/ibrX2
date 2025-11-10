@@ -1,0 +1,253 @@
+name: Unified CI
+
+on:
+  # Exécuter sur PRs (toutes branches)
+  pull_request:
+    branches: ["**"]
+
+  # Éviter les doublons: exécuter sur push uniquement sur la branche main
+  push:
+    branches: ["main"]
+
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 1" # weekly (used by Lighthouse & CodeQL)
+
+permissions:
+  contents: read
+  security-events: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lockfile-regenerate:
+    name: Regenerate package-lock.json (PR + push main)
+    runs-on: ubuntu-latest
+    # Run on PRs and on push to main; skip schedule/manual unless explicitly needed
+    if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
+    permissions:
+      contents: write
+    env:
+      HUSKY: '0'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+      - name: Regenerate package-lock.json (ignore lifecycle scripts)
+        run: |
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Commit lockfile
+        if: ${{ (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Determine target branch
+          BRANCH="${{ github.head_ref }}"
+          if [ "${{ github.event_name }}" = "push" ]; then
+            BRANCH="main"
+          fi
+          if [ -z "$BRANCH" ]; then
+            echo "No target branch available; skipping commit."
+            exit 0
+          fi
+          git checkout "$BRANCH" || true
+          git add package-lock.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(lockfile): regenerate package-lock.json via CI"
+          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:"refs/heads/$BRANCH"
+
+  
+
+  quality-node:
+    name: Quality (Node) — lint, typecheck, tests, build, size
+    runs-on: ubuntu-latest
+    needs: [lockfile-regenerate]
+    env:
+      HUSKY: '0'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install
+        run: npm ci --no-audit --no-fund || npm install --no-audit --no-fund
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test (coverage with thresholds)
+        run: npm run test:coverage
+
+      - name: Audit dependencies (moderate, non-blocking)
+        continue-on-error: true
+        run: npm audit --omit=dev --audit-level=moderate
+
+      - name: Build
+        run: npm run build
+
+      - name: Compressed size (JS/CSS in dist/assets)
+        uses: preactjs/compressed-size-action@v2
+        env:
+          HUSKY: '0'
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          pattern: "dist/assets/*.{js,css}"
+          # Use explicit npm install to avoid system 'install' binary; run for both current and base refs
+          install-script: "npm install --no-audit --no-fund"
+          build-script: "build"
+
+      - name: Upload build artifacts (PR only)
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+  secret-scan:
+    name: Secret Scan (Gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  osv-scanner:
+    name: OSV Scanner (CVEs transitifs)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install OSV-Scanner
+        run: |
+          curl -sSL https://github.com/google/osv-scanner/releases/latest/download/osv-scanner_linux_amd64 -o osv-scanner
+          chmod +x osv-scanner
+          sudo mv osv-scanner /usr/local/bin/osv-scanner
+
+      - name: Run OSV-Scanner (non-bloquant)
+        run: |
+          osv-scanner --version || true
+          # Exécute le scan mais ne fait pas échouer le job (non-bloquant)
+          osv-scanner --recursive --lockfile=package-lock.json . || true
+
+  codeql:
+    name: CodeQL (Code scanning)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript"
+
+  lighthouse:
+    name: Lighthouse CI (weekly + manual)
+    runs-on: ubuntu-latest
+    needs: quality-node
+    env:
+      HUSKY: '0'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Build project
+        run: npm run build
+
+      - name: Run Lighthouse CI (local dist)
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          uploadArtifacts: false
+          temporaryPublicStorage: true
+          configPath: lighthouserc.json
+
+      - name: Save latest HTML report to docs
+        run: |
+          mkdir -p docs
+          latest=$(ls -t .lighthouseci/*.html | head -n 1 || true)
+          if [ -n "$latest" ]; then
+            cp "$latest" docs/lighthouse-last.html
+          else
+            echo "<!-- No Lighthouse report generated -->" > docs/lighthouse-last.html
+          fi
+
+      - name: Upload Lighthouse report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: docs/lighthouse-last.html
+
+      - name: Commit report to repository (main branch only)
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "docs/lighthouse-last.html"
+          message: "chore(lighthouse): update report"
+          default_author: github_actions
+
+  pages:
+    name: Deploy GitHub Pages (docs/)
+    runs-on: ubuntu-latest
+    needs: quality-node
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./docs"
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

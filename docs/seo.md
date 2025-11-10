@@ -1,54 +1,49 @@
-# SEO (par page)
+# SEO — SmarterLogicWeb
 
-Le projet fournit un composant léger SEO.tsx qui ajoute dynamiquement les balises nécessaires.
+Objectif: une structure simple et maintenable, avec un composant unique `SEO.tsx`.
 
 ## Utilisation
 
-Dans une page/composant de page:
+Dans une page:
+```tsx
+import SEO from '../components/SEO';
 
-- import SEO from '../components/SEO'
-- Rendre le composant en haut de la page:
-  &lt;SEO
+<SEO
   title={t('hero.title1') + ' — Transcontinental Trek'}
   description={t('blog.tagline')}
   path={location.pathname}
-  image="https://…/og-image.jpg"
+  image="https://example.com/og-image.jpg"
   lang={lang}
   siteName="Transcontinental Trek"
-  /&gt;
+/>
+```
 
 Props:
-
-- title: string (obligatoire)
-- description?: string
-- path?: string (ex: '/itinerary')
-- image?: string (URL absolue)
+- title: obligatoire
+- description?: optionnel
+- path?: ex: '/itinerary'
+- image?: URL absolue
 - lang?: 'fr' | 'en' (défaut 'fr')
-- siteName?: string (défaut 'Transcontinental Trek')
+- siteName?: défaut 'Transcontinental Trek'
 
-## Ce que SEO.tsx ajoute
+## Ajouts par SEO.tsx
 
 - document.title
-- meta name="description"
-- link rel="canonical"
-- Open Graph (og:type, og:site_name, og:title, og:description, og:url, og:image, og:locale)
-- Twitter (card, title, description, image)
-- JSON-LD (WebSite: name, url, inLanguage, description)
+- meta description
+- canonical
+- Open Graph (site_name, title, description, url, image, locale)
+- Twitter card
+- JSON-LD (WebSite)
 
 ## Bonnes pratiques
 
-- Titre unique par page, court et descriptif
-- Description 140–160 caractères, claire
-- Image OG 1200x630 si possible
-- Utiliser la langue active (lang={lang})
-- Pour le blog, prévoir une image OG par article si vous passez à un système de pages d’article
-- Ajouter un sitemap.xml et robots.txt (optionnel), gérés via Netlify ou build script dédié
+- Un titre unique par page (court et descriptif)
+- Description 140–160 caractères
+- Image OG 1200x630
+- Respect de la langue active (lang={lang})
 
-## Option: react-helmet-async
+Sitemap/robots: gérés via Netlify ou script dédié si nécessaire (préférer la simplicité).
 
-Si vous préférez gérer les balises via React Helmet:
+## Alternative
 
-- Installer react-helmet-async
-- Wrapper l’app dans &lt;HelmetProvider&gt;
-- Remplacer SEO.tsx par un composant Helmet
-- Avantage: code plus déclaratif; Inconvénient: dépendance en plus
+react-helmet-async si vous préférez le mode déclaratif. Ajoutez uniquement si besoin (éviter la surcharge).

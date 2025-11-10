@@ -1,8 +1,19 @@
+/**
+ * @file Carte animée (CurrentLocation) — animation basée sur un chemin SVG, contrôles d'accessibilité, ETA simplifiée.
+ *        La boucle d'animation est encapsulée dans requestAnimationFrame et respecte pause/play, pauses aux étapes,
+ *        et prefers-reduced-motion. Le calcul de la position/angle du van est vectoriel (2 points via getPointAtLength).
+ * @author SmarterLogicWeb
+ * @copyright 2025 SmarterLogicWeb. All rights reserved.
+ * @license MIT
+ * @see {@link https://smarterlogicweb.com}
+ */
 import { MapPin, Navigation, Calendar, Ship } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../i18n/useI18n';
 import { routeStops } from '../data/routeStops';
 import { expeditionTotals } from '../data/expeditionPlan';
+import { DEFAULT_STOP_MS, AVERAGE_KM_PER_DAY, SEGMENT_SAMPLE_COUNT } from '../constants';
+import { useETA } from '../hooks/useETA';
 
 type Stop = {
   name: string;
@@ -42,7 +53,6 @@ export default function CurrentLocation(): JSX.Element {
   const [segments, setSegments] = useState<
     { points: string; ferry: boolean; mid: { x: number; y: number }; pxLen: number }[]
   >([]);
-  const [totalPxLen, setTotalPxLen] = useState(0);
   const [tooltip, setTooltip] = useState<{
     x: number;
     y: number;
@@ -66,6 +76,11 @@ export default function CurrentLocation(): JSX.Element {
   useEffect(() => {
     const path = pathRef.current;
     if (!path) return;
+    const hasGeom =
+      typeof path.getTotalLength === 'function' &&
+      typeof path.getPointAtLength === 'function';
+    if (!hasGeom) return;
+
     const length = path.getTotalLength();
     const pts = stops.map((s) => {
       const p = path.getPointAtLength(s.t * length);
@@ -76,13 +91,12 @@ export default function CurrentLocation(): JSX.Element {
     // Build polylines per segment for styling (ferry dashed) and compute pixel lengths
     const segs: { points: string; ferry: boolean; mid: { x: number; y: number }; pxLen: number }[] =
       [];
-    let total = 0;
     for (let i = 0; i < stops.length - 1; i++) {
       const a = stops[i];
       const b = stops[i + 1];
       const L1 = a.t * length;
       const L2 = b.t * length;
-      const n = 24;
+      const n = SEGMENT_SAMPLE_COUNT;
       const arr: { x: number; y: number }[] = [];
       for (let j = 0; j <= n; j++) {
         const l = L1 + ((L2 - L1) * j) / n;
@@ -95,7 +109,6 @@ export default function CurrentLocation(): JSX.Element {
         const dy = arr[k + 1].y - arr[k].y;
         pxLen += Math.hypot(dx, dy);
       }
-      total += pxLen;
       const mid = arr[Math.floor(arr.length / 2)];
       segs.push({
         points: arr.map((p) => `${p.x},${p.y}`).join(' '),
@@ -105,14 +118,12 @@ export default function CurrentLocation(): JSX.Element {
       });
     }
     setSegments(segs);
-    setTotalPxLen(total);
   }, []);
 
   const pauseUntilRef = useRef(0);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const defaultStopMs = 1200;
     const path = pathRef.current;
     if (!path) return;
 
@@ -148,7 +159,7 @@ export default function CurrentLocation(): JSX.Element {
       // detect crossing a stop
       const nextIdx = stops.findIndex((s) => s.t > prevP && s.t <= p + 0.0001);
       if (nextIdx !== -1) {
-        const ms = stops[nextIdx].pauseMs ?? defaultStopMs;
+        const ms = stops[nextIdx].pauseMs ?? DEFAULT_STOP_MS;
         pauseUntilRef.current = time + ms;
         currentIdx = nextIdx;
       }
@@ -165,7 +176,12 @@ export default function CurrentLocation(): JSX.Element {
   // Compute van transform
   const vanTransform = (() => {
     const path = pathRef.current;
-    if (!path) return { x: 120, y: 280, angle: 0 };
+    const defaultPos = { x: 120, y: 280, angle: 0 };
+    if (!path) return defaultPos;
+    const hasGeom =
+      typeof path.getTotalLength === 'function' &&
+      typeof path.getPointAtLength === 'function';
+    if (!hasGeom) return defaultPos;
     const length = path.getTotalLength();
     const p1 = path.getPointAtLength(progress * length);
     const p2 = path.getPointAtLength(Math.min(progress * length + 1, length));
@@ -179,38 +195,17 @@ export default function CurrentLocation(): JSX.Element {
   const nextStop = stops[currentStopIndex + 1]?.name ?? stops[0].name;
 
   // ETA simulation
-  const averageKmPerDay = 250; // configurable
-  const scaleKmPerPx = totalPxLen > 0 ? expeditionTotals.distanceKm / totalPxLen : 0;
+  const averageKmPerDay = AVERAGE_KM_PER_DAY; // configurable
 
-  const etaInfo = (() => {
-    if (!pathRef.current || segments.length === 0) return null;
-    const currIdx = Math.min(currentStopIndex, segments.length - 1);
-    const currStop = stops[currIdx];
-    const next = stops[currIdx + 1] ?? stops[currIdx]; // fallback
-    const seg = segments[currIdx];
-
-    const path = pathRef.current;
-    const length = path.getTotalLength();
-    const Lcurr = currStop.t * length;
-    const Lnext = next.t * length;
-    const Lnow = progress * length;
-
-    const segSpan = Math.max(1, Lnext - Lcurr);
-    const localT = Math.min(1, Math.max(0, (Lnow - Lcurr) / segSpan));
-
-    const pxRemaining = seg.pxLen * (1 - localT);
-    const kmRemaining = pxRemaining * scaleKmPerPx;
-
-    const travelDays = kmRemaining / averageKmPerDay;
-    const pauseMs = next.pauseMs ?? 0;
-    const pauseDays = pauseMs / (1000 * 60 * 60 * 24);
-
-    const totalDays = travelDays + pauseDays;
-    const etaMs = totalDays * 24 * 60 * 60 * 1000;
-    const etaDate = new Date(Date.now() + etaMs);
-
-    return { kmRemaining, etaDate, isFerry: currStop.modeToNext === 'ferry' };
-  })();
+  const etaInfo = useETA({
+    progress,
+    currentStopIndex,
+    segments,
+    pathRef,
+    expeditionKm: expeditionTotals.distanceKm,
+    averageKmPerDay,
+    stops,
+  });
 
   const jumpTo = (tval: number, idx: number) => {
     setProgress(tval);
@@ -266,6 +261,7 @@ export default function CurrentLocation(): JSX.Element {
                   onClick={() => setPlaying((p) => !p)}
                   aria-pressed={playing}
                   aria-label={playing ? t('current.pauseAria') : t('current.playAria')}
+                  data-testid="toggle-play"
                 >
                   {playing ? t('current.pause') : t('current.play')}
                 </button>

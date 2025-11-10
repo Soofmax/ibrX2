@@ -1,30 +1,92 @@
+/**
+ * @file Netlify Function — Create Stripe Checkout session with strict CORS, rate limiting and input validation.
+ * @author SmarterLogicWeb
+ * @copyright 2025 SmarterLogicWeb. All rights reserved.
+ * @license MIT
+ * @see {@link https://smarterlogicweb.com}
+ */
 import Stripe from 'stripe';
+import { rateLimit as rateLimitStore } from './lib/store';
+import type { HttpEvent } from './types';
+import type { CreateCheckoutPayload } from '../../src/types/payments';
 
-type Event = {
-  httpMethod: string;
-  headers: Record<string, string | undefined>;
-  body?: string | null;
-};
+const ALLOWED_AMOUNTS = [1, 5, 10, 25] as const;
 
-function resolveSiteURL(headers: Record<string, string | undefined>): string {
-  const referer = headers.referer || headers.Referer;
-  const origin = headers.origin || headers.Origin;
-  // Try origin first, then referer host, fallback to env or example
-  const fromReferer =
-    referer && referer.startsWith('http') ? referer.replace(/^(https?:\/\/[^/]+).*$/, '$1') : undefined;
-  const site =
-    (origin && origin.startsWith('http') ? origin : undefined) ||
-    fromReferer ||
-    process.env.SITE_URL ||
-    'https://wanderglobers.com';
-  return site;
+// CORS origin allowlist (comma-separated). Defaults to production domain.
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://wanderglobers.com')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+function corsOrigin(headers: Record<string, string | undefined>): string {
+  const origin = headers.origin || headers.Origin || '';
+  return origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0] || '*';
 }
 
-export async function handler(event: Event) {
+function siteURLFromEnv(): string {
+  const raw = (process.env.SITE_URL || 'https://wanderglobers.com').trim();
+  // Remove trailing slashes
+  return raw.replace(/\/+$/, '');
+}
+
+// Read max from env on each check to allow dynamic tests and config changes
+function getRateLimitMax(): number {
+  return Number(process.env.RATE_LIMIT_MAX || 20);
+}
+
+function getClientIp(headers: Record<string, string | undefined>): string | null {
+  // Netlify passes various headers; prefer x-forwarded-for first entry
+  const xff = headers['x-forwarded-for'] || headers['X-Forwarded-For'];
+  if (xff) {
+    const first = xff.split(',')[0].trim();
+    if (first) return first;
+  }
+  const nf = headers['x-nf-client-connection-ip'];
+  if (nf) return nf;
+  const xr = headers['x-real-ip'] || headers['X-Real-IP'];
+  if (xr) return xr;
+  return null;
+}
+
+/**
+ * Parse et valide le payload JSON pour la création de session Stripe.
+ * - amount: nombre requis
+ * - lang: 'fr' | 'en' (optionnel, défaut 'fr')
+ * Lance une erreur si le JSON est invalide.
+ */
+function parseCreateCheckoutPayload(body: string | null | undefined): CreateCheckoutPayload {
+  try {
+    const raw = JSON.parse(body || '{}') as Record<string, unknown>;
+    const amount = Number(raw.amount);
+    const lang = raw.lang === 'en' ? 'en' : 'fr';
+    return { amount, lang };
+  } catch {
+    throw new Error('Invalid JSON payload');
+  }
+}
+
+export async function handler(event: HttpEvent) {
+  const origin = corsOrigin(event.headers);
+
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 204,
+      headers: {
+        'Access-Control-Allow-Origin': origin,
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
+      body: '',
+    };
+  }
+
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': origin,
+      },
       body: JSON.stringify({ error: 'Method Not Allowed' }),
     };
   }
@@ -33,33 +95,54 @@ export async function handler(event: Event) {
   if (!secret) {
     return {
       statusCode: 500,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': origin,
+      },
       body: JSON.stringify({ error: 'Stripe secret key not configured' }),
     };
   }
 
-  let amount = 0;
-  let lang = 'fr';
+  // Parsing + validation
+  let payload: CreateCheckoutPayload;
   try {
-    const payload = JSON.parse(event.body || '{}');
-    amount = Number(payload.amount || 0);
-    lang = typeof payload.lang === 'string' ? payload.lang : 'fr';
+    payload = parseCreateCheckoutPayload(event.body);
   } catch {
-    // ignore
-  }
-
-  const allowed = [1, 5, 10];
-  if (!allowed.includes(amount)) {
     return {
       statusCode: 400,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': origin,
+      },
+      body: JSON.stringify({ error: 'Invalid JSON payload' }),
+    };
+  }
+  const { amount, lang = 'fr' } = payload;
+  if (!Number.isFinite(amount) || amount <= 0 || !ALLOWED_AMOUNTS.includes(amount as (typeof ALLOWED_AMOUNTS)[number])) {
+    return {
+      statusCode: 400,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': origin,
+      },
       body: JSON.stringify({ error: 'Invalid amount' }),
     };
   }
 
-  const stripe = new Stripe(secret);
+  const ip = getClientIp(event.headers);
+  if (await rateLimitStore(ip, 60, getRateLimitMax())) {
+    return {
+      statusCode: 429,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': origin,
+      },
+      body: JSON.stringify({ error: 'Too Many Requests' }),
+    };
+  }
 
-  const siteURL = resolveSiteURL(event.headers);
+  const stripe = new Stripe(secret);
+  const siteURL = siteURLFromEnv();
   const successURL = `${siteURL}/support?status=success`;
   const cancelURL = `${siteURL}/support?status=cancel`;
 
@@ -83,7 +166,6 @@ export async function handler(event: Event) {
           quantity: 1,
         },
       ],
-      // Optional email collection
       customer_creation: 'if_required',
       billing_address_collection: 'auto',
       success_url: successURL,
@@ -94,14 +176,20 @@ export async function handler(event: Event) {
 
     return {
       statusCode: 200,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': origin,
+      },
       body: JSON.stringify({ url: session.url }),
     };
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Stripe error';
     return {
       statusCode: 500,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': origin,
+      },
       body: JSON.stringify({ error: msg }),
     };
   }
