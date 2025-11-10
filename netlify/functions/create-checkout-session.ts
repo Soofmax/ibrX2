@@ -1,6 +1,7 @@
 import Stripe from 'stripe';
 import { rateLimit as rateLimitStore } from './lib/store';
 import type { HttpEvent } from './types';
+import type { CreateCheckoutPayload } from '../../src/types/payments';
 
 const ALLOWED_AMOUNTS = [1, 5, 10, 25] as const;
 
@@ -38,6 +39,23 @@ function getClientIp(headers: Record<string, string | undefined>): string | null
   const xr = headers['x-real-ip'] || headers['X-Real-IP'];
   if (xr) return xr;
   return null;
+}
+
+/**
+ * Parse et valide le payload JSON pour la création de session Stripe.
+ * - amount: nombre requis
+ * - lang: 'fr' | 'en' (optionnel, défaut 'fr')
+ * Lance une erreur si le JSON est invalide.
+ */
+function parseCreateCheckoutPayload(body: string | null | undefined): CreateCheckoutPayload {
+  try {
+    const raw = JSON.parse(body || '{}') as Record<string, unknown>;
+    const amount = Number(raw.amount);
+    const lang = raw.lang === 'en' ? 'en' : 'fr';
+    return { amount, lang };
+  } catch {
+    throw new Error('Invalid JSON payload');
+  }
 }
 
 export async function handler(event: HttpEvent) {
@@ -78,15 +96,11 @@ export async function handler(event: HttpEvent) {
     };
   }
 
-  // Basic input parsing/validation
-  let amount = 0;
-  let lang = 'fr';
+  // Parsing + validation
+  let payload: CreateCheckoutPayload;
   try {
-    const payload = JSON.parse(event.body || '{}');
-    amount = Number(payload.amount || 0);
-    lang = typeof payload.lang === 'string' ? payload.lang : 'fr';
+    payload = parseCreateCheckoutPayload(event.body);
   } catch {
-    // invalid JSON
     return {
       statusCode: 400,
       headers: {
@@ -96,7 +110,7 @@ export async function handler(event: HttpEvent) {
       body: JSON.stringify({ error: 'Invalid JSON payload' }),
     };
   }
-
+  const { amount, lang = 'fr' } = payload;
   if (!Number.isFinite(amount) || amount <= 0 || !ALLOWED_AMOUNTS.includes(amount as (typeof ALLOWED_AMOUNTS)[number])) {
     return {
       statusCode: 400,

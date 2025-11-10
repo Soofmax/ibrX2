@@ -1,9 +1,6 @@
-export type CreateSessionPayload = {
-  amount: number;
-  lang?: 'fr' | 'en';
-};
+import type { CreateCheckoutPayload, CreateCheckoutResponse } from '../types/payments';
 
-export async function createCheckoutSession(payload: CreateSessionPayload): Promise<{ url: string }> {
+export async function createCheckoutSession(payload: CreateCheckoutPayload): Promise<CreateCheckoutResponse> {
   const res = await fetch('/.netlify/functions/v1-create-checkout-session', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
