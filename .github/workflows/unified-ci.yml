@@ -186,6 +186,8 @@ jobs:
     name: Lighthouse CI (weekly + manual)
     runs-on: ubuntu-latest
     needs: quality-node
+    permissions:
+      contents: write
     env:
       HUSKY: '0'
     steps:
