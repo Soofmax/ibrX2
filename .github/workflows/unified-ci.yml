@@ -115,8 +115,8 @@ jobs:
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           pattern: "dist/assets/*.{js,css}"
-          # Use npm install for both current and base refs to avoid lockfile mismatch failures
-          install-script: "install"
+          # Use explicit npm install to avoid system 'install' binary; run for both current and base refs
+          install-script: "npm install --no-audit --no-fund"
           build-script: "build"
 
       - name: Upload build artifacts (PR only)
