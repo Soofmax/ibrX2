@@ -21,7 +21,8 @@ describe('CurrentLocation component', () => {
         <CurrentLocation />
       </I18nProvider>
     );
-    const toggle = await screen.findByTestId('toggle-play');
+    const toggles = await screen.findAllByTestId('toggle-play');
+    const toggle = toggles[0];
     expect(toggle).toBeInTheDocument();
 
     // Click to toggle to "Play"/"Lecture"
@@ -42,7 +43,8 @@ describe('CurrentLocation component', () => {
     expect(focusable).toBeTruthy();
 
     // Initially, the pause button is present (playing = true)
-    const toggle = await screen.findByTestId('toggle-play');
+    const toggles = await screen.findAllByTestId('toggle-play');
+    const toggle = toggles[0];
     expect(toggle).toBeInTheDocument();
 
     // Space key should toggle to "Play"/"Lecture"
