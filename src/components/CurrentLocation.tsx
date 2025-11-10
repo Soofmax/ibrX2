@@ -1,3 +1,12 @@
+/**
+ * @file Carte animée (CurrentLocation) — animation basée sur un chemin SVG, contrôles d'accessibilité, ETA simplifiée.
+ *        La boucle d'animation est encapsulée dans requestAnimationFrame et respecte pause/play, pauses aux étapes,
+ *        et prefers-reduced-motion. Le calcul de la position/angle du van est vectoriel (2 points via getPointAtLength).
+ * @author SmarterLogicWeb
+ * @copyright 2025 SmarterLogicWeb. All rights reserved.
+ * @license MIT
+ * @see {@link https://smarterlogicweb.com}
+ */
 import { MapPin, Navigation, Calendar, Ship } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../i18n/useI18n';

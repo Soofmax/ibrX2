@@ -1,3 +1,10 @@
+/**
+ * @file Netlify Function — Create Stripe Checkout session with strict CORS, rate limiting and input validation.
+ * @author SmarterLogicWeb
+ * @copyright 2025 SmarterLogicWeb. All rights reserved.
+ * @license MIT
+ * @see {@link https://smarterlogicweb.com}
+ */
 import Stripe from 'stripe';
 import { rateLimit as rateLimitStore } from './lib/store';
 import type { HttpEvent } from './types';

@@ -1,3 +1,10 @@
+/**
+ * @file Netlify Function — Stripe Webhook with signature verification and event de-duplication (durable when Redis is configured).
+ * @author SmarterLogicWeb
+ * @copyright 2025 SmarterLogicWeb. All rights reserved.
+ * @license MIT
+ * @see {@link https://smarterlogicweb.com}
+ */
 import Stripe from 'stripe';
 import { seenRecently } from './lib/store';
 import type { HttpEvent } from './types';

@@ -1,3 +1,11 @@
+/**
+ * @file Hook et logique d'ETA — estimation simple basée sur la longueur du tracé SVG et une vitesse moyenne journalière.
+ *       Les commentaires expliquent les hypothèses et les calculs pour faciliter la reprise après plusieurs mois.
+ * @author SmarterLogicWeb
+ * @copyright 2025 SmarterLogicWeb. All rights reserved.
+ * @license MIT
+ * @see {@link https://smarterlogicweb.com}
+ */
 import { useMemo } from 'react';
 
 export type SegmentInfo = { pxLen: number };
